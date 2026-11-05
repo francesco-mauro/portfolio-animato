@@ -25,6 +25,7 @@ npm run dev        # server di sviluppo su http://localhost:5173, si aggiorna da
 npm run build      # controllo dei tipi (tsc -b) e build di produzione in dist/
 npm run preview    # serve la build di dist/ su http://localhost:4173
 npm run lint       # controlla il codice con oxlint
+npm run test:e2e   # test end-to-end con Playwright in un browser vero (tests/)
 ```
 
 ## Cosa si vede
@@ -57,12 +58,14 @@ sito-animato/
 ├── vite.config.ts             configurazione di Vite con il plugin React
 ├── tsconfig.json              rimanda ai due tsconfig sotto
 ├── tsconfig.app.json          regole TypeScript per il codice in src/
-├── tsconfig.node.json         regole TypeScript per vite.config.ts
+├── tsconfig.node.json         regole TypeScript per i file di configurazione e i test
+├── playwright.config.ts       configurazione dei test end-to-end (npm run test:e2e)
 ├── .gitignore                 cosa git non salva (node_modules, dist, log)
 ├── .oxlintrc.json             regole del linter oxlint (npm run lint)
 ├── .github/workflows/deploy.yml  pubblica il sito su GitHub Pages a ogni push su main
 ├── public/                    file serviti così come sono (la favicon)
 ├── docs/                      documenti: gli stili presi dal video
+├── tests/                     test end-to-end: le animazioni controllate nel browser
 └── src/
     ├── main.tsx               punto di ingresso: stili globali e <App />
     ├── App.tsx                compone la pagina: sezioni e controlli fissi
