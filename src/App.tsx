@@ -11,6 +11,8 @@ import { MotionToggle } from './components/MotionToggle/MotionToggle.tsx'
 import { Hero } from './sections/Hero/Hero.tsx'
 import { Marquee } from './sections/Marquee/Marquee.tsx'
 import { Manifesto } from './sections/Manifesto/Manifesto.tsx'
+import { Projects } from './sections/Projects/Projects.tsx'
+import { Contact } from './sections/Contact/Contact.tsx'
 
 export default function App() {
   return (
@@ -20,6 +22,8 @@ export default function App() {
         <Hero />
         <Marquee />
         <Manifesto />
+        <Projects />
+        <Contact />
       </main>
       <PillNav />
       <MotionToggle />

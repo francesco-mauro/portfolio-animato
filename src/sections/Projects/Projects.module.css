@@ -1,0 +1,101 @@
+/*
+ * Projects.module.css
+ * Griglia a colonne automatiche (minimo 300px per scheda): tre colonne su desktop,
+ * una sul telefono. Le schede hanno tutte la stessa altezza nella stessa riga e i
+ * link (GitHub e, se c'è, la demo) stanno sempre in fondo (flex column + margin-top: auto).
+ */
+.section {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 120px 24px 140px;
+}
+
+.heading {
+  color: var(--color-coral);
+  font-size: clamp(48px, 8vw, 104px);
+  font-weight: 600;
+  margin-bottom: 56px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 26px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 300px;
+  padding: 24px;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  opacity: 0.75;
+}
+
+.number {
+  font-family: ui-monospace, Consolas, monospace;
+}
+
+.title {
+  margin: 34px 0 12px;
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.summary {
+  margin: 0 0 18px;
+  font-size: 15px;
+  line-height: 1.5;
+  opacity: 0.85;
+}
+
+.stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 22px;
+  padding: 0;
+  list-style: none;
+}
+
+.stack li {
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  background: rgb(127 127 127 / 0.14);
+  font-size: 12px;
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  margin-top: auto;
+}
+
+.link {
+  font-weight: 600;
+  font-size: 15px;
+  text-decoration: none;
+}
+
+.link span {
+  display: inline-block;
+  transition: transform 0.35s var(--ease-out-back);
+}
+
+.link:hover span {
+  transform: translateX(6px);
+}
