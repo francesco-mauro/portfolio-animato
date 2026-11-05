@@ -1,0 +1,193 @@
+/*
+ * Hero.module.css
+ * Schermata piena (100svh). Forme e schede sono posizionate in percentuale, così
+ * restano sparse su ogni larghezza; sotto i 760px le schede si nascondono e restano
+ * solo le forme più piccole, per non coprire il titolo.
+ * Le parole del titolo entrano una dopo l'altra (word-in), sfasate con la variabile --i.
+ */
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  padding: 120px 24px 140px;
+}
+
+.brand {
+  position: absolute;
+  top: 26px;
+  left: 32px;
+  right: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 5;
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: -0.03em;
+}
+
+.badge {
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  background: #fff;
+  box-shadow: var(--shadow-card);
+  font-size: 13px;
+}
+
+.center {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  max-width: 860px;
+}
+
+.title {
+  position: relative;
+  color: var(--color-coral);
+  font-size: clamp(48px, 8.5vw, 124px);
+  font-weight: 600;
+}
+
+.word {
+  display: block;
+  animation: word-in 1s var(--ease-out-back) both;
+  animation-delay: calc(var(--i) * 0.12s + 0.15s);
+}
+
+.role {
+  margin: 28px 0 8px;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.intro {
+  margin: 0 auto;
+  max-width: 520px;
+  color: var(--color-ink-soft);
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+/* Le tre schede sparse */
+.cardLabel {
+  display: block;
+  font-size: 12px;
+  opacity: 0.8;
+  margin-bottom: 6px;
+}
+.cardBig {
+  display: block;
+  font-size: 15px;
+  font-family: ui-monospace, 'Cascadia Code', Consolas, monospace;
+}
+.cardTitle {
+  display: block;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+}
+.cardMono {
+  display: block;
+  margin-top: 4px;
+  font-size: 11px;
+  color: var(--color-ink-soft);
+  font-family: ui-monospace, Consolas, monospace;
+}
+.progress {
+  display: block;
+  height: 4px;
+  margin-top: 14px;
+  border-radius: 4px;
+  background: rgb(255 255 255 / 0.35);
+  overflow: hidden;
+  position: relative;
+}
+.progress::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  transform-origin: left;
+  animation: load 3.2s var(--ease-soft) infinite;
+}
+.curve {
+  display: block;
+  width: 140px;
+  margin-top: 8px;
+}
+.curve path {
+  fill: none;
+  stroke: var(--color-card-blue);
+  stroke-width: 2.5;
+  stroke-dasharray: 160;
+  animation: draw 2.6s var(--ease-soft) infinite alternate;
+}
+.cardButton {
+  display: block;
+  margin-top: 12px;
+  padding: 7px 0;
+  border-radius: 10px;
+  background: #fff;
+  color: var(--color-coral);
+  text-align: center;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.cardBuild {
+  top: 34%;
+  left: 7%;
+  width: 190px;
+}
+.cardEase {
+  top: 9%;
+  left: 71%;
+  width: 190px;
+}
+.cardRepo {
+  top: 68%;
+  left: 9%;
+  width: 200px;
+}
+
+@keyframes word-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.5em) rotate(4deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes load {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes draw {
+  from {
+    stroke-dashoffset: 160;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (max-width: 760px) {
+  .cardBuild,
+  .cardEase,
+  .cardRepo {
+    display: none;
+  }
+}
