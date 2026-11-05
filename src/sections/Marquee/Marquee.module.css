@@ -2,8 +2,8 @@
  * Marquee.module.css
  * Fondo blu notte come "Ridgeline". La traccia è larga il doppio dell'elenco e si
  * sposta di metà della sua larghezza (-50%): così il giro si chiude senza salto.
- * Ai bordi una maschera sfuma le voci che entrano ed escono. Al passaggio del mouse
- * lo scorrimento si ferma.
+ * Ai bordi una maschera sfuma le voci che entrano ed escono. Lo scorrimento non si
+ * ferma al passaggio del mouse: per fermarlo c'è Motion Off (test in tests/marquee.spec.ts).
  */
 .band {
   position: relative;
@@ -35,10 +35,6 @@
   padding: 0;
   list-style: none;
   animation: scroll 32s linear infinite;
-}
-
-.viewport:hover .track {
-  animation-play-state: paused;
 }
 
 .item {
