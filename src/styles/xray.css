@@ -1,0 +1,32 @@
+/*
+ * xray.css
+ * La vista X-ray, come quella del video (14:38): con l'interruttore su "X-ray"
+ * ogni elemento che ha l'attributo data-xray mostra un contorno tratteggiato e
+ * un'etichetta che dice com'è fatto ("CSS · sfera · gradiente radiale").
+ * È tutto CSS: l'etichetta è un ::after che legge il testo con attr(data-xray).
+ */
+html[data-motion='xray'] [data-xray] {
+  outline: 1.5px dashed var(--color-indigo);
+  outline-offset: 4px;
+}
+
+html[data-motion='xray'] [data-xray]::after {
+  content: attr(data-xray);
+  position: absolute;
+  left: 0;
+  top: -30px;
+  z-index: 50;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: var(--color-night);
+  color: var(--color-light);
+  font: 600 11px/1.4 var(--font-sans);
+  letter-spacing: 0;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/*
+ * Regola per chi aggiunge un data-xray: l'elemento deve avere già una position
+ * (relative, absolute o fixed) nel suo CSS Module, perché l'etichetta si appoggia lì.
+ */
