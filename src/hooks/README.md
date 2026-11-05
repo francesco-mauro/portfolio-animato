@@ -4,5 +4,6 @@ La logica riusabile, senza grafica. Gli hook che muovono qualcosa scrivono varia
 
 | File | Cosa fa | Chi lo usa |
 |---|---|---|
-| `useMotionMode.ts` | legge la modalità (`on`, `off`, `xray`) e la funzione per cambiarla | Cursor, MotionToggle |
+| `useMotionMode.ts` | legge la modalità (`on`, `off`, `xray`) e la funzione per cambiarla | Cursor, FloatingCard, MotionToggle |
 | `useCursorFollower.ts` | fa inseguire il mouse a un elemento con ritardo morbido (lerp a ogni fotogramma), scrive `--x` e `--y` | Cursor |
+| `usePointerTilt.ts` | inclina una scheda verso il mouse, scrive `--tilt-x`, `--tilt-y`, `--glow-x`, `--glow-y` | FloatingCard |

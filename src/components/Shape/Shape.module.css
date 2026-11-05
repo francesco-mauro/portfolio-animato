@@ -1,0 +1,76 @@
+/*
+ * Shape.module.css
+ * Il volume delle forme viene da tre cose: un gradiente radiale con la luce in alto
+ * a sinistra, un'ombra interna scura in basso a destra e un'ombra morbida sotto.
+ * L'animazione "float" le fa salire e scendere di pochi pixel con una leggera rotazione.
+ */
+.shape {
+  position: absolute;
+  width: var(--size);
+  animation: float 7s ease-in-out infinite;
+  animation-delay: var(--delay);
+  rotate: var(--rotate);
+  will-change: transform;
+}
+
+.sphere {
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 32% 28%, #ffd0bd 0%, var(--color-coral-light) 28%, var(--color-coral) 62%, var(--color-coral-deep) 100%);
+  box-shadow:
+    inset -12px -18px 30px rgb(150 40 20 / 0.35),
+    0 30px 50px -20px rgb(201 64 43 / 0.45);
+}
+
+.pill {
+  aspect-ratio: 2.1;
+  border-radius: 999px;
+  background: linear-gradient(160deg, #ffc2ab 0%, var(--color-coral-light) 30%, var(--color-coral) 70%, var(--color-coral-deep) 100%);
+  box-shadow:
+    inset -10px -14px 24px rgb(150 40 20 / 0.3),
+    0 26px 40px -18px rgb(201 64 43 / 0.45);
+}
+
+/* La ciambella è un anello di gradiente radiale con il buco trasparente,
+   inclinato in prospettiva: la luce sul bordo interno e sull'esterno dà il volume */
+.torus {
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    transparent 0 27%,
+    var(--color-coral-deep) 28%,
+    var(--color-coral) 36%,
+    #ffb59c 46%,
+    var(--color-coral) 57%,
+    var(--color-coral-deep) 68%,
+    transparent 69%
+  );
+  transform: perspective(600px) rotateX(48deg);
+  filter: drop-shadow(0 24px 22px rgb(201 64 43 / 0.35));
+}
+
+.disc {
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, #ff8e70 0%, var(--color-coral) 55%, var(--color-coral-deep) 100%);
+  transform: perspective(600px) rotateX(58deg);
+  box-shadow: 0 18px 0 -2px var(--color-coral-deep);
+}
+
+@keyframes float {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -18px;
+  }
+}
+
+/* Sul telefono le forme si rimpiccioliscono, così non coprono titolo e testo */
+@media (max-width: 760px) {
+  .shape {
+    width: calc(var(--size) * 0.5);
+  }
+}

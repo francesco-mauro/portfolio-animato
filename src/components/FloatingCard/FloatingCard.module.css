@@ -1,0 +1,77 @@
+/*
+ * FloatingCard.module.css
+ * La scheda ruota in 3D con le variabili --tilt-x e --tilt-y di usePointerTilt;
+ * un riflesso chiaro (::before) segue il mouse con --glow-x e --glow-y.
+ * I toni ricalcano le schede del video: verde Render, bordo blu Ease, rosa Shared.
+ */
+.card {
+  position: relative;
+  border-radius: var(--radius-card);
+  padding: 18px 20px;
+  box-shadow: var(--shadow-card);
+  transform: perspective(900px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  transition: transform 0.5s var(--ease-out-back);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(circle at var(--glow-x, 50%) var(--glow-y, 0%), rgb(255 255 255 / 0.35), transparent 55%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.card:hover::before {
+  opacity: 1;
+}
+
+/* In X-ray l'etichetta sta sopra la scheda: non va tagliata */
+:global(html[data-motion='xray']) .card {
+  overflow: visible;
+}
+
+.floating {
+  position: absolute;
+  animation: drift 8s ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+.coral {
+  background: var(--color-coral);
+  color: #fff;
+}
+.green {
+  background: var(--color-card-green);
+  color: #fff;
+}
+.blue {
+  background: #fff;
+  color: var(--color-ink);
+  border: 4px solid var(--color-card-blue);
+}
+.pink {
+  background: var(--color-card-pink);
+  color: var(--color-ink);
+  border: 4px solid #fff;
+}
+.night {
+  background: var(--color-night);
+  color: var(--color-light);
+}
+.light {
+  background: #fff;
+  color: var(--color-ink);
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -12px;
+  }
+}
