@@ -62,7 +62,7 @@ sito-animato/
 ├── playwright.config.ts       configurazione dei test end-to-end (npm run test:e2e)
 ├── .gitignore                 cosa git non salva (node_modules, dist, log)
 ├── .oxlintrc.json             regole del linter oxlint (npm run lint)
-├── .github/workflows/deploy.yml  pubblica il sito su GitHub Pages a ogni push su main
+├── .github/workflows/deploy.yml  test e pubblicazione su GitHub Pages a ogni push su main
 ├── public/                    file serviti così come sono (la favicon)
 ├── docs/                      documenti: gli stili presi dal video
 ├── tests/                     test end-to-end: le animazioni controllate nel browser
@@ -91,7 +91,7 @@ Ogni cartella ha il suo `README.md` con l'elenco dei file e cosa fa ciascuno. Og
 
 ## Pubblicazione: GitHub Pages
 
-Il sito è online su https://francesco-mauro.github.io/portfolio-animato/ e si aggiorna da solo: a ogni push su `main` il workflow `.github/workflows/deploy.yml` installa le dipendenze, passa il linter, fa la build e pubblica `dist/` su GitHub Pages. Nella build Vite usa il percorso base `/portfolio-animato/` (in `vite.config.ts`); in sviluppo resta `/`.
+Il sito è online su https://francesco-mauro.github.io/portfolio-animato/ e si aggiorna da solo: a ogni push su `main` il workflow `.github/workflows/deploy.yml` installa le dipendenze, passa il linter, fa la build, lancia i test di `tests/` e pubblica `dist/` su GitHub Pages. Nella build Vite usa il percorso base `/portfolio-animato/` (in `vite.config.ts`); in sviluppo resta `/`.
 
 ## Documenti
 
