@@ -1,0 +1,41 @@
+/*
+ * Manifesto.module.css
+ * Stesso blu notte della fascia Marquee, così le due sezioni sembrano una sola.
+ * Le parole spente sono grigio scuro (#4a4d5e, come nel fotogramma 15:48), quelle
+ * accese diventano chiare con una transizione breve. Un alone indaco in fondo
+ * richiama il bottone "Start a project" di Ridgeline.
+ */
+.section {
+  position: relative;
+  height: 200svh;
+  background: radial-gradient(ellipse at 50% 85%, rgb(91 92 240 / 0.22), transparent 55%), var(--color-night);
+}
+
+.sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: 0 24px;
+}
+
+.text {
+  position: relative;
+  max-width: 980px;
+  margin: 0;
+  text-align: center;
+  font-size: clamp(30px, 5vw, 60px);
+  font-weight: 500;
+  line-height: 1.12;
+  letter-spacing: -0.035em;
+}
+
+.word {
+  color: var(--color-dim);
+  transition: color 0.35s var(--ease-soft);
+}
+
+.lit {
+  color: var(--color-light);
+}

@@ -9,6 +9,8 @@ import { Cursor } from './components/Cursor/Cursor.tsx'
 import { PillNav } from './components/PillNav/PillNav.tsx'
 import { MotionToggle } from './components/MotionToggle/MotionToggle.tsx'
 import { Hero } from './sections/Hero/Hero.tsx'
+import { Marquee } from './sections/Marquee/Marquee.tsx'
+import { Manifesto } from './sections/Manifesto/Manifesto.tsx'
 
 export default function App() {
   return (
@@ -16,6 +18,8 @@ export default function App() {
       <Cursor />
       <main>
         <Hero />
+        <Marquee />
+        <Manifesto />
       </main>
       <PillNav />
       <MotionToggle />
