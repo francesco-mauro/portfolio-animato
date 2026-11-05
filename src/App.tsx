@@ -5,11 +5,13 @@
  * Non contiene stile: ogni pezzo ha il suo CSS Module accanto.
  */
 import { MotionModeProvider } from './context/MotionModeContext.tsx'
+import { Cursor } from './components/Cursor/Cursor.tsx'
 import { MotionToggle } from './components/MotionToggle/MotionToggle.tsx'
 
 export default function App() {
   return (
     <MotionModeProvider>
+      <Cursor />
       <main>
         <h1>Francesco Mauro</h1>
       </main>
