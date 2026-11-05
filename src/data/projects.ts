@@ -1,0 +1,60 @@
+/**
+ * projects.ts
+ * I sei progetti della vetrina GitHub, nello stesso ordine del profilo.
+ * Fonti: i README dei repository. Le demo di Boolzapp e Memory sono su GitHub Pages.
+ */
+import type { Project } from '../types/content.ts'
+
+export const projects: Project[] = [
+  {
+    repo: 'gestionale-documentale',
+    title: 'Gestionale documentale',
+    summary: 'Archivio di clienti, pratiche e documenti per una piccola azienda, con accesso per ruoli.',
+    stack: ['React', 'TypeScript', 'Express', 'Prisma'],
+    tone: 'coral',
+  },
+  {
+    repo: 'capston_project_final',
+    title: 'Incidenti stradali in Italia',
+    summary: 'Dati ISTAT del 2024, indicatori per abitante e per km², K-Means: 1.187 comuni in tre classi di rischio.',
+    stack: ['Python', 'pandas', 'K-Means', 'Power BI'],
+    when: 'agosto 2026',
+    tone: 'night',
+  },
+  {
+    repo: '01_07_2026_myLoginTest',
+    title: 'Autenticazione in React',
+    summary: 'Login, registrazione e recupero password in una single page app.',
+    stack: ['React', 'TypeScript', 'CSS Modules'],
+    tone: 'blue',
+  },
+  {
+    repo: 'proj-html-vuejs',
+    title: 'Foodie Journal',
+    summary: 'Replica di un tema food in Vue, progetto di gruppo: header, icone social, pagina Chi siamo.',
+    stack: ['Vue.js', 'HTML', 'CSS'],
+    when: 'maggio 2024',
+    tone: 'pink',
+  },
+  {
+    repo: 'vue-boolzapp',
+    title: 'Boolzapp',
+    summary: 'Replica di WhatsApp Web in Vue 3.',
+    stack: ['Vue 3', 'JavaScript'],
+    when: 'aprile 2024',
+    demo: 'https://francesco-mauro.github.io/vue-boolzapp/',
+    tone: 'green',
+  },
+  {
+    repo: 'Memory-Game',
+    title: 'Gioco del Memory',
+    summary: 'Il Memory in JavaScript senza librerie: carte mescolate, timer, mosse, vittoria.',
+    stack: ['HTML', 'CSS', 'JavaScript'],
+    when: 'ottobre 2024',
+    demo: 'https://francesco-mauro.github.io/Memory-Game/',
+    tone: 'light',
+  },
+]
+
+/** Link al repository su GitHub a partire dal nome. */
+export const repoUrl = (repo: string) => `https://github.com/francesco-mauro/${repo}`
