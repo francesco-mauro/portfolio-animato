@@ -2,6 +2,8 @@
 
 Una pagina portfolio animata, costruita con **React + TypeScript + Vite**. Lo stile ricalca i siti mostrati nel video di Jack Roberts "Anthropic Just Shipped Claude Office" (minuti 14:07-16:26): le forme 3D corallo e le schede che fluttuano del sito "Kinetic", il testo che si accende allo scroll e la fascia di loghi del sito "Ridgeline", l'interruttore Motion · Off · On · X-ray. Le animazioni sono quasi tutte CSS, come dice il video; TypeScript serve solo per il cursore, lo scroll e l'inclinazione delle schede.
 
+**Demo:** https://francesco-mauro.github.io/portfolio-animato/
+
 I testi (progetti, stack, formazione) vengono dal mio CV e dai README dei miei repository: le fonti sono scritte in testa a ogni file di `src/data/`.
 
 ## Contenuti
@@ -10,6 +12,7 @@ I testi (progetti, stack, formazione) vengono dal mio CV e dai README dei miei r
 - Le tre modalità di movimento
 - La struttura: ogni cartella e ogni file
 - Regole del progetto
+- Pubblicazione: GitHub Pages
 - Documenti
 
 ## Avviarlo
@@ -57,6 +60,7 @@ sito-animato/
 ├── tsconfig.node.json         regole TypeScript per vite.config.ts
 ├── .gitignore                 cosa git non salva (node_modules, dist, log)
 ├── .oxlintrc.json             regole del linter oxlint (npm run lint)
+├── .github/workflows/deploy.yml  pubblica il sito su GitHub Pages a ogni push su main
 ├── public/                    file serviti così come sono (la favicon)
 ├── docs/                      documenti: gli stili presi dal video
 └── src/
@@ -81,6 +85,10 @@ Ogni cartella ha il suo `README.md` con l'elenco dei file e cosa fa ciascuno. Og
 - **Le animazioni rispettano Off e `prefers-reduced-motion`:** chi aggiunge un'animazione non deve fare niente, le regole in `global.css` le fermano tutte.
 - **Ogni nuovo `data-xray`** va su un elemento che ha già una `position` nel suo CSS (l'etichetta si appoggia lì).
 - **Nessuna libreria di animazione:** solo CSS e un po' di TypeScript, come nel video.
+
+## Pubblicazione: GitHub Pages
+
+Il sito è online su https://francesco-mauro.github.io/portfolio-animato/ e si aggiorna da solo: a ogni push su `main` il workflow `.github/workflows/deploy.yml` installa le dipendenze, passa il linter, fa la build e pubblica `dist/` su GitHub Pages. Nella build Vite usa il percorso base `/portfolio-animato/` (in `vite.config.ts`); in sviluppo resta `/`.
 
 ## Documenti
 
