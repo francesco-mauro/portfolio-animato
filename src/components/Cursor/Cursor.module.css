@@ -2,7 +2,10 @@
  * Cursor.module.css
  * Stile del cursore: il punto e l'anello sono fissi in alto a sinistra e si spostano
  * con transform usando le variabili --x e --y scritte da useCursorFollower.
- * Tutti e due corallo, il colore principale del sito.
+ * Sono bianchi con mix-blend-mode: difference, quindi prendono sempre il colore
+ * opposto a quello che hanno sotto: scuri sul bianco, chiari sul blu notte, azzurri
+ * sul corallo. Così non si confondono mai con la pagina (scelta di Francesco del
+ * 5 novembre 2026: il corallo spariva sulle parti corallo).
  */
 .dot,
 .ring {
@@ -12,28 +15,29 @@
   z-index: 1000;
   pointer-events: none;
   border-radius: 50%;
+  mix-blend-mode: difference;
   transform: translate3d(calc(var(--x, -100px) - 50%), calc(var(--y, -100px) - 50%), 0);
 }
 
 .dot {
   width: 8px;
   height: 8px;
-  background: var(--color-coral);
+  background: #fff;
 }
 
 .ring {
   width: 38px;
   height: 38px;
-  border: 1.5px solid var(--color-coral);
+  border: 1.5px solid #fff;
   transition:
     width 0.35s var(--ease-out-back),
     height 0.35s var(--ease-out-back),
     background-color 0.3s;
 }
 
-/* Sopra un link o un bottone l'anello si allarga e si riempie appena */
+/* Sopra un link o un bottone l'anello si allarga e si riempie appena (anche il riempimento si inverte) */
 :global(body:has(a:hover, button:hover)) .ring {
   width: 64px;
   height: 64px;
-  background-color: rgb(232 85 61 / 0.12);
+  background-color: rgb(255 255 255 / 0.18);
 }

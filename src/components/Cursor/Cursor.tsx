@@ -1,7 +1,7 @@
 /**
  * Cursor.tsx
- * Il cursore personalizzato: un punto pieno che sta sul mouse e un anello corallo
- * che lo insegue in ritardo (14:32 del video). Sopra un link o un bottone l'anello
+ * Il cursore personalizzato: un punto pieno che sta sul mouse e un anello
+ * che lo insegue in ritardo, tutti e due bianchi in difference (colori invertiti) (14:32 del video). Sopra un link o un bottone l'anello
  * si allarga: lo decide il CSS con :has(), senza JavaScript in più.
  * Non compare sugli schermi touch né in modalità Off.
  */

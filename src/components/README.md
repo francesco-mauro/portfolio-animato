@@ -4,7 +4,7 @@ I pezzi grafici riusabili. Ogni componente ha la sua cartella con `Nome.tsx` e `
 
 | Cartella | Cosa fa | Nel video |
 |---|---|---|
-| `Cursor/` | il cursore: punto sul mouse e anello corallo che lo insegue, si allarga sui link | 14:32 |
+| `Cursor/` | il cursore: punto sul mouse e anello che lo insegue, a colori invertiti, si allarga sui link | 14:32 |
 | `Shape/` | le forme 3D corallo (sfera, capsula, ciambella, disco) fatte solo in CSS, che galleggiano | 14:15 |
 | `FloatingCard/` | la scheda arrotondata che fluttua e si inclina verso il mouse, in sei toni | 14:15 |
 | `PillNav/` | il menu a pillola corallo fisso in basso al centro | 14:15 |

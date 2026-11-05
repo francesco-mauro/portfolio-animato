@@ -53,7 +53,7 @@ Non presi dai fotogrammi, scelti per la leggibilità del testo: `--color-ink` (#
 
 | Movimento | Nel video | Nel sito |
 |---|---|---|
-| Cursore che insegue | 14:32, "even this cursor thing following us around" | `src/components/Cursor/`, `src/hooks/useCursorFollower.ts` |
+| Cursore che insegue | 14:32, "even this cursor thing following us around" | `src/components/Cursor/`, `src/hooks/useCursorFollower.ts`; i colori che si invertono (`mix-blend-mode: difference`) non vengono dal video, sono una scelta di Francesco del 5 novembre 2026 |
 | Forme che galleggiano | 14:15 | `@keyframes float` in `Shape.module.css` |
 | Schede sparse che fluttuano | 14:15 | `@keyframes drift` in `FloatingCard.module.css` |
 | Vista X-ray con etichette | 14:38-14:39 | `src/styles/xray.css` |
