@@ -1,0 +1,93 @@
+/*
+ * global.css
+ * Regole valide in tutta la pagina: reset leggero, font, link, selezione,
+ * e i due interruttori del movimento:
+ *  - data-motion="off" su <html> (scelto con MotionToggle) ferma tutte le animazioni;
+ *  - prefers-reduced-motion del sistema fa lo stesso, per chi lo ha attivo.
+ * La classe .reveal è usata da useReveal: l'elemento entra quando arriva nello schermo.
+ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Il cursore vero resta nascosto solo dove c'è un mouse: sul telefono non serve */
+@media (hover: hover) and (pointer: fine) {
+  html[data-motion='on'] body {
+    cursor: none;
+  }
+  html[data-motion='on'] a,
+  html[data-motion='on'] button {
+    cursor: none;
+  }
+}
+
+a {
+  color: inherit;
+}
+
+::selection {
+  background: var(--color-coral);
+  color: #fff;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  letter-spacing: var(--tracking-tight);
+  line-height: 0.95;
+}
+
+/* Entrata allo scroll: parte abbassato e trasparente, poi sale con la curva Out back */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px) scale(0.98);
+  transition:
+    opacity 0.8s var(--ease-soft),
+    transform 0.9s var(--ease-out-back);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Movimento spento: niente animazioni né transizioni, tutto già al suo posto */
+html[data-motion='off'] *,
+html[data-motion='off'] *::before,
+html[data-motion='off'] *::after {
+  animation: none !important;
+  transition: none !important;
+}
+html[data-motion='off'] .reveal {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}

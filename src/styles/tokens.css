@@ -1,0 +1,41 @@
+/*
+ * tokens.css
+ * Le variabili del design: colori, font, raggi, ombre, curve di animazione.
+ * I colori sono stimati a occhio dai fotogrammi del video di Jack Roberts
+ * (minuti 14:07-16:26): la tabella con il fotogramma di ogni colore sta in docs/STILI.md.
+ * Cambiare un colore qui lo cambia in tutto il sito. Non vengono dai fotogrammi, scelti
+ * per leggibilità: --color-ink, --color-ink-soft, --color-night-soft, --color-light, --ease-soft.
+ */
+:root {
+  /* Stile "Kinetic" (14:15 e 14:26): fondo chiarissimo, corallo per titoli e forme */
+  --color-bg: #fbfaf8;
+  --color-ink: #1d1d1f;
+  --color-ink-soft: #6b6b70;
+  --color-coral: #e8553d;
+  --color-coral-light: #f39a7c;
+  --color-coral-deep: #c9402b;
+
+  /* Le schede che fluttuano (14:15): verde "Render", bordo blu "Ease", rosa "Shared" */
+  --color-card-green: #4caf6a;
+  --color-card-blue: #3d6fe0;
+  --color-card-pink: #fbe7ef;
+
+  /* Stile "Ridgeline" (15:46-15:48): blu notte, testo che si accende, bottone indaco */
+  --color-night: #191b27;
+  --color-night-soft: #2a2d3d;
+  --color-dim: #4a4d5e;
+  --color-light: #f4f4f6;
+  --color-indigo: #5b5cf0;
+
+  /* Font: un grottesco stretto come nei titoli del video, senza scaricare nulla */
+  --font-sans: 'Inter', 'Segoe UI', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --tracking-tight: -0.045em;
+
+  --radius-card: 18px;
+  --radius-pill: 999px;
+  --shadow-card: 0 18px 40px -18px rgb(29 29 31 / 0.35);
+
+  /* La curva "Out back" letta sulla scheda Ease del video (14:15): 0.34, 1.56, 0.64, 1 */
+  --ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
