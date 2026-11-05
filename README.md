@@ -13,6 +13,7 @@ I testi (progetti, stack, formazione) vengono dal mio CV e dai README dei miei r
 - La struttura: ogni cartella e ogni file
 - Regole del progetto
 - Pubblicazione: GitHub Pages
+- La storia dei commit
 - Documenti
 
 ## Avviarlo
@@ -92,6 +93,10 @@ Ogni cartella ha il suo `README.md` con l'elenco dei file e cosa fa ciascuno. Og
 ## Pubblicazione: GitHub Pages
 
 Il sito è online su https://francesco-mauro.github.io/portfolio-animato/ e si aggiorna da solo: a ogni push su `main` il workflow `.github/workflows/deploy.yml` installa le dipendenze, passa il linter, fa la build, lancia i test di `tests/` e pubblica `dist/` su GitHub Pages. Nella build Vite usa il percorso base `/portfolio-animato/` (in `vite.config.ts`); in sviluppo resta `/`.
+
+## La storia dei commit
+
+I primi dodici commit, fino a `ci: deploy to GitHub Pages with GitHub Actions`, sono stati riordinati in passaggi prima della pubblicazione, il 5 novembre 2026: ognuno compila e passa il linter, ma portano tutti l'orario di quel giorno, a pochi secondi l'uno dall'altro. Da lì in avanti ogni commit è una modifica vera, con la data del giorno in cui è stata fatta.
 
 ## Documenti
 
