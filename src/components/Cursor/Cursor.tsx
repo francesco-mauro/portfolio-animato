@@ -25,8 +25,8 @@ export function Cursor() {
   if (!enabled) return null
   return (
     <>
-      <div ref={ringRef} className={styles.ring} aria-hidden="true" />
-      <div ref={dotRef} className={styles.dot} aria-hidden="true" />
+      <div ref={ringRef} className={styles.ring} aria-hidden="true" data-testid="cursor-ring" />
+      <div ref={dotRef} className={styles.dot} aria-hidden="true" data-testid="cursor-dot" />
     </>
   )
 }

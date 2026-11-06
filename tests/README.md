@@ -11,3 +11,4 @@ In locale usa Chrome già installato sul PC; in GitHub Actions usa il Chromium d
 | File | Cosa controlla |
 |---|---|
 | `marquee.spec.ts` | la fascia dello stack (#stack): con Motion On scorre anche con il cursore sopra, con Motion Off sta ferma |
+| `cursor.spec.ts` | il cursore personalizzato: con Motion On punto e anello raggiungono il puntatore in due posizioni diverse, con Motion Off spariscono e torna il cursore del sistema. Li trova con `data-testid` (`cursor-dot`, `cursor-ring`), perché le classi dei CSS Modules cambiano nome a ogni build |
