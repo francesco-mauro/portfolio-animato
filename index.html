@@ -3,6 +3,10 @@
   index.html
   La pagina che Vite serve: carica src/main.tsx dentro #root.
   Lingua italiana, titolo e descrizione del portfolio.
+  I meta og: e twitter: sono l'anteprima del link su LinkedIn, WhatsApp, Telegram,
+  X e Slack (protocollo Open Graph, https://ogp.me). Gli indirizzi sono assoluti,
+  perché chi legge la pagina da fuori non conosce il percorso base: l'immagine è
+  public/og-image.png, pubblicata accanto alla pagina. Test: tests/og.spec.ts.
 -->
 <html lang="it">
   <head>
@@ -11,6 +15,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Francesco Mauro, junior full stack developer a Roma. Progetti in React, TypeScript, Vue.js e Node.js." />
     <title>Francesco Mauro · Junior Full Stack Developer</title>
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://francesco-mauro.github.io/portfolio-animato/" />
+    <meta property="og:site_name" content="Francesco Mauro" />
+    <meta property="og:locale" content="it_IT" />
+    <meta property="og:title" content="Francesco Mauro · Junior Full Stack Developer" />
+    <meta property="og:description" content="Portfolio animato in React e TypeScript: progetti in React, Vue.js e Node.js, a Roma." />
+    <meta property="og:image" content="https://francesco-mauro.github.io/portfolio-animato/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Francesco Mauro, Junior Full Stack Developer a Roma: React, TypeScript, Vue.js, Node.js" />
+    <meta name="twitter:card" content="summary_large_image" />
   </head>
   <body>
     <div id="root"></div>

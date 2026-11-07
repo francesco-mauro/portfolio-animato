@@ -64,7 +64,7 @@ sito-animato/
 ├── .gitignore                 cosa git non salva (node_modules, dist, log)
 ├── .oxlintrc.json             regole del linter oxlint (npm run lint)
 ├── .github/workflows/deploy.yml  test e pubblicazione su GitHub Pages a ogni push su main
-├── public/                    file serviti così come sono (la favicon)
+├── public/                    file serviti così come sono (la favicon, l'immagine di anteprima del link)
 ├── docs/                      documenti: gli stili presi dal video
 ├── tests/                     test end-to-end: le animazioni controllate nel browser
 └── src/
