@@ -49,7 +49,8 @@
 .title {
   position: relative;
   color: var(--color-coral);
-  font-size: clamp(48px, 8.5vw, 124px);
+  /* Il secondo pezzo del titolo è lungo: a 84 px sta su una riga nei 860 px di .center */
+  font-size: clamp(40px, 6vw, 84px);
   font-weight: 600;
 }
 

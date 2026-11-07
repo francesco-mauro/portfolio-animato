@@ -12,7 +12,9 @@ import { projects, repoUrl } from '../../data/projects.ts'
 import type { CSSProperties } from 'react'
 import styles from './Hero.module.css'
 
-const headline = ['Interfacce', 'che si muovono.']
+// Il titolo parla di tutto il percorso, da quello che si vede a quello che c'è dietro:
+// due pezzi che entrano uno dopo l'altro. Test: tests/hero.spec.ts.
+const headline = ['Quello che vedi,', "e quello che c'è dietro."]
 
 export function Hero() {
   const first = projects[0]
