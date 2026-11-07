@@ -1,18 +1,12 @@
 /**
  * projects.ts
- * I sei progetti della vetrina GitHub, nello stesso ordine del profilo.
+ * I cinque progetti della vetrina GitHub, nello stesso ordine del profilo.
+ * Il gestionale documentale è uscito dalla vetrina il 7 novembre 2026 (test: tests/projects.spec.ts).
  * Fonti: i README dei repository. Le demo di Boolzapp e Memory sono su GitHub Pages.
  */
 import type { Project } from '../types/content.ts'
 
 export const projects: Project[] = [
-  {
-    repo: 'gestionale-documentale',
-    title: 'Gestionale documentale',
-    summary: 'Archivio di clienti, pratiche e documenti per una piccola azienda, con accesso per ruoli.',
-    stack: ['React', 'TypeScript', 'Express', 'Prisma'],
-    tone: 'coral',
-  },
   {
     repo: 'capston_project_final',
     title: 'Incidenti stradali in Italia',

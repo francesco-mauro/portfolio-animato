@@ -91,6 +91,8 @@
   color: var(--color-ink-soft);
   font-size: 17px;
   line-height: 1.5;
+  /* Righe di lunghezza simile: senza, l'ultima parola della frase andava a capo da sola */
+  text-wrap: balance;
 }
 
 /* Le tre schede sparse */

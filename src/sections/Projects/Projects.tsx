@@ -1,6 +1,6 @@
 /**
  * Projects.tsx
- * La griglia dei sei progetti della vetrina GitHub. Ogni progetto è una FloatingCard
+ * La griglia dei cinque progetti della vetrina GitHub. Ogni progetto è una FloatingCard
  * che entra allo scroll (useReveal, sfasata di 90 ms dalla precedente) e si inclina
  * verso il mouse. I dati arrivano da src/data/projects.ts: qui c'è solo la forma.
  * Se il progetto ha una demo online compare anche il link "Prova la demo".

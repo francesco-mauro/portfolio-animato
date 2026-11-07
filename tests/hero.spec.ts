@@ -67,3 +67,10 @@ test('il nome in alto a sinistra e la città in alto a destra si vedono bene', a
   expect(await badge.evaluate((el) => getComputedStyle(el).backgroundColor)).toBe('rgb(232, 85, 61)')
   expect(await badge.evaluate((el) => getComputedStyle(el).color)).toBe('rgb(255, 255, 255)')
 })
+
+test('la frase sotto il titolo racconta tutto lo stack, non solo il frontend', async ({ page }) => {
+  await page.goto('/')
+  await expect(page.locator('#top p').last()).toHaveText(
+    'Interfacce in React e TypeScript, server in Node.js, dati con SQL e Python.',
+  )
+})

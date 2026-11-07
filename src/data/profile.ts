@@ -11,7 +11,7 @@ export const profile: Profile = {
   role: 'Junior Full Stack Developer',
   city: 'Roma',
   intro:
-    'Il frontend è la parte che mi piace di più: React, TypeScript e Vue.js, con Node.js lato server.',
+    'Interfacce in React e TypeScript, server in Node.js, dati con SQL e Python.',
   manifesto:
     'Due master con Boolean, uno full stack e uno in data analytics. Oggi studio Ingegneria Informatica e costruisco interfacce con React, TypeScript e Node.js.',
   links: [
