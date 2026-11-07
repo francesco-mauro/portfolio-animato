@@ -1,7 +1,8 @@
 /**
  * projects.ts
- * I cinque progetti della vetrina GitHub, nello stesso ordine del profilo.
- * Il gestionale documentale è uscito dalla vetrina il 7 novembre 2026 (test: tests/projects.spec.ts).
+ * I cinque progetti della vetrina GitHub, nello stesso ordine del profilo, e in fondo questo sito.
+ * Il gestionale documentale è uscito dalla vetrina il 7 novembre 2026 e al suo posto è entrato
+ * il portfolio animato (test: tests/projects.spec.ts).
  * Fonti: i README dei repository. Le demo di Boolzapp e Memory sono su GitHub Pages.
  */
 import type { Project } from '../types/content.ts'
@@ -47,6 +48,15 @@ export const projects: Project[] = [
     when: 'ottobre 2024',
     demo: 'https://francesco-mauro.github.io/Memory-Game/',
     tone: 'light',
+  },
+  {
+    repo: 'portfolio-animato',
+    title: 'Portfolio animato',
+    summary: 'Questo sito: forme 3D in CSS, cursore che insegue, testo che si accende allo scroll, vista X-ray. Test con Playwright.',
+    stack: ['React', 'TypeScript', 'Vite', 'Playwright'],
+    when: 'novembre 2026',
+    demo: 'https://francesco-mauro.github.io/portfolio-animato/',
+    tone: 'coral',
   },
 ]
 
