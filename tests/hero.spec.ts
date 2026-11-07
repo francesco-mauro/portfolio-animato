@@ -46,3 +46,24 @@ test('a 390 px il titolo resta dentro lo schermo', async ({ page }) => {
   expect(box!.x).toBeGreaterThanOrEqual(0)
   expect(box!.x + box!.width).toBeLessThanOrEqual(390)
 })
+
+test('su un computer il titolo è a 80 px, più grande dei 68 di prima', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto('/')
+  const size = await page.getByRole('heading', { level: 1 }).evaluate((el) => getComputedStyle(el).fontSize)
+
+  expect(size).toBe('80px')
+})
+
+test('il nome in alto a sinistra e la città in alto a destra si vedono bene', async ({ page }) => {
+  await page.goto('/')
+  const brand = page.locator('header').first()
+  const logo = brand.getByText('Francesco Mauro')
+  const badge = brand.getByText('Roma')
+
+  // Il nome è grande e chiuso da un punto corallo, la città sta in una pillola corallo.
+  expect(parseFloat(await logo.evaluate((el) => getComputedStyle(el).fontSize))).toBeGreaterThanOrEqual(26)
+  expect(await logo.evaluate((el) => getComputedStyle(el, '::after').content)).toBe('"."')
+  expect(await badge.evaluate((el) => getComputedStyle(el).backgroundColor)).toBe('rgb(232, 85, 61)')
+  expect(await badge.evaluate((el) => getComputedStyle(el).color)).toBe('rgb(255, 255, 255)')
+})
