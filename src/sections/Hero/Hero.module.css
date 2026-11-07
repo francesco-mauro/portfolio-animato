@@ -49,8 +49,9 @@
 .title {
   position: relative;
   color: var(--color-coral);
-  /* Il secondo pezzo del titolo è lungo: a 84 px sta su una riga nei 860 px di .center */
-  font-size: clamp(40px, 6vw, 84px);
+  /* Il secondo pezzo del titolo è lungo: a 68 px sta su una riga nei 860 px di .center
+     anche con un font largo come DejaVu Sans, quello che Linux usa al posto di Segoe UI */
+  font-size: clamp(40px, 4.8vw, 68px);
   font-weight: 600;
 }
 

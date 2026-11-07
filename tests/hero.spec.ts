@@ -19,6 +19,10 @@ test('il titolo è «Quello che vedi, e quello che c’è dietro.» in due pezzi
 test('su un computer (1440 px) ogni pezzo del titolo sta su una riga', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto('/')
+  // Il caso peggiore: un font largo. Inter e Segoe UI non ci sono ovunque (su Linux, e in
+  // GitHub Actions, il browser ripiega su DejaVu Sans, più largo); Verdana lo è ancora di più.
+  // Così il test dice la stessa cosa su ogni macchina.
+  await page.addStyleTag({ content: "h1 { font-family: Verdana, 'DejaVu Sans', sans-serif !important; }" })
   const pieces = page.getByRole('heading', { level: 1 }).locator('span')
 
   // Le righe si contano dai rettangoli del testo (un Range per pezzo): un rettangolo per
