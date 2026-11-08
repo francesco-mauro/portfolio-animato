@@ -38,4 +38,26 @@
   /* La curva "Out back" letta sulla scheda Ease del video (14:15): 0.34, 1.56, 0.64, 1 */
   --ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
   --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Il testo delle schede chiare (bianca e rosa): resta scuro anche nel tema scuro */
+  --color-card-ink: #1d1d1f;
+}
+
+/*
+ * Tema scuro: scelto da ThemeToggle o dal sistema, lo script in index.html lo scrive
+ * su <html data-theme="dark">. Cambiano solo fondo e testo della pagina, presi dal
+ * blu notte del Manifesto; corallo, forme e schede restano gli stessi.
+ */
+:root[data-theme='dark'] {
+  --color-bg: #12131b;
+  --color-ink: #f4f4f6;
+  --color-ink-soft: #a3a5b3;
+  --shadow-card: 0 18px 40px -18px rgb(0 0 0 / 0.7);
+}
+
+/* Il passaggio di tema con le View Transitions: una dissolvenza morbida e breve */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.45s;
+  animation-timing-function: var(--ease-soft);
 }

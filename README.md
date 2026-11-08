@@ -39,7 +39,7 @@ npm run test:e2e   # test end-to-end con Playwright in un browser vero (tests/)
 | 4 | **Progetti** | schede di "Kinetic", 14:15 | sei schede entrano una dopo l'altra e si inclinano verso il mouse |
 | 5 | **Contatti** | schermata "One app for all your motion", 14:26 | fondo corallo, un disco ruota in prospettiva |
 
-Sempre presenti: il **cursore** (punto più anello che lo insegue, 14:32), il **menu a pillola** in basso al centro e l'**interruttore Motion** in basso a destra.
+Sempre presenti: il **cursore** (punto più anello che lo insegue, 14:32), il **menu a pillola** in basso al centro e l'**interruttore Motion** in basso a destra, con sopra il **bottone del tema chiaro e scuro**: parte dal tema del sistema, ricorda la scelta e anima il passaggio con le View Transitions.
 
 ## Le tre modalità di movimento
 

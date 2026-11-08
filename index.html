@@ -7,6 +7,10 @@
   X e Slack (protocollo Open Graph, https://ogp.me). Gli indirizzi sono assoluti,
   perché chi legge la pagina da fuori non conosce il percorso base: l'immagine è
   public/og-image.png, pubblicata accanto alla pagina. Test: tests/og.spec.ts.
+  Lo script nella testa della pagina sceglie il tema chiaro o scuro prima che la
+  pagina si disegni (niente tag scritti qui: Vite li cercherebbe anche nei commenti),
+  così non c'è il lampo del tema sbagliato: la scelta salvata da ThemeToggle se c'è,
+  altrimenti quella del sistema. Test: tests/theme.spec.ts.
 -->
 <html lang="it">
   <head>
@@ -15,6 +19,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Francesco Mauro, junior full stack developer a Roma. Progetti in React, TypeScript, Vue.js e Node.js." />
     <title>Francesco Mauro · Junior Full Stack Developer</title>
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      try {
+        var saved = localStorage.getItem('theme')
+        var dark = saved ? saved === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches
+        document.documentElement.dataset.theme = dark ? 'dark' : 'light'
+      } catch (e) {
+        document.documentElement.dataset.theme = 'light'
+      }
+    </script>
 
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://francesco-mauro.github.io/portfolio-animato/" />
