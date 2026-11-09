@@ -28,7 +28,8 @@ export function Hero() {
 
       <Shape kind="pill" size={150} top="14%" left="6%" rotate={-28} />
       <Shape kind="sphere" size={70} top="10%" left="44%" delay={1.2} />
-      <Shape kind="sphere" size={230} top="36%" left="80%" delay={0.6} />
+      {/* Sul telefono la sfera grande starebbe sulla virgola di «vedi,»: sale in alto a destra */}
+      <Shape kind="sphere" size={230} top="36%" left="80%" phoneTop="10%" phoneLeft="70%" delay={0.6} />
       <Shape kind="torus" size={150} top="74%" left="72%" delay={2} />
       <Shape kind="disc" size={100} top="82%" left="34%" delay={1.6} rotate={-20} />
 

@@ -12,6 +12,8 @@
  *  - top, left  posizione dentro il contenitore, in percentuale
  *  - delay  ritardo dell'animazione in secondi, per non farle muovere tutte insieme
  *  - rotate rotazione di partenza in gradi
+ *  - phoneTop, phoneLeft  posizione sotto i 760px, per una forma che sul telefono
+ *    finirebbe sopra il titolo (tests/mobile.spec.ts); senza, resta top e left
  */
 import type { CSSProperties } from 'react'
 import styles from './Shape.module.css'
@@ -25,6 +27,8 @@ interface ShapeProps {
   left: string
   delay?: number
   rotate?: number
+  phoneTop?: string
+  phoneLeft?: string
 }
 
 const xrayLabel: Record<ShapeKind, string> = {
@@ -34,16 +38,26 @@ const xrayLabel: Record<ShapeKind, string> = {
   disc: 'CSS · disco · rotateX in 3D',
 }
 
-export function Shape({ kind, size, top, left, delay = 0, rotate = 0 }: ShapeProps) {
+export function Shape({ kind, size, top, left, delay = 0, rotate = 0, phoneTop, phoneLeft }: ShapeProps) {
+  // La posizione passa da variabili CSS e non da top e left in linea, perché uno stile
+  // in linea vincerebbe sulla media query del telefono in Shape.module.css.
   const style = {
     '--size': `${size}px`,
     '--delay': `${delay}s`,
     '--rotate': `${rotate}deg`,
-    top,
-    left,
+    '--top': top,
+    '--left': left,
+    '--phone-top': phoneTop ?? top,
+    '--phone-left': phoneLeft ?? left,
   } as CSSProperties
 
   return (
-    <div className={`${styles.shape} ${styles[kind]}`} style={style} data-xray={xrayLabel[kind]} aria-hidden="true" />
+    <div
+      className={`${styles.shape} ${styles[kind]}`}
+      style={style}
+      data-shape={kind}
+      data-xray={xrayLabel[kind]}
+      aria-hidden="true"
+    />
   )
 }

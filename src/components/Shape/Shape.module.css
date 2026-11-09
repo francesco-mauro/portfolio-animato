@@ -6,6 +6,8 @@
  */
 .shape {
   position: absolute;
+  top: var(--top);
+  left: var(--left);
   width: var(--size);
   animation: float 7s ease-in-out infinite;
   animation-delay: var(--delay);
@@ -68,9 +70,12 @@
   }
 }
 
-/* Sul telefono le forme si rimpiccioliscono, così non coprono titolo e testo */
+/* Sul telefono le forme si rimpiccioliscono, così non coprono titolo e testo, e quelle
+   che finirebbero comunque sopra il titolo si spostano (phoneTop e phoneLeft) */
 @media (max-width: 760px) {
   .shape {
+    top: var(--phone-top);
+    left: var(--phone-left);
     width: calc(var(--size) * 0.5);
   }
 }
