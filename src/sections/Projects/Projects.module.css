@@ -3,6 +3,7 @@
  * Griglia a colonne automatiche (minimo 300px per scheda): tre colonne su desktop,
  * una sul telefono. Le schede hanno tutte la stessa altezza nella stessa riga e i
  * link (GitHub e, se c'è, la demo) stanno sempre in fondo (flex column + margin-top: auto).
+ * Le schede entrano con lo scroll, solo CSS: il blocco @supports sotto .item.
  */
 .section {
   max-width: 1180px;
@@ -28,6 +29,38 @@
 
 .item {
   display: flex;
+}
+
+/*
+ * Entrata con lo scroll, solo CSS. Ogni scheda ha una timeline sua, legata a quanto è
+ * entrata nello schermo (animation-timeline: view()): l'animazione non va a tempo, la
+ * porta avanti e indietro lo scroll. animation-range dice in quale tratto dell'entrata
+ * si svolge; --stagger (0, 1, 2, da Projects.tsx) lo sposta più avanti. Con tre colonne,
+ * sul computer, è il posto nella riga: le schede di una riga arrivano una dopo l'altra.
+ * Con due colonne o una il numero resta quello: lo sfasamento c'è, ma non segue la riga.
+ * Senza animazione la scheda è al suo posto e visibile: è quello che resta con Motion Off
+ * e con prefers-reduced-motion, che spengono tutte le animazioni (global.css).
+ * .grid .item batte .reveal di global.css, che terrebbe la scheda trasparente; nei
+ * browser senza animation-timeline questo blocco non vale e resta l'entrata con .reveal.
+ * La proprietà animation azzera la timeline: animation-timeline va scritta dopo.
+ */
+@supports (animation-timeline: view()) {
+  .grid .item {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    animation: enter linear both;
+    animation-timeline: view();
+    animation-range: entry calc(var(--stagger, 0) * 15%) entry calc(70% + var(--stagger, 0) * 15%);
+  }
+}
+
+/* Si scrive solo la partenza: l'arrivo è la scheda com'è, piena e al suo posto */
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.98);
+  }
 }
 
 .card {

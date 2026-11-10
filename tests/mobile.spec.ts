@@ -24,12 +24,14 @@ function overlaps(a: Box, b: Box) {
 async function openPhone(page: Page, width = 390, height = 844) {
   await page.setViewportSize({ width, height })
   await page.goto('/')
-  // Aspetta solo le animazioni che finiscono (le entrate), non quelle infinite.
+  // Aspetta solo le animazioni che finiscono da sole (le entrate a tempo): non quelle
+  // infinite, e non quelle legate allo scroll (le schede dei progetti, animation-timeline:
+  // view()), che vanno avanti solo scorrendo e qui non finirebbero mai.
   await page.evaluate(() =>
     Promise.all(
       document
         .getAnimations()
-        .filter((a) => a.effect?.getTiming().iterations !== Infinity)
+        .filter((a) => a.timeline === document.timeline && a.effect?.getTiming().iterations !== Infinity)
         .map((a) => a.finished),
     ),
   )

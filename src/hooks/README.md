@@ -6,6 +6,6 @@ La logica riusabile, senza grafica. Gli hook che muovono qualcosa scrivono varia
 |---|---|---|
 | `useMotionMode.ts` | legge la modalità (`on`, `off`, `xray`) e la funzione per cambiarla | Cursor, FloatingCard, MotionToggle, Manifesto |
 | `useCursorFollower.ts` | fa inseguire il mouse a un elemento con ritardo morbido (lerp a ogni fotogramma), scrive `--x` e `--y` | Cursor |
-| `useReveal.ts` | aggiunge `is-visible` quando l'elemento entra nello schermo (IntersectionObserver) | Projects, Contact |
+| `useReveal.ts` | aggiunge `is-visible` quando l'elemento entra nello schermo (IntersectionObserver) | Projects (il titolo; per le schede solo come riserva dove manca `animation-timeline`), Contact |
 | `useScrollProgress.ts` | dà da 0 a 1 quanto una sezione è stata scorsa | Manifesto |
 | `usePointerTilt.ts` | inclina una scheda verso il mouse, scrive `--tilt-x`, `--tilt-y`, `--glow-x`, `--glow-y` | FloatingCard |

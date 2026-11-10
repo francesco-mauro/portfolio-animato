@@ -1,8 +1,12 @@
 /**
  * Projects.tsx
  * La griglia dei sei progetti della vetrina GitHub. Ogni progetto è una FloatingCard
- * che entra allo scroll (useReveal, sfasata di 90 ms dalla precedente) e si inclina
- * verso il mouse. I dati arrivano da src/data/projects.ts: qui c'è solo la forma.
+ * che entra con lo scroll e si inclina verso il mouse. L'entrata è solo CSS
+ * (animation-timeline: view() in Projects.module.css, test in tests/projects-scroll.spec.ts):
+ * da qui passa soltanto --stagger, il posto della scheda nella riga quando le colonne
+ * sono tre, che le fa arrivare una dopo l'altra. Nei browser che non hanno ancora le timeline di scroll resta l'entrata
+ * di prima: useReveal e la classe reveal, sfasata di 90 ms dalla scheda precedente.
+ * I dati arrivano da src/data/projects.ts: qui c'è solo la forma.
  * Se il progetto ha una demo online compare anche il link "Prova la demo".
  */
 import { useRef, type CSSProperties } from 'react'
@@ -14,11 +18,19 @@ import styles from './Projects.module.css'
 
 function ProjectItem({ project, index }: { project: Project; index: number }) {
   const ref = useRef<HTMLLIElement>(null)
+  // Riserva per i browser senza animation-timeline: dove c'è, il CSS non guarda questa classe.
   useReveal(ref)
 
+  // --stagger: 0, 1, 2 da sinistra a destra nella griglia a tre colonne del computer.
+  const style = { '--reveal-delay': `${index * 90}ms`, '--stagger': index % 3 } as CSSProperties
+
   return (
-    <li ref={ref} className={`reveal ${styles.item}`} style={{ '--reveal-delay': `${index * 90}ms` } as CSSProperties}>
-      <FloatingCard tone={project.tone} className={styles.card} xray={index === 0 ? 'React · useReveal + usePointerTilt' : undefined}>
+    <li ref={ref} className={`reveal ${styles.item}`} style={style}>
+      <FloatingCard
+        tone={project.tone}
+        className={styles.card}
+        xray={index === 0 ? 'CSS · animation-timeline: view() · usePointerTilt' : undefined}
+      >
         <div className={styles.top}>
           <span className={styles.number}>{String(index + 1).padStart(2, '0')}</span>
           {project.when && <span className={styles.when}>{project.when}</span>}

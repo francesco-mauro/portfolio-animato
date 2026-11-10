@@ -36,7 +36,7 @@ npm run test:e2e   # test end-to-end con Playwright in un browser vero (tests/)
 | 1 | **Hero** | sito "Kinetic", 14:15 | il titolo entra parola per parola, cinque forme corallo galleggiano, tre schede fluttuano e si inclinano verso il mouse |
 | 2 | **Marquee** | sito "Ridgeline", 15:48 | la fascia con le tecnologie scorre all'infinito, anche con il mouse sopra |
 | 3 | **Manifesto** | sito "Ridgeline", 15:48-15:50 | il testo resta fermo al centro e si accende parola per parola mentre scorri |
-| 4 | **Progetti** | schede di "Kinetic", 14:15 | sei schede entrano una dopo l'altra e si inclinano verso il mouse |
+| 4 | **Progetti** | schede di "Kinetic", 14:15 | sei schede entrano una dopo l'altra seguendo lo scroll, solo in CSS (`animation-timeline: view()`), e si inclinano verso il mouse |
 | 5 | **Contatti** | schermata "One app for all your motion", 14:26 | fondo corallo, un disco ruota in prospettiva |
 
 Sempre presenti: il **cursore** (punto più anello che lo insegue, 14:32), il **menu a pillola** in basso al centro e l'**interruttore Motion** in basso a destra, con sopra il **bottone del tema chiaro e scuro**: parte dal tema del sistema, ricorda la scelta e anima il passaggio con le View Transitions.
