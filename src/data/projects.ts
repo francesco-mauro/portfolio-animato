@@ -3,7 +3,8 @@
  * I cinque progetti della vetrina GitHub, nello stesso ordine del profilo, e in fondo questo sito.
  * Il gestionale documentale è uscito dalla vetrina il 7 novembre 2026 e al suo posto è entrato
  * il portfolio animato (test: tests/projects.spec.ts).
- * Fonti: i README dei repository. Le demo di Boolzapp e Memory sono su GitHub Pages.
+ * Fonti: i README dei repository. Le demo di Boolzapp, Memory e di questo sito sono su GitHub Pages.
+ * La forma dei dati (link, demo, date, doppioni, multiplo di tre) la controlla data.test.ts.
  */
 import type { Project } from '../types/content.ts'
 

@@ -8,6 +8,8 @@ npm run test:e2e
 
 In locale usa Chrome già installato sul PC; in GitHub Actions usa il Chromium di Playwright.
 
+Qui stanno solo i test che hanno bisogno di un browser. I test dei dati (`npm run test:unit`, Vitest) stanno accanto ai dati, in `src/data/data.test.ts`.
+
 | File | Cosa controlla |
 |---|---|
 | `marquee.spec.ts` | la fascia dello stack (#stack): con Motion On scorre anche con il cursore sopra, con Motion Off sta ferma |

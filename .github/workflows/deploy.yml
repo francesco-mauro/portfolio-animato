@@ -1,8 +1,9 @@
 # deploy.yml
 # Pubblica il sito su GitHub Pages a ogni push sul ramo main (o a mano da Actions).
 # Due job: "build" installa le dipendenze con npm ci, controlla il codice (lint),
-# compila (npm run build), lancia i test end-to-end con Playwright e carica la
-# cartella dist/; "deploy" la pubblica su Pages. Un test rosso ferma la pubblicazione.
+# lancia i test dei dati con Vitest (npm run test:unit), compila (npm run build),
+# lancia i test end-to-end con Playwright e carica la cartella dist/; "deploy" la
+# pubblica su Pages. Un test rosso, dei dati o end-to-end, ferma la pubblicazione.
 # Nelle impostazioni del repository, Pages deve avere come sorgente "GitHub Actions".
 name: Deploy su GitHub Pages
 
@@ -31,6 +32,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run lint
+      - run: npm run test:unit
       - run: npm run build
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e

@@ -26,6 +26,7 @@ npm run dev        # server di sviluppo su http://localhost:5173, si aggiorna da
 npm run build      # controllo dei tipi (tsc -b) e build di produzione in dist/
 npm run preview    # serve la build di dist/ su http://localhost:4173
 npm run lint       # controlla il codice con oxlint
+npm run test:unit  # test dei dati con Vitest, senza browser (src/data/data.test.ts)
 npm run test:e2e   # test end-to-end con Playwright in un browser vero (tests/)
 ```
 
@@ -56,7 +57,7 @@ sito-animato/
 ├── index.html                 la pagina che Vite serve, carica src/main.tsx
 ├── package.json               dipendenze e comandi npm
 ├── package-lock.json          versioni esatte delle dipendenze (generato da npm)
-├── vite.config.ts             configurazione di Vite con il plugin React
+├── vite.config.ts             configurazione di Vite con il plugin React, e di Vitest (npm run test:unit)
 ├── tsconfig.json              rimanda ai due tsconfig sotto
 ├── tsconfig.app.json          regole TypeScript per il codice in src/
 ├── tsconfig.node.json         regole TypeScript per i file di configurazione e i test
@@ -72,7 +73,7 @@ sito-animato/
     ├── App.tsx                compone la pagina: sezioni e controlli fissi
     ├── styles/                CSS globali: variabili, regole comuni, vista X-ray
     ├── types/                 i tipi TypeScript dei contenuti
-    ├── data/                  i testi del sito: profilo, progetti, stack
+    ├── data/                  i testi del sito: profilo, progetti, stack, con i loro test
     ├── context/               la modalità di movimento condivisa (On, Off, X-ray)
     ├── hooks/                 la logica riusabile: cursore, scroll, entrate, inclinazione
     ├── components/            i pezzi riusabili: cursore, forme, schede, menu, interruttore
@@ -84,7 +85,7 @@ Ogni cartella ha il suo `README.md` con l'elenco dei file e cosa fa ciascuno. Og
 ## Regole del progetto
 
 - **Un componente, una cartella:** `Nome.tsx` più `Nome.module.css` accanto. Lo stile non esce dalla cartella (CSS Modules).
-- **I testi stanno in `src/data/`**, mai scritti dentro i componenti.
+- **I testi stanno in `src/data/`**, mai scritti dentro i componenti. Chi aggiunge o cambia un progetto lancia `npm run test:unit`: controlla link, demo, date e doppioni, e che i progetti restino un multiplo di tre (un settimo progetto da solo lascerebbe due posti vuoti nella griglia).
 - **I colori stanno in `src/styles/tokens.css`**, mai scritti a mano altrove se esiste la variabile.
 - **Le animazioni rispettano Off e `prefers-reduced-motion`:** chi aggiunge un'animazione non deve fare niente, le regole in `global.css` le fermano tutte.
 - **Ogni nuovo `data-xray`** va su un elemento che ha già una `position` nel suo CSS (l'etichetta si appoggia lì).
@@ -92,7 +93,7 @@ Ogni cartella ha il suo `README.md` con l'elenco dei file e cosa fa ciascuno. Og
 
 ## Pubblicazione: GitHub Pages
 
-Il sito è online su https://francesco-mauro.github.io/portfolio-animato/ e si aggiorna da solo: a ogni push su `main` il workflow `.github/workflows/deploy.yml` installa le dipendenze, passa il linter, fa la build, lancia i test di `tests/` e pubblica `dist/` su GitHub Pages. Nella build Vite usa il percorso base `/portfolio-animato/` (in `vite.config.ts`); in sviluppo resta `/`.
+Il sito è online su https://francesco-mauro.github.io/portfolio-animato/ e si aggiorna da solo: a ogni push su `main` il workflow `.github/workflows/deploy.yml` installa le dipendenze, passa il linter, lancia i test dei dati, fa la build, lancia i test di `tests/` e pubblica `dist/` su GitHub Pages. Nella build Vite usa il percorso base `/portfolio-animato/` (in `vite.config.ts`); in sviluppo resta `/`.
 
 ## La storia dei commit
 
