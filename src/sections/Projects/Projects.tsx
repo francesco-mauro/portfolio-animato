@@ -6,6 +6,8 @@
  * da qui passa soltanto --stagger, il posto della scheda nella riga quando le colonne
  * sono tre, che le fa arrivare una dopo l'altra. Nei browser che non hanno ancora le timeline di scroll resta l'entrata
  * di prima: useReveal e la classe reveal, sfasata di 90 ms dalla scheda precedente.
+ * In cima a ogni scheda c'è l'anteprima, uno scatto vero del progetto (src/assets/previews/,
+ * test in tests/previews.spec.ts): col mouse sopra la scheda si ingrandisce un poco.
  * I dati arrivano da src/data/projects.ts: qui c'è solo la forma.
  * Se il progetto ha una demo online compare anche il link "Prova la demo".
  */
@@ -31,6 +33,10 @@ function ProjectItem({ project, index }: { project: Project; index: number }) {
         className={styles.card}
         xray={index === 0 ? 'CSS · animation-timeline: view() · usePointerTilt' : undefined}
       >
+        {/* width e height riservano lo spazio in 16:10 prima che l'immagine arrivi: la pagina non salta */}
+        <div className={styles.preview}>
+          <img src={project.preview.src} alt={project.preview.alt} width={720} height={450} loading="lazy" decoding="async" />
+        </div>
         <div className={styles.top}>
           <span className={styles.number}>{String(index + 1).padStart(2, '0')}</span>
           {project.when && <span className={styles.when}>{project.when}</span>}

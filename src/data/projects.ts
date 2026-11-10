@@ -4,9 +4,18 @@
  * Il gestionale documentale è uscito dalla vetrina il 7 novembre 2026 e al suo posto è entrato
  * il portfolio animato (test: tests/projects.spec.ts).
  * Fonti: i README dei repository. Le demo di Boolzapp, Memory e di questo sito sono su GitHub Pages.
- * La forma dei dati (link, demo, date, doppioni, multiplo di tre) la controlla data.test.ts.
+ * Ogni progetto ha la sua anteprima: uno scatto vero, importato da src/assets/previews/ (da dove
+ * viene ognuno è scritto nel README di quella cartella). Importarle qui fa sì che un file che
+ * manca fermi la build.
+ * La forma dei dati (link, demo, date, doppioni, multiplo di tre, anteprime) la controlla data.test.ts.
  */
 import type { Project } from '../types/content.ts'
+import boolzapp from '../assets/previews/boolzapp.webp'
+import foodie from '../assets/previews/foodie.webp'
+import incidenti from '../assets/previews/incidenti.webp'
+import login from '../assets/previews/login.webp'
+import memory from '../assets/previews/memory.webp'
+import portfolio from '../assets/previews/portfolio.webp'
 
 export const projects: Project[] = [
   {
@@ -16,6 +25,10 @@ export const projects: Project[] = [
     stack: ['Python', 'pandas', 'K-Means', 'Power BI'],
     when: 'agosto 2026',
     tone: 'night',
+    preview: {
+      src: incidenti,
+      alt: 'Grafico a dispersione dei comuni divisi in tre classi di rischio: basso, medio e alto',
+    },
   },
   {
     repo: '01_07_2026_myLoginTest',
@@ -23,6 +36,10 @@ export const projects: Project[] = [
     summary: 'Login, registrazione e recupero password in una single page app.',
     stack: ['React', 'TypeScript', 'CSS Modules'],
     tone: 'blue',
+    preview: {
+      src: login,
+      alt: 'La pagina di accesso: email, password, il bottone «Continua con Google» e il link per registrarsi',
+    },
   },
   {
     repo: 'proj-html-vuejs',
@@ -31,6 +48,10 @@ export const projects: Project[] = [
     stack: ['Vue.js', 'HTML', 'CSS'],
     when: 'maggio 2024',
     tone: 'pink',
+    preview: {
+      src: foodie,
+      alt: 'La home con il logo Avada Food: il menu, le icone social e l’articolo in evidenza sopra la foto di una ciotola con uovo e verdure',
+    },
   },
   {
     repo: 'vue-boolzapp',
@@ -40,6 +61,10 @@ export const projects: Project[] = [
     when: 'aprile 2024',
     demo: 'https://francesco-mauro.github.io/vue-boolzapp/',
     tone: 'green',
+    preview: {
+      src: boolzapp,
+      alt: 'Boolzapp: l’elenco delle chat a sinistra e una conversazione aperta a destra',
+    },
   },
   {
     repo: 'Memory-Game',
@@ -49,6 +74,10 @@ export const projects: Project[] = [
     when: 'ottobre 2024',
     demo: 'https://francesco-mauro.github.io/Memory-Game/',
     tone: 'light',
+    preview: {
+      src: memory,
+      alt: 'Il Memory durante una partita: venti carte, una scoperta e una che si sta girando',
+    },
   },
   {
     repo: 'portfolio-animato',
@@ -58,6 +87,10 @@ export const projects: Project[] = [
     when: 'novembre 2026',
     demo: 'https://francesco-mauro.github.io/portfolio-animato/',
     tone: 'coral',
+    preview: {
+      src: portfolio,
+      alt: 'La prima schermata di questo sito: il titolo corallo tra forme 3D e schede che fluttuano',
+    },
   },
 ]
 

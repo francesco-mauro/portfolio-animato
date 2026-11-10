@@ -48,6 +48,17 @@ describe('i progetti', () => {
     expect(project.demo).toBe(`${PAGES}/${project.repo}/`)
   })
 
+  it.each(projects)('$title: ha l’anteprima in WebP, con un testo alternativo di più di 15 caratteri', (project) => {
+    // Vite, e Vitest con lui, trasforma l'import dell'immagine nel suo indirizzo.
+    expect(project.preview.src).toMatch(/\.webp$/)
+    expect(project.preview.alt.trim().length).toBeGreaterThan(15)
+  })
+
+  it('non hanno due anteprime uguali, né nell’immagine né nella descrizione', () => {
+    expect(allDifferent(projects.map((project) => project.preview.src))).toBe(true)
+    expect(allDifferent(projects.map((project) => project.preview.alt))).toBe(true)
+  })
+
   it.each(projects.filter((project) => project.when))('$title: la data è scritta «mese anno»', (project) => {
     expect(project.when).toMatch(new RegExp(`^(${MONTHS}) 20\\d\\d$`))
   })

@@ -9,6 +9,7 @@ Tutto il codice del sito. Vite parte da `main.tsx`.
 | `styles/` | CSS globali, non legati a un componente |
 | `types/` | i tipi TypeScript dei contenuti |
 | `data/` | i testi del sito |
+| `assets/` | le immagini importate dal codice: le anteprime dei progetti |
 | `context/` | la modalità di movimento condivisa |
 | `hooks/` | la logica riusabile, senza grafica |
 | `components/` | i pezzi grafici riusabili |

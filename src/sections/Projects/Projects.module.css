@@ -71,6 +71,43 @@
   padding: 24px;
 }
 
+/*
+ * L'anteprima in cima alla scheda: uno scatto vero del progetto (src/assets/previews/).
+ * Il riquadro ha gli angoli tondi e taglia l'immagine, che col mouse sopra la scheda si
+ * ingrandisce un poco senza uscire. Il filo attorno serve agli scatti a fondo bianco sulle
+ * schede bianche, che altrimenti non avrebbero bordo. L'altezza la dà il rapporto tra
+ * width e height scritti nel tag (720×450, 16:10), anche prima che l'immagine arrivi.
+ */
+.preview {
+  margin-bottom: 18px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 0 0 1px rgb(127 127 127 / 0.22);
+}
+
+.preview img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform 0.6s var(--ease-soft);
+}
+
+.card:hover .preview img {
+  transform: scale(1.05);
+}
+
+/* Movimento spento: niente ingrandimento. Senza transizione sarebbe uno scatto secco. */
+:global(html[data-motion='off']) .card:hover .preview img {
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card:hover .preview img {
+    transform: none;
+  }
+}
+
 .top {
   display: flex;
   justify-content: space-between;
@@ -83,7 +120,7 @@
 }
 
 .title {
-  margin: 34px 0 12px;
+  margin: 20px 0 12px;
   font-size: 30px;
   font-weight: 600;
 }

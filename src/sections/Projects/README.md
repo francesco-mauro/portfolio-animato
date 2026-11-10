@@ -4,8 +4,10 @@ La griglia dei progetti.
 
 | File | Cosa fa |
 |---|---|
-| `Projects.tsx` | `ProjectItem` per ogni progetto di `data/projects.ts`: numero, data, titolo, descrizione, stack, link a GitHub e alla demo quando c'è; a ogni scheda passa `--stagger` (0, 1, 2), il suo posto nella riga quando le colonne sono tre. Tiene `useReveal` come riserva per i browser senza timeline di scroll |
-| `Projects.module.css` | griglia a colonne automatiche (minimo 300 px), schede della stessa altezza con i link sempre in fondo, freccia che scatta al passaggio del mouse, e l'entrata delle schede con lo scroll |
+| `Projects.tsx` | `ProjectItem` per ogni progetto di `data/projects.ts`: l'anteprima in cima (`<img>` con `width` e `height`, così lo spazio è riservato, e `loading="lazy"`), poi numero, data, titolo, descrizione, stack, link a GitHub e alla demo quando c'è; a ogni scheda passa `--stagger` (0, 1, 2), il suo posto nella riga quando le colonne sono tre. Tiene `useReveal` come riserva per i browser senza timeline di scroll |
+| `Projects.module.css` | griglia a colonne automatiche (minimo 300 px), schede della stessa altezza con i link sempre in fondo, freccia che scatta al passaggio del mouse, il riquadro dell'anteprima che si ingrandisce col mouse sopra la scheda (fermo con Motion Off), e l'entrata delle schede con lo scroll |
+
+Le anteprime sono scatti veri dei progetti: stanno in `src/assets/previews/`, con la provenienza di ognuna nel README di quella cartella. Test: `tests/previews.spec.ts`.
 
 ## L'entrata con lo scroll, solo CSS
 

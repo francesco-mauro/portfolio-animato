@@ -35,4 +35,14 @@ export interface Project {
   demo?: string
   /** Colore della scheda: uno dei toni presi dalle schede del video. */
   tone: 'coral' | 'green' | 'blue' | 'pink' | 'night' | 'light'
+  /** L'immagine in cima alla scheda: uno scatto vero del progetto, da src/assets/previews/. */
+  preview: ProjectPreview
+}
+
+/** L'anteprima di un progetto: 720×450 px, in WebP. */
+export interface ProjectPreview {
+  /** L'indirizzo dell'immagine, quello che dà Vite quando la si importa. */
+  src: string
+  /** Cosa si vede, per chi non vede l'immagine. */
+  alt: string
 }
