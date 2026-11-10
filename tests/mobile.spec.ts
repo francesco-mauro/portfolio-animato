@@ -25,8 +25,8 @@ async function openPhone(page: Page, width = 390, height = 844) {
   await page.setViewportSize({ width, height })
   await page.goto('/')
   // Aspetta solo le animazioni che finiscono da sole (le entrate a tempo): non quelle
-  // infinite, e non quelle legate allo scroll (le schede dei progetti, animation-timeline:
-  // view()), che vanno avanti solo scorrendo e qui non finirebbero mai.
+  // infinite, e non quelle legate allo scroll (le schede dei progetti e la barra di
+  // lettura, animation-timeline), che vanno avanti solo scorrendo e qui non finirebbero mai.
   await page.evaluate(() =>
     Promise.all(
       document

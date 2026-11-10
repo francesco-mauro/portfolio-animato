@@ -1,0 +1,38 @@
+/*
+ * ReadingBar.module.css
+ * Una riga alta 4 px, larga quanto lo schermo, fissa in cima. Parte schiacciata a zero
+ * (scaleX(0), con l'origine a sinistra) e l'animazione la porta a scaleX(1). L'animazione
+ * non va a tempo: la sua timeline è lo scroll della pagina (animation-timeline: scroll()),
+ * quindi in cima è vuota, in fondo è piena, e in mezzo segue il dito. Niente JavaScript.
+ * Il colore è l'indaco di tokens.css e non il corallo, che sparirebbe sul fondo corallo
+ * dei Contatti proprio quando la barra è piena.
+ * Con Motion Off e con prefers-reduced-motion global.css spegne le animazioni: la barra
+ * resta a zero, cioè non si vede. Lo stesso nei browser senza animation-timeline.
+ * Sta sopra i controlli fissi (z-index 40) e sotto le etichette X-ray (50) e il cursore.
+ */
+.bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 45;
+  width: 100%;
+  height: 4px;
+  background: var(--color-indigo);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  pointer-events: none;
+}
+
+/* La proprietà animation azzera la timeline: animation-timeline va scritta dopo */
+@supports (animation-timeline: scroll()) {
+  .bar {
+    animation: fill linear both;
+    animation-timeline: scroll(root block);
+  }
+}
+
+@keyframes fill {
+  to {
+    transform: scaleX(1);
+  }
+}
