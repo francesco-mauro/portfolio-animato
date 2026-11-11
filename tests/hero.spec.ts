@@ -62,9 +62,11 @@ test('il nome in alto a sinistra e la città in alto a destra si vedono bene', a
   const badge = brand.getByText('Roma')
 
   // Il nome è grande e chiuso da un punto corallo, la città sta in una pillola corallo.
+  // Il corallo della pillola è quello scuro (--color-coral-deep, #c9402b): sul corallo dei
+  // titoli il testo bianco a 15 px non ha abbastanza contrasto (tests/a11y.spec.ts).
   expect(parseFloat(await logo.evaluate((el) => getComputedStyle(el).fontSize))).toBeGreaterThanOrEqual(26)
   expect(await logo.evaluate((el) => getComputedStyle(el, '::after').content)).toBe('"."')
-  expect(await badge.evaluate((el) => getComputedStyle(el).backgroundColor)).toBe('rgb(232, 85, 61)')
+  expect(await badge.evaluate((el) => getComputedStyle(el).backgroundColor)).toBe('rgb(201, 64, 43)')
   expect(await badge.evaluate((el) => getComputedStyle(el).color)).toBe('rgb(255, 255, 255)')
 })
 

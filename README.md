@@ -88,6 +88,7 @@ Ogni cartella ha il suo `README.md` con l'elenco dei file e cosa fa ciascuno. Og
 - **Un componente, una cartella:** `Nome.tsx` più `Nome.module.css` accanto. Lo stile non esce dalla cartella (CSS Modules).
 - **I testi stanno in `src/data/`**, mai scritti dentro i componenti. Chi aggiunge o cambia un progetto lancia `npm run test:unit`: controlla link, demo, date e doppioni, e che i progetti restino un multiplo di tre (un settimo progetto da solo lascerebbe due posti vuoti nella griglia).
 - **I colori stanno in `src/styles/tokens.css`**, mai scritti a mano altrove se esiste la variabile.
+- **L'accessibilità la controlla axe** (`tests/a11y.spec.ts`, dentro `npm run test:e2e`): la pagina deve passare senza violazioni in ogni tema e in ogni modalità di Motion. Il caso più facile da rompere è il contrasto: il testo bianco piccolo va sul corallo scuro (`--color-coral-deep`, 4,94 a 1), non sul corallo dei titoli (3,62 a 1, sotto il 4,5 a 1 di WCAG AA).
 - **Le animazioni rispettano Off e `prefers-reduced-motion`:** chi aggiunge un'animazione non deve fare niente, le regole in `global.css` le fermano tutte.
 - **Ogni nuovo `data-xray`** va su un elemento che ha già una `position` nel suo CSS (l'etichetta si appoggia lì).
 - **Nessuna libreria di animazione:** solo CSS e un po' di TypeScript, come nel video.

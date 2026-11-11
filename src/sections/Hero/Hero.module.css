@@ -36,14 +36,16 @@
   color: var(--color-coral);
 }
 
-/* La città in una pillola corallo, con un pallino bianco davanti */
+/* La città in una pillola corallo, con un pallino bianco davanti. Il fondo è il corallo
+   scuro: il testo bianco a 15 px sul corallo dei titoli si ferma a 3,62 a 1, sotto il
+   4,5 a 1 che WCAG AA chiede al testo piccolo; qui è 4,94 a 1 (tests/a11y.spec.ts) */
 .badge {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   padding: 8px 18px;
   border-radius: var(--radius-pill);
-  background: var(--color-coral);
+  background: var(--color-coral-deep);
   color: #fff;
   box-shadow: var(--shadow-card);
   font-size: 15px;

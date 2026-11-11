@@ -1,7 +1,12 @@
 /*
  * PillNav.module.css
  * La pillola entra dal basso all'apertura della pagina (animazione "rise") con la
- * curva Out back, poi resta ferma. Le voci si schiariscono al passaggio del mouse.
+ * curva Out back, poi resta ferma. Le voci si scuriscono al passaggio del mouse.
+ * Il fondo è il corallo scuro (--color-coral-deep), non quello dei titoli: il testo
+ * bianco a 14 px sul corallo dei titoli ha un contrasto di 3,62 a 1, sotto il 4,5 a 1
+ * che WCAG AA chiede al testo piccolo; sul corallo scuro è 4,94 a 1. Per lo stesso
+ * motivo al passaggio del mouse la voce si scurisce (7,21 a 1): schiarendola come
+ * prima scenderebbe a 3,48 a 1. Test: tests/a11y.spec.ts.
  */
 .nav {
   position: fixed;
@@ -13,7 +18,7 @@
   gap: 2px;
   padding: 5px;
   border-radius: var(--radius-pill);
-  background: var(--color-coral);
+  background: var(--color-coral-deep);
   /* Il filo chiaro la stacca anche dal fondo corallo della sezione Contatti */
   box-shadow:
     0 0 0 1.5px rgb(255 255 255 / 0.55),
@@ -55,7 +60,7 @@
 
 .home:hover,
 .link:hover {
-  background: rgb(255 255 255 / 0.22);
+  background: rgb(0 0 0 / 0.22);
 }
 
 @keyframes rise {

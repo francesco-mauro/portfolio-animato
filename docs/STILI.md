@@ -29,9 +29,9 @@ Le variabili sono in `src/styles/tokens.css`.
 | Variabile | Valore | Da dove |
 |---|---|---|
 | `--color-bg` | `#fbfaf8` | fondo di "Kinetic", 14:15 |
-| `--color-coral` | `#e8553d` | titolo "Unify your motion" e menu a pillola, 14:15 |
+| `--color-coral` | `#e8553d` | titolo "Unify your motion" e menu a pillola, 14:15 (nel sito il menu a pillola usa il corallo scuro, riga sotto) |
 | `--color-coral-light` | `#f39a7c` | lato in luce delle forme, 14:15 |
-| `--color-coral-deep` | `#c9402b` | lato in ombra delle forme e del disco, 14:15 e 14:26 |
+| `--color-coral-deep` | `#c9402b` | lato in ombra delle forme e del disco, 14:15 e 14:26. Nel sito è anche il fondo sotto il testo bianco piccolo (menu a pillola, pillola della città, bottone attivo di Motion): il bianco sul corallo del titolo ha un contrasto di 3,62 a 1, sotto il 4,5 a 1 di WCAG AA; qui è 4,94 a 1 |
 | `--color-card-green` | `#4caf6a` | scheda "Render · 12 s left", 14:15 |
 | `--color-card-blue` | `#3d6fe0` | bordo della scheda "Ease · Out back", 14:15 |
 | `--color-card-pink` | `#fbe7ef` | scheda "Mia Torres · Shared a scene", 14:15 |

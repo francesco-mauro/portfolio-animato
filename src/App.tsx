@@ -3,6 +3,8 @@
  * Compone la pagina: il provider della modalità di movimento, il cursore che segue,
  * la barra di lettura in cima, le cinque sezioni in ordine e i tre controlli fissi
  * (menu a pillola, interruttore del movimento e bottone del tema chiaro e scuro).
+ * Ogni pezzo non decorativo sta dentro un landmark (main, nav, aside); il cursore e la
+ * barra di lettura sono decorazione, nascosti ai lettori di schermo. Test: tests/a11y.spec.ts.
  * Non contiene stile: ogni pezzo ha il suo CSS Module accanto.
  */
 import { MotionModeProvider } from './context/MotionModeContext.tsx'
@@ -30,8 +32,12 @@ export default function App() {
         <Contact />
       </main>
       <PillNav />
-      <MotionToggle />
-      <ThemeToggle />
+      {/* I due controlli fissi stanno in un landmark, come il resto della pagina: chi usa
+          un lettore di schermo li trova nell'elenco delle regioni (regola "region" di axe) */}
+      <aside aria-label="Preferenze di visualizzazione">
+        <MotionToggle />
+        <ThemeToggle />
+      </aside>
     </MotionModeProvider>
   )
 }

@@ -1,6 +1,10 @@
 /*
  * MotionToggle.module.css
  * Una piccola pillola scura con tre bottoni; quello attivo è corallo come nel video.
+ * I colori del testo sono scelti per il contrasto (WCAG AA, 4,5 a 1 sul testo piccolo,
+ * controllato da tests/a11y.spec.ts): la scritta "Motion" è un grigio più chiaro di
+ * prima (5,96 a 1 sul tema chiaro, era 4,42), e il bottone attivo ha il testo bianco
+ * sul corallo scuro (4,94 a 1, era 3,30 sul corallo dei titoli).
  */
 .toggle {
   position: fixed;
@@ -19,7 +23,7 @@
 
 .caption {
   padding: 0 8px 0 10px;
-  color: #9a9cab;
+  color: #b4b6c3;
 }
 
 .option {
@@ -39,7 +43,8 @@
 
 .active,
 .active:hover {
-  background: var(--color-coral);
+  background: var(--color-coral-deep);
+  color: #fff;
 }
 
 @media (max-width: 640px) {
