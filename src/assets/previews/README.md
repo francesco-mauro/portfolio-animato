@@ -11,7 +11,7 @@ Le anteprime delle schede dei progetti: un'immagine vera per ogni progetto, mai 
 | `memory.webp` | Gioco del Memory | la demo online, https://francesco-mauro.github.io/Memory-Game/, durante una partita, ritagliata attorno al tavolo |
 | `portfolio.webp` | Portfolio animato | la demo online di questo sito, la prima schermata |
 
-Tutte del 10 novembre 2026.
+Tutte del 10 novembre 2026, tranne `incidenti.webp`: rifatta il 12 novembre 2026 dal grafico nuovo, dopo la revisione del progetto.
 
 ## I video
 
@@ -37,9 +37,9 @@ Per il Memory prima di `scale` c'è `crop=1088:680:96:0`, lo stesso taglio dell'
 
 ## Come sono fatte
 
-- Cinque sono scatti di pagina presi con Chrome a 1280×800, tema chiaro, poi ridotti a **720×450** (16:10) e salvati in **WebP**; quelli del login e del Memory sono stati prima ritagliati a 1088×680, sempre 16:10, per avvicinare il soggetto. La sesta, `incidenti.webp`, non è uno scatto: è il grafico originale (853×549), rimpicciolito senza deformarlo e centrato su un fondo bianco di 720×450.
+- Cinque sono scatti di pagina presi con Chrome a 1280×800, tema chiaro, poi ridotti a **720×450** (16:10) e salvati in **WebP**; quelli del login e del Memory sono stati prima ritagliati a 1088×680, sempre 16:10, per avvicinare il soggetto. La sesta, `incidenti.webp`, non è uno scatto: è il grafico originale (1200×720), rimpicciolito senza deformarlo e centrato su un fondo bianco di 720×450.
 - Nella scheda l'immagine è larga circa 310 px sul computer: 720 è più del doppio, quindi resta nitida sugli schermi densi.
-- In tutto pesano circa 135 KB, e il browser le scarica solo quando la sezione Progetti si avvicina (`loading="lazy"`).
+- In tutto pesano circa 128 KB, e il browser le scarica solo quando la sezione Progetti si avvicina (`loading="lazy"`).
 - Due progetti non hanno una pagina online: per fotografarli sono stati avviati sul PC dal loro repository.
 
 ## Per rifarne una

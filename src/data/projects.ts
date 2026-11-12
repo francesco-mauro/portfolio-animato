@@ -29,13 +29,13 @@ export const projects: Project[] = [
   {
     repo: 'capston_project_final',
     title: 'Incidenti stradali in Italia',
-    summary: 'Dati ISTAT del 2024, indicatori per abitante e per km², K-Means: 1.187 comuni in tre classi di rischio.',
+    summary: 'Dati ISTAT del 2025, indicatori per abitante e per km², K-Means: 1.202 comuni in tre profili, con un punteggio di priorità.',
     stack: ['Python', 'pandas', 'K-Means', 'Power BI'],
     when: 'agosto 2026',
     tone: 'night',
     preview: {
       src: incidenti,
-      alt: 'Grafico a dispersione dei comuni divisi in tre classi di rischio: basso, medio e alto',
+      alt: 'Grafico a dispersione dei comuni divisi in tre profili: bassa incidentalità, alta incidenza e alta densità',
     },
   },
   {
