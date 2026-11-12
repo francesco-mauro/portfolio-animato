@@ -45,4 +45,14 @@ export interface ProjectPreview {
   src: string
   /** Cosa si vede, per chi non vede l'immagine. */
   alt: string
+  /** Il breve video della demo che parte col mouse sopra la scheda: solo per i progetti con una demo online. */
+  video?: PreviewVideo
+}
+
+/** Lo stesso video, 720×450 px e muto, in due formati: il browser prende il primo che sa leggere. */
+export interface PreviewVideo {
+  /** VP9: Chrome, Edge, Firefox e i Safari recenti. */
+  webm: string
+  /** H.264: per i Safari che non leggono il WebM. */
+  mp4: string
 }

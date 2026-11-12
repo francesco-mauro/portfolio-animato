@@ -7,15 +7,23 @@
  * Ogni progetto ha la sua anteprima: uno scatto vero, importato da src/assets/previews/ (da dove
  * viene ognuno è scritto nel README di quella cartella). Importarle qui fa sì che un file che
  * manca fermi la build.
- * La forma dei dati (link, demo, date, doppioni, multiplo di tre, anteprime) la controlla data.test.ts.
+ * I progetti con una demo online hanno anche un breve video della demo, che parte col mouse sopra
+ * la scheda (test: tests/animated-previews.spec.ts), in WebM e in MP4, dalla stessa cartella.
+ * La forma dei dati (link, demo, date, doppioni, multiplo di tre, anteprime, video) la controlla data.test.ts.
  */
 import type { Project } from '../types/content.ts'
 import boolzapp from '../assets/previews/boolzapp.webp'
+import boolzappMp4 from '../assets/previews/boolzapp.mp4'
+import boolzappWebm from '../assets/previews/boolzapp.webm'
 import foodie from '../assets/previews/foodie.webp'
 import incidenti from '../assets/previews/incidenti.webp'
 import login from '../assets/previews/login.webp'
 import memory from '../assets/previews/memory.webp'
+import memoryMp4 from '../assets/previews/memory.mp4'
+import memoryWebm from '../assets/previews/memory.webm'
 import portfolio from '../assets/previews/portfolio.webp'
+import portfolioMp4 from '../assets/previews/portfolio.mp4'
+import portfolioWebm from '../assets/previews/portfolio.webm'
 
 export const projects: Project[] = [
   {
@@ -64,6 +72,7 @@ export const projects: Project[] = [
     preview: {
       src: boolzapp,
       alt: 'Boolzapp: l’elenco delle chat a sinistra e una conversazione aperta a destra',
+      video: { webm: boolzappWebm, mp4: boolzappMp4 },
     },
   },
   {
@@ -77,6 +86,7 @@ export const projects: Project[] = [
     preview: {
       src: memory,
       alt: 'Il Memory durante una partita: venti carte, una scoperta e una che si sta girando',
+      video: { webm: memoryWebm, mp4: memoryMp4 },
     },
   },
   {
@@ -90,6 +100,7 @@ export const projects: Project[] = [
     preview: {
       src: portfolio,
       alt: 'La prima schermata di questo sito: il titolo corallo tra forme 3D e schede che fluttuano',
+      video: { webm: portfolioWebm, mp4: portfolioMp4 },
     },
   },
 ]

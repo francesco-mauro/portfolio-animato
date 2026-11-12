@@ -13,6 +13,26 @@ Le anteprime delle schede dei progetti: un'immagine vera per ogni progetto, mai 
 
 Tutte del 10 novembre 2026.
 
+## I video
+
+I tre progetti con una demo online hanno anche un breve video, che parte col mouse sopra la scheda (`tests/animated-previews.spec.ts`). Ognuno c'è in due formati, WebM (VP9) e MP4 (H.264), 720×450, 24 fotogrammi al secondo, senza audio.
+
+| File | Progetto | Cosa si vede | Durata |
+|---|---|---|---|
+| `boolzapp.webm`, `boolzapp.mp4` | Boolzapp | si apre la chat con Fabio, si scrive «Ciao! Stasera ci sei?», si invia e arriva la risposta «Ok» | 7 s |
+| `memory.webm`, `memory.mp4` | Gioco del Memory | sei carte girate una dopo l'altra, con una coppia trovata; ritagliato come `memory.webp` | 7 s |
+| `portfolio.webm`, `portfolio.mp4` | Portfolio animato | la prima schermata: il titolo entra, le forme fluttuano, il cursore gira per la pagina | 5,5 s |
+
+Registrati il 12 novembre 2026 dalle demo online, con la registrazione video di Playwright (Chrome a 1280×800, tema chiaro), poi tagliati e ridotti con ffmpeg:
+
+```bash
+# VP9: -crf 40, qualità buona e file piccoli. H.264: -crf 28, con faststart per partire subito.
+ffmpeg -ss INIZIO -t DURATA -i registrazione.webm -an -vf "scale=720:450:flags=lanczos,fps=24,format=yuv420p" -c:v libvpx-vp9 -b:v 0 -crf 40 -row-mt 1 nome.webm
+ffmpeg -ss INIZIO -t DURATA -i registrazione.webm -an -vf "scale=720:450:flags=lanczos,fps=24,format=yuv420p" -c:v libx264 -crf 28 -preset slow -movflags +faststart nome.mp4
+```
+
+Per il Memory prima di `scale` c'è `crop=1088:680:96:0`, lo stesso taglio dell'immagine ferma, così passando dall'immagine al video il tavolo non si sposta. Un progetto senza demo online non ha il video: lo controlla `src/data/data.test.ts`.
+
 ## Come sono fatte
 
 - Cinque sono scatti di pagina presi con Chrome a 1280×800, tema chiaro, poi ridotti a **720×450** (16:10) e salvati in **WebP**; quelli del login e del Memory sono stati prima ritagliati a 1088×680, sempre 16:10, per avvicinare il soggetto. La sesta, `incidenti.webp`, non è uno scatto: è il grafico originale (853×549), rimpicciolito senza deformarlo e centrato su un fondo bianco di 720×450.

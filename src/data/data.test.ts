@@ -59,6 +59,18 @@ describe('i progetti', () => {
     expect(allDifferent(projects.map((project) => project.preview.alt))).toBe(true)
   })
 
+  it.each(projects)('$title: ha il video dell’anteprima se e solo se ha una demo online', (project) => {
+    // Il video mostra la demo che si muove: senza demo non c'è niente da far vedere.
+    expect(Boolean(project.preview.video)).toBe(Boolean(project.demo))
+  })
+
+  it.each(projects.filter((project) => project.preview.video))('$title: il video c’è in WebM e in MP4, diversi dagli altri', (project) => {
+    expect(project.preview.video!.webm).toMatch(/\.webm$/)
+    expect(project.preview.video!.mp4).toMatch(/\.mp4$/)
+    const others = projects.filter((other) => other !== project && other.preview.video)
+    for (const other of others) expect(other.preview.video!.webm).not.toBe(project.preview.video!.webm)
+  })
+
   it.each(projects.filter((project) => project.when))('$title: la data è scritta «mese anno»', (project) => {
     expect(project.when).toMatch(new RegExp(`^(${MONTHS}) 20\\d\\d$`))
   })
