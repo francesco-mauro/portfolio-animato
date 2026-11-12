@@ -4,13 +4,18 @@
  * progetti con una demo online hanno, sopra l'immagine ferma, un breve video della demo
  * (src/assets/previews/, da dove viene ognuno è scritto nel README di quella cartella).
  * Col mouse sopra la scheda il video parte e si vede, togliendo il mouse si ferma, sparisce
- * e torna all'inizio. Otto controlli:
+ * e torna all'inizio. Nove controlli:
  *  - hanno il video solo le schede con il link «Prova la demo», ognuna con due formati
  *    (WebM per Chrome e Firefox, MP4 per Safari);
  *  - il tag è quello di un video decorativo e leggero: muto, in loop, dentro la pagina sul
  *    telefono (playsinline), nascosto ai lettori di schermo (l'immagine ha già il testo
  *    alternativo) e senza scarico anticipato (preload="none");
  *  - aprendo la pagina e scorrendo fino ai progetti nessun video viene scaricato;
+ *  - nessun video comincia con la pagina ancora bianca: nei primi due secondi ogni
+ *    fotogramma ha qualcosa da far vedere (il 12 novembre 2026 Boolzapp partiva con più
+ *    di due secondi di bianco e il portfolio con mezzo, perché la registrazione era stata
+ *    tagliata prima che la demo si caricasse). Lo misura sul WebM, l'unico formato che il
+ *    Chromium dei test in Actions sa leggere: l'MP4 nasce dallo stesso taglio;
  *  - col mouse sopra il video parte e si vede, a riposo è fermo e trasparente;
  *  - togliendo il mouse si ferma, sparisce e riparte da capo;
  *  - con Motion Off resta fermo anche col mouse sopra;
@@ -32,6 +37,43 @@ const stateOf = (video: Locator) =>
     time: el.currentTime,
     opacity: Number(getComputedStyle(el).opacity),
   }))
+
+/**
+ * Quanto è vario un fotogramma: la deviazione standard della luminosità, da 0 a 255, su
+ * una copia piccola (72×45) disegnata in un canvas. Un foglio bianco, o di un colore solo,
+ * dà circa 0; una pagina con testo e forme molto di più. Carica il video in un elemento
+ * nuovo, fuori dalla pagina, e lo porta a ogni secondo richiesto.
+ */
+const contrastAt = (page: Page, src: string, times: number[]) =>
+  page.evaluate(
+    async ({ src, times }) => {
+      const video = document.createElement('video')
+      video.muted = true
+      video.preload = 'auto'
+      video.src = src
+      await new Promise((resolve, reject) => {
+        video.onloadeddata = resolve
+        video.onerror = () => reject(new Error(`non si carica: ${src}`))
+      })
+      const canvas = document.createElement('canvas')
+      canvas.width = 72
+      canvas.height = 45
+      const context = canvas.getContext('2d', { willReadFrequently: true })!
+      const result: number[] = []
+      for (const time of times) {
+        video.currentTime = time
+        await new Promise((resolve) => (video.onseeked = resolve))
+        context.drawImage(video, 0, 0, canvas.width, canvas.height)
+        const { data } = context.getImageData(0, 0, canvas.width, canvas.height)
+        const light: number[] = []
+        for (let i = 0; i < data.length; i += 4) light.push(0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2])
+        const mean = light.reduce((a, b) => a + b, 0) / light.length
+        result.push(Math.sqrt(light.reduce((a, b) => a + (b - mean) ** 2, 0) / light.length))
+      }
+      return result
+    },
+    { src, times },
+  )
 
 /** La prima scheda con la demo, portata nello schermo, e il suo video. */
 async function firstDemoCard(page: Page) {
@@ -84,6 +126,21 @@ test.describe('col mouse, sul computer', () => {
     for (const card of await cards(page).all()) await card.scrollIntoViewIfNeeded()
     await page.waitForTimeout(500)
     expect(videoRequests).toEqual([])
+  })
+
+  test('nessun video comincia con la pagina bianca', async ({ page }) => {
+    const sources = await cards(page).locator('video source[type="video/webm"]').all()
+    expect(sources.length).toBeGreaterThan(0)
+    const times = [0, 0.5, 1, 1.5, 2]
+
+    for (const source of sources) {
+      const src = (await source.getAttribute('src'))!
+      const contrast = await contrastAt(page, src, times)
+      contrast.forEach((value, i) => {
+        // 8 su 255: sopra un foglio bianco o la pagina vuota del portfolio prima delle forme.
+        expect(value, `${src} al secondo ${times[i]}: fotogramma quasi tutto di un colore`).toBeGreaterThan(8)
+      })
+    }
   })
 
   test('col mouse sopra il video parte e si vede', async ({ page }) => {

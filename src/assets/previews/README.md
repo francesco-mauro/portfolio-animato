@@ -31,6 +31,8 @@ ffmpeg -ss INIZIO -t DURATA -i registrazione.webm -an -vf "scale=720:450:flags=l
 ffmpeg -ss INIZIO -t DURATA -i registrazione.webm -an -vf "scale=720:450:flags=lanczos,fps=24,format=yuv420p" -c:v libx264 -crf 28 -preset slow -movflags +faststart nome.mp4
 ```
 
+`INIZIO` è il momento in cui la demo è già disegnata, non l'apertura della pagina: la registrazione comincia col foglio bianco mentre il sito si carica (Boolzapp ci ha messo 4,4 secondi, il portfolio 1,5). Il 12 novembre 2026 i primi tagli partivano troppo presto e Boolzapp cominciava con più di due secondi di bianco: ora lo controlla `tests/animated-previews.spec.ts` («nessun video comincia con la pagina bianca»).
+
 Per il Memory prima di `scale` c'è `crop=1088:680:96:0`, lo stesso taglio dell'immagine ferma, così passando dall'immagine al video il tavolo non si sposta. Un progetto senza demo online non ha il video: lo controlla `src/data/data.test.ts`.
 
 ## Come sono fatte
