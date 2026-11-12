@@ -9,6 +9,7 @@
  * manca fermi la build.
  * I progetti con una demo online hanno anche un breve video della demo, che parte col mouse sopra
  * la scheda (test: tests/animated-previews.spec.ts), in WebM e in MP4, dalla stessa cartella.
+ * Gli incidenti stradali non hanno una demo: il loro video mostra le pagine della dashboard Power BI.
  * La forma dei dati (link, demo, date, doppioni, multiplo di tre, anteprime, video) la controlla data.test.ts.
  */
 import type { Project } from '../types/content.ts'
@@ -17,6 +18,8 @@ import boolzappMp4 from '../assets/previews/boolzapp.mp4'
 import boolzappWebm from '../assets/previews/boolzapp.webm'
 import foodie from '../assets/previews/foodie.webp'
 import incidenti from '../assets/previews/incidenti.webp'
+import incidentiMp4 from '../assets/previews/incidenti.mp4'
+import incidentiWebm from '../assets/previews/incidenti.webm'
 import login from '../assets/previews/login.webp'
 import memory from '../assets/previews/memory.webp'
 import memoryMp4 from '../assets/previews/memory.mp4'
@@ -35,7 +38,8 @@ export const projects: Project[] = [
     tone: 'night',
     preview: {
       src: incidenti,
-      alt: 'Grafico a dispersione dei comuni divisi in tre profili: bassa incidentalità, alta incidenza e alta densità',
+      alt: 'La dashboard Power BI del progetto: i primi dieci comuni per punteggio di priorità e il grafico dei tre profili',
+      video: { webm: incidentiWebm, mp4: incidentiMp4 },
     },
   },
   {

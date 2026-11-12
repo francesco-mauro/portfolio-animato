@@ -8,7 +8,7 @@
  * di prima: useReveal e la classe reveal, sfasata di 90 ms dalla scheda precedente.
  * In cima a ogni scheda c'è l'anteprima, uno scatto vero del progetto (src/assets/previews/,
  * test in tests/previews.spec.ts): col mouse sopra la scheda si ingrandisce un poco.
- * I progetti con una demo online hanno anche un breve video della demo, sopra l'immagine
+ * I progetti con una demo online, e quello con la dashboard Power BI, hanno anche un breve video, sopra l'immagine
  * (PreviewVideo, test in tests/animated-previews.spec.ts): parte quando il mouse entra nella
  * scheda e si ferma, torna all'inizio e sparisce quando esce. Non parte con un tocco (sul
  * telefono resta l'immagine), con Motion Off né se il sistema chiede meno movimento, e il

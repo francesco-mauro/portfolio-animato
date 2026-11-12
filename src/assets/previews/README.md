@@ -4,24 +4,25 @@ Le anteprime delle schede dei progetti: un'immagine vera per ogni progetto, mai 
 
 | File | Progetto | Da dove viene |
 |---|---|---|
-| `incidenti.webp` | Incidenti stradali in Italia | il grafico `images/cluster-rischio.png` del repository `capston_project_final`, lo stesso del suo README: intero, su fondo bianco |
+| `incidenti.webp` | Incidenti stradali in Italia | la prima pagina della dashboard Power BI del repository `capston_project_final` (`Dashboard.pbix`), fotografata dalla finestra di Power BI Desktop: l'area del report, senza i menu |
 | `login.webp` | Autenticazione in React | la pagina `/login` del progetto avviato in locale (repository `01_07_2026_myLoginTest`, cartella `myLoginTest`, `npx vite`), ritagliata attorno al modulo |
 | `foodie.webp` | Foodie Journal | la home del progetto avviato in locale (repository `proj-html-vuejs`, `npx vite`) |
 | `boolzapp.webp` | Boolzapp | la demo online, https://francesco-mauro.github.io/vue-boolzapp/ |
 | `memory.webp` | Gioco del Memory | la demo online, https://francesco-mauro.github.io/Memory-Game/, durante una partita, ritagliata attorno al tavolo |
 | `portfolio.webp` | Portfolio animato | la demo online di questo sito, la prima schermata |
 
-Tutte del 10 novembre 2026, tranne `incidenti.webp`: rifatta il 12 novembre 2026 dal grafico nuovo, dopo la revisione del progetto.
+Tutte del 10 novembre 2026, tranne `incidenti.webp`: è del 12 novembre 2026, dopo la revisione del progetto. Prima era il grafico a dispersione del README di quel repository.
 
 ## I video
 
-I tre progetti con una demo online hanno anche un breve video, che parte col mouse sopra la scheda (`tests/animated-previews.spec.ts`). Ognuno c'è in due formati, WebM (VP9) e MP4 (H.264), 720×450, 24 fotogrammi al secondo, senza audio.
+I tre progetti con una demo online, e quello con la dashboard Power BI, hanno anche un breve video, che parte col mouse sopra la scheda (`tests/animated-previews.spec.ts`). Ognuno c'è in due formati, WebM (VP9) e MP4 (H.264), 720×450, 24 fotogrammi al secondo, senza audio.
 
 | File | Progetto | Cosa si vede | Durata |
 |---|---|---|---|
 | `boolzapp.webm`, `boolzapp.mp4` | Boolzapp | si apre la chat con Fabio, si scrive «Ciao! Stasera ci sei?», si invia e arriva la risposta «Ok» | 7 s |
 | `memory.webm`, `memory.mp4` | Gioco del Memory | sei carte girate una dopo l'altra, con una coppia trovata; ritagliato come `memory.webp` | 7 s |
 | `portfolio.webm`, `portfolio.mp4` | Portfolio animato | la prima schermata: il titolo entra, le forme fluttuano, il cursore gira per la pagina | 5,5 s |
+| `incidenti.webm`, `incidenti.mp4` | Incidenti stradali in Italia | la dashboard Power BI: la panoramica, la stessa pagina con il filtro «High density» spuntato, la mappa e la pagina «Where to Invest», con una dissolvenza tra una e l'altra | 6 s |
 
 Registrati il 12 novembre 2026 dalle demo online, con la registrazione video di Playwright (Chrome a 1280×800, tema chiaro), poi tagliati e ridotti con ffmpeg:
 
@@ -33,13 +34,15 @@ ffmpeg -ss INIZIO -t DURATA -i registrazione.webm -an -vf "scale=720:450:flags=l
 
 `INIZIO` è il momento in cui la demo è già disegnata, non l'apertura della pagina: la registrazione comincia col foglio bianco mentre il sito si carica (Boolzapp ci ha messo 4,4 secondi, il portfolio 1,5). Il 12 novembre 2026 i primi tagli partivano troppo presto e Boolzapp cominciava con più di due secondi di bianco: ora lo controlla `tests/animated-previews.spec.ts` («nessun video comincia con la pagina bianca»).
 
-Per il Memory prima di `scale` c'è `crop=1088:680:96:0`, lo stesso taglio dell'immagine ferma, così passando dall'immagine al video il tavolo non si sposta. Un progetto senza demo online non ha il video: lo controlla `src/data/data.test.ts`.
+Per il Memory prima di `scale` c'è `crop=1088:680:96:0`, lo stesso taglio dell'immagine ferma, così passando dall'immagine al video il tavolo non si sposta. Un progetto senza demo online non ha il video, tranne quelli elencati in `VIDEO_WITHOUT_DEMO`: lo controlla `src/data/data.test.ts`.
+
+Il video degli incidenti stradali non è una registrazione: la dashboard non è online. È un montaggio di quattro fotografie della finestra di Power BI Desktop, ritagliate sull'area del report (1443×806), ridotte a 720×402 e centrate su un fondo bianco di 720×450. Ogni scena dura 1,8 secondi, l'ultima 1,9, con una dissolvenza di 0,4 secondi (filtro `xfade` di ffmpeg), stessi codec e stessa qualità degli altri. La prima scena è uguale a `incidenti.webp`, così passando dall'immagine al video la pagina non si sposta.
 
 ## Come sono fatte
 
-- Cinque sono scatti di pagina presi con Chrome a 1280×800, tema chiaro, poi ridotti a **720×450** (16:10) e salvati in **WebP**; quelli del login e del Memory sono stati prima ritagliati a 1088×680, sempre 16:10, per avvicinare il soggetto. La sesta, `incidenti.webp`, non è uno scatto: è il grafico originale (1200×720), rimpicciolito senza deformarlo e centrato su un fondo bianco di 720×450.
+- Cinque sono scatti di pagina presi con Chrome a 1280×800, tema chiaro, poi ridotti a **720×450** (16:10) e salvati in **WebP**; quelli del login e del Memory sono stati prima ritagliati a 1088×680, sempre 16:10, per avvicinare il soggetto. La sesta, `incidenti.webp`, è una fotografia della finestra di Power BI Desktop: l'area del report (1443×806) ridotta a 720×402 e centrata su un fondo bianco di 720×450.
 - Nella scheda l'immagine è larga circa 310 px sul computer: 720 è più del doppio, quindi resta nitida sugli schermi densi.
-- In tutto pesano circa 128 KB, e il browser le scarica solo quando la sezione Progetti si avvicina (`loading="lazy"`).
+- In tutto pesano circa 133 KB, e il browser le scarica solo quando la sezione Progetti si avvicina (`loading="lazy"`).
 - Due progetti non hanno una pagina online: per fotografarli sono stati avviati sul PC dal loro repository.
 
 ## Per rifarne una

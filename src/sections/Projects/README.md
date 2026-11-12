@@ -11,11 +11,11 @@ Le anteprime sono scatti veri dei progetti: stanno in `src/assets/previews/`, co
 
 ## Il video dell'anteprima
 
-Le tre schede con una demo online (Boolzapp, il Memory, questo sito) hanno sopra l'immagine un `<video>` di 5-7 secondi della demo che si usa. Test: `tests/animated-previews.spec.ts`.
+Le tre schede con una demo online (Boolzapp, il Memory, questo sito) hanno sopra l'immagine un `<video>` di 5-7 secondi della demo che si usa. Ce l'ha anche la scheda degli incidenti stradali, che non ha una demo: il suo video mostra le pagine della dashboard Power BI. Test: `tests/animated-previews.spec.ts`.
 
 - **Quando parte:** all'entrata del puntatore nella scheda (`onPointerEnter` sul `<li>`), solo se il puntatore è un mouse (`event.pointerType === 'mouse'`), con Motion On o X-ray e se il sistema non chiede meno movimento (`prefers-reduced-motion`). All'uscita si ferma e torna all'inizio; se Motion passa a Off mentre va, si ferma.
 - **Perché il controllo del mouse:** con un dito l'uscita arriva subito dopo il tocco, quindi il video si fermerebbe comunque; ma intanto il telefono lo avrebbe scaricato. Sul telefono resta l'immagine.
-- **Leggero:** `preload="none"`, il browser non lo scarica finché non parte; muto, in loop e `playsInline` (su iPhone non va a tutto schermo). I tre video pesano circa 250 KB in tutto, nei due formati.
+- **Leggero:** `preload="none"`, il browser non lo scarica finché non parte; muto, in loop e `playsInline` (su iPhone non va a tutto schermo). I quattro video pesano circa 640 KB in tutto, nei due formati.
 - **Due formati:** prima WebM (VP9), poi MP4 (H.264): il browser prende il primo che sa leggere. Serve anche il WebM perché il Chromium dei test in Actions non legge l'H.264.
 - **Si vede solo mentre va:** il video è trasparente finché non arriva l'evento `playing`, poi `data-playing="true"` lo accende con una dissolvenza di 0,3 secondi. Così non compare mai un riquadro nero mentre si carica.
 - **Decorativo:** `aria-hidden="true"` e `tabIndex={-1}`, perché cosa si vede lo dice già il testo alternativo dell'immagine.

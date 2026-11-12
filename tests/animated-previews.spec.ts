@@ -4,9 +4,10 @@
  * progetti con una demo online hanno, sopra l'immagine ferma, un breve video della demo
  * (src/assets/previews/, da dove viene ognuno è scritto nel README di quella cartella).
  * Col mouse sopra la scheda il video parte e si vede, togliendo il mouse si ferma, sparisce
- * e torna all'inizio. Nove controlli:
- *  - hanno il video solo le schede con il link «Prova la demo», ognuna con due formati
- *    (WebM per Chrome e Firefox, MP4 per Safari);
+ * e torna all'inizio. Dieci controlli:
+ *  - hanno il video solo le schede con il link «Prova la demo» e quella degli incidenti
+ *    stradali, che al posto della demo mostra le pagine della dashboard Power BI, ognuna
+ *    con due formati (WebM per Chrome e Firefox, MP4 per Safari);
  *  - il tag è quello di un video decorativo e leggero: muto, in loop, dentro la pagina sul
  *    telefono (playsinline), nascosto ai lettori di schermo (l'immagine ha già il testo
  *    alternativo) e senza scarico anticipato (preload="none");
@@ -17,6 +18,7 @@
  *    tagliata prima che la demo si caricasse). Lo misura sul WebM, l'unico formato che il
  *    Chromium dei test in Actions sa leggere: l'MP4 nasce dallo stesso taglio;
  *  - col mouse sopra il video parte e si vede, a riposo è fermo e trasparente;
+ *  - parte col mouse sopra anche il video della dashboard, nella scheda che non ha una demo;
  *  - togliendo il mouse si ferma, sparisce e riparte da capo;
  *  - con Motion Off resta fermo anche col mouse sopra;
  *  - resta fermo anche se il sistema chiede meno movimento, con Motion rimesso su On;
@@ -29,6 +31,9 @@ import { expect, test, type Locator, type Page } from '@playwright/test'
 
 const cards = (page: Page) => page.locator('#progetti > ul > li')
 const demoCards = (page: Page) => cards(page).filter({ has: page.getByRole('link', { name: /Prova la demo/ }) })
+/** La scheda degli incidenti stradali non ha una demo: il suo video mostra la dashboard Power BI. */
+const dashboardCard = (page: Page) => cards(page).filter({ hasText: 'Incidenti stradali in Italia' })
+const videoCards = (page: Page) => cards(page).filter({ has: page.locator('video') })
 
 /** Lo stato del video come lo vede il browser: in pausa o no, a che secondo, quanto è visibile. */
 const stateOf = (video: Locator) =>
@@ -88,12 +93,14 @@ test.describe('col mouse, sul computer', () => {
     await page.goto('/')
   })
 
-  test('hanno il video solo le schede con la demo, in WebM e in MP4', async ({ page }) => {
+  test('hanno il video solo le schede con la demo e quella con la dashboard, in WebM e in MP4', async ({ page }) => {
     const withDemo = await demoCards(page).count()
     expect(withDemo).toBeGreaterThan(0)
-    await expect(cards(page).locator('video')).toHaveCount(withDemo)
+    await expect(dashboardCard(page)).toHaveCount(1)
+    await expect(dashboardCard(page).locator('video')).toHaveCount(1)
+    await expect(cards(page).locator('video')).toHaveCount(withDemo + 1)
 
-    for (const card of await demoCards(page).all()) {
+    for (const card of await videoCards(page).all()) {
       const sources = card.locator('video source')
       await expect(sources).toHaveCount(2)
       await expect(sources.nth(0)).toHaveAttribute('type', 'video/webm')
@@ -150,6 +157,19 @@ test.describe('col mouse, sul computer', () => {
     const atRest = await stateOf(video)
     expect(atRest.paused, 'a riposo è fermo').toBe(true)
     expect(atRest.opacity, 'a riposo è trasparente').toBe(0)
+
+    await card.hover()
+    await expect.poll(async () => (await stateOf(video)).time, { timeout: 8000 }).toBeGreaterThan(0.3)
+    expect((await stateOf(video)).paused).toBe(false)
+    await expect.poll(async () => (await stateOf(video)).opacity).toBe(1)
+  })
+
+  test('col mouse sopra parte anche il video della dashboard, nella scheda senza demo', async ({ page }) => {
+    await page.getByRole('radio', { name: 'On' }).click()
+    const card = dashboardCard(page)
+    await card.scrollIntoViewIfNeeded()
+    const video = card.locator('video')
+    expect((await stateOf(video)).paused, 'a riposo è fermo').toBe(true)
 
     await card.hover()
     await expect.poll(async () => (await stateOf(video)).time, { timeout: 8000 }).toBeGreaterThan(0.3)

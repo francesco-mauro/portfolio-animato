@@ -14,6 +14,8 @@ import { stack } from './stack.ts'
 
 const GITHUB = 'https://github.com/francesco-mauro'
 const PAGES = 'https://francesco-mauro.github.io'
+/** I progetti senza demo online che hanno lo stesso un video: quello della loro dashboard. */
+const VIDEO_WITHOUT_DEMO = ['capston_project_final']
 const MONTHS = 'gennaio|febbraio|marzo|aprile|maggio|giugno|luglio|agosto|settembre|ottobre|novembre|dicembre'
 
 /** Vero se nella lista non c'è due volte la stessa voce. */
@@ -59,9 +61,11 @@ describe('i progetti', () => {
     expect(allDifferent(projects.map((project) => project.preview.alt))).toBe(true)
   })
 
-  it.each(projects)('$title: ha il video dell’anteprima se e solo se ha una demo online', (project) => {
-    // Il video mostra la demo che si muove: senza demo non c'è niente da far vedere.
-    expect(Boolean(project.preview.video)).toBe(Boolean(project.demo))
+  it.each(projects)('$title: ha il video dell’anteprima se ha una demo online, o una dashboard da far vedere', (project) => {
+    // Il video mostra la demo che si muove. Senza demo non c'è niente da far vedere, tranne che
+    // per i progetti di VIDEO_WITHOUT_DEMO: lì il video mostra le pagine della dashboard.
+    const expected = Boolean(project.demo) || VIDEO_WITHOUT_DEMO.includes(project.repo)
+    expect(Boolean(project.preview.video)).toBe(expected)
   })
 
   it.each(projects.filter((project) => project.preview.video))('$title: il video c’è in WebM e in MP4, diversi dagli altri', (project) => {
