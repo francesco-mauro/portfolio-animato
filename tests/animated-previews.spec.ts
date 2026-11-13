@@ -4,7 +4,7 @@
  * progetti con una demo online hanno, sopra l'immagine ferma, un breve video della demo
  * (src/assets/previews/, da dove viene ognuno è scritto nel README di quella cartella).
  * Col mouse sopra la scheda il video parte e si vede, togliendo il mouse si ferma, sparisce
- * e torna all'inizio. Dieci controlli:
+ * e torna all'inizio. Undici controlli:
  *  - hanno il video solo le schede con il link «Prova la demo» e quella degli incidenti
  *    stradali, che al posto della demo mostra le pagine della dashboard Power BI, ognuna
  *    con due formati (WebM per Chrome e Firefox, MP4 per Safari);
@@ -17,6 +17,11 @@
  *    di due secondi di bianco e il portfolio con mezzo, perché la registrazione era stata
  *    tagliata prima che la demo si caricasse). Lo misura sul WebM, l'unico formato che il
  *    Chromium dei test in Actions sa leggere: l'MP4 nasce dallo stesso taglio;
+ *  - il video di Boolzapp comincia con la pagina già caricata tutta: l'intestazione a
+ *    sinistra (foto, icone, fascia blu delle notifiche), che nel video non cambia mai, nel
+ *    primo fotogramma è uguale a com'è al secondo 1,5 (il 13 novembre 2026 per circa mezzo
+ *    secondo le icone erano quadratini vuoti, perché il loro carattere non era ancora
+ *    arrivato, mentre l'immagine ferma le aveva);
  *  - col mouse sopra il video parte e si vede, a riposo è fermo e trasparente;
  *  - parte col mouse sopra anche il video della dashboard, nella scheda che non ha una demo;
  *  - togliendo il mouse si ferma, sparisce e riparte da capo;
@@ -78,6 +83,46 @@ const contrastAt = (page: Page, src: string, times: number[]) =>
       return result
     },
     { src, times },
+  )
+
+/**
+ * La differenza media, da 0 a 255, tra due fotogrammi dello stesso video dentro un
+ * rettangolo (in pixel del video, 720×450): 0 vuol dire identici.
+ */
+const regionDifference = (
+  page: Page,
+  src: string,
+  [first, second]: [number, number],
+  rect: { x: number; y: number; width: number; height: number },
+) =>
+  page.evaluate(
+    async ({ src, times, rect }) => {
+      const video = document.createElement('video')
+      video.muted = true
+      video.preload = 'auto'
+      video.src = src
+      await new Promise((resolve, reject) => {
+        video.onloadeddata = resolve
+        video.onerror = () => reject(new Error(`non si carica: ${src}`))
+      })
+      const canvas = document.createElement('canvas')
+      canvas.width = video.videoWidth
+      canvas.height = video.videoHeight
+      const context = canvas.getContext('2d', { willReadFrequently: true })!
+      const frames: Uint8ClampedArray[] = []
+      for (const time of times) {
+        video.currentTime = time
+        await new Promise((resolve) => (video.onseeked = resolve))
+        context.drawImage(video, 0, 0)
+        frames.push(context.getImageData(rect.x, rect.y, rect.width, rect.height).data)
+      }
+      let total = 0
+      for (let i = 0; i < frames[0].length; i += 4) {
+        for (let c = 0; c < 3; c++) total += Math.abs(frames[0][i + c] - frames[1][i + c])
+      }
+      return total / ((frames[0].length / 4) * 3)
+    },
+    { src, times: [first, second], rect },
   )
 
 /** La prima scheda con la demo, portata nello schermo, e il suo video. */
@@ -148,6 +193,15 @@ test.describe('col mouse, sul computer', () => {
         expect(value, `${src} al secondo ${times[i]}: fotogramma quasi tutto di un colore`).toBeGreaterThan(8)
       })
     }
+  })
+
+  test('il video di Boolzapp comincia con la pagina già caricata', async ({ page }) => {
+    const card = cards(page).filter({ hasText: 'Boolzapp' })
+    const src = (await card.locator('video source[type="video/webm"]').getAttribute('src'))!
+    // L'intestazione della colonna dei contatti: foto, tre icone e la fascia blu delle notifiche.
+    const header = { x: 72, y: 10, width: 213, height: 85 }
+    // 2 su 255: sopra il rumore della compressione, sotto le icone che mancano.
+    expect(await regionDifference(page, src, [0, 1.5], header)).toBeLessThan(2)
   })
 
   test('col mouse sopra il video parte e si vede', async ({ page }) => {
