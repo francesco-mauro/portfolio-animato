@@ -26,7 +26,7 @@
  *    Motion On si accendono solo scorrendo: è un effetto voluto, e nessuno lo misura;
  *  - le parole di una sola lettera del Manifesto, troppo corte perché axe si fidi;
  *  - le frecce dei link, che sono decorazione (aria-hidden).
- * Non prova l'uso da tastiera né con un lettore di schermo.
+ * Non prova i lettori di schermo; la tastiera la prova tests/keyboard.spec.ts.
  */
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Page } from '@playwright/test'

@@ -5,6 +5,9 @@
  * (menu a pillola, interruttore del movimento e bottone del tema chiaro e scuro).
  * Ogni pezzo non decorativo sta dentro un landmark (main, nav, aside); il cursore e la
  * barra di lettura sono decorazione, nascosti ai lettori di schermo. Test: tests/a11y.spec.ts.
+ * L'ordine nel DOM è l'ordine del Tab: il link «Salta al contenuto», il menu (che sullo
+ * schermo sta in basso, ma viene prima, così il link per saltare ha qualcosa da saltare),
+ * il contenuto e in fondo le preferenze. Test: tests/keyboard.spec.ts.
  * Non contiene stile: ogni pezzo ha il suo CSS Module accanto.
  */
 import { MotionModeProvider } from './context/MotionModeContext.tsx'
@@ -24,14 +27,19 @@ export default function App() {
     <MotionModeProvider>
       <Cursor />
       <ReadingBar />
-      <main>
+      {/* Nascosto finché non ha il focus (.skip-link in global.css). tabIndex -1 su <main>
+          serve perché il salto sposti davvero il focus, non solo lo scroll */}
+      <a className="skip-link" href="#contenuto">
+        Salta al contenuto
+      </a>
+      <PillNav />
+      <main id="contenuto" tabIndex={-1}>
         <Hero />
         <Marquee />
         <Manifesto />
         <Projects />
         <Contact />
       </main>
-      <PillNav />
       {/* I due controlli fissi stanno in un landmark, come il resto della pagina: chi usa
           un lettore di schermo li trova nell'elenco delle regioni (regola "region" di axe) */}
       <aside aria-label="Preferenze di visualizzazione">

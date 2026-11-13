@@ -5,6 +5,8 @@
  *  - data-motion="off" su <html> (scelto con MotionToggle) ferma tutte le animazioni;
  *  - prefers-reduced-motion del sistema fa lo stesso, per chi lo ha attivo.
  * La classe .reveal è usata da useReveal: l'elemento entra quando arriva nello schermo.
+ * L'uso da tastiera: l'anello del focus e il link «Salta al contenuto» (test:
+ * tests/keyboard.spec.ts).
  */
 *,
 *::before,
@@ -43,6 +45,58 @@ a {
 ::selection {
   background: var(--color-coral);
   color: #fff;
+}
+
+/*
+ * L'anello del focus, solo da tastiera (:focus-visible: un click del mouse non lo mostra).
+ * Due colori: un alone chiaro attaccato all'elemento (box-shadow) e fuori un anello scuro
+ * (outline, staccato di 3 px). Su un fondo chiaro si vede quello scuro, su uno scuro quello
+ * chiaro, così l'anello si legge ovunque: pagina chiara e scura, Contatti corallo, menu,
+ * schede verdi, blu e notte. Nessun elemento che prende il focus ha già un box-shadow.
+ * Entra stringendosi da lontano con la curva Out back; Motion Off e il sistema che chiede
+ * meno movimento tolgono l'animazione (regole in fondo), l'anello resta.
+ */
+:focus-visible {
+  outline: 3px solid #1d1d1f;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 3px #fff;
+  animation: focus-ring 0.45s var(--ease-out-back);
+}
+
+@keyframes focus-ring {
+  from {
+    outline-offset: 12px;
+    outline-color: transparent;
+  }
+}
+
+/* <main> riceve il focus dal link per saltare: lì l'anello attorno a tutta la pagina non serve */
+main:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+/*
+ * Il link «Salta al contenuto»: il primo Tab della pagina. Sta sopra lo schermo finché non
+ * ha il focus, poi scende in alto a sinistra, sopra tutto (anche sopra la barra di lettura).
+ */
+.skip-link {
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  z-index: 100;
+  padding: 10px 16px;
+  border-radius: var(--radius-pill);
+  background: var(--color-night);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  translate: 0 -200%;
+  transition: translate 0.3s var(--ease-out-back);
+}
+.skip-link:focus {
+  translate: 0 0;
 }
 
 h1,
