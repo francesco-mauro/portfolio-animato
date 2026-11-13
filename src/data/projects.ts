@@ -82,14 +82,14 @@ export const projects: Project[] = [
   {
     repo: 'Memory-Game',
     title: 'Gioco del Memory',
-    summary: 'Il Memory in JavaScript senza librerie: carte mescolate, timer, mosse, vittoria.',
+    summary: 'Il Memory in JavaScript senza librerie: figure a tratto, timer, mosse, record e tastiera. Logica testata con Node.',
     stack: ['HTML', 'CSS', 'JavaScript'],
     when: 'ottobre 2024',
     demo: 'https://francesco-mauro.github.io/Memory-Game/',
     tone: 'light',
     preview: {
       src: memory,
-      alt: 'Il Memory durante una partita: venti carte, una scoperta e una che si sta girando',
+      alt: 'Il Memory durante una partita: venti carte scure, due coppie trovate con il bordo lime e una carta girata con un triangolo',
       video: { webm: memoryWebm, mp4: memoryMp4 },
     },
   },
