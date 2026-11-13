@@ -3,7 +3,7 @@
  * I cinque progetti della vetrina GitHub, nello stesso ordine del profilo, e in fondo questo sito.
  * Il gestionale documentale è uscito dalla vetrina il 7 novembre 2026 e al suo posto è entrato
  * il portfolio animato (test: tests/projects.spec.ts).
- * Fonti: i README dei repository. Le demo di Boolzapp, Memory e di questo sito sono su GitHub Pages.
+ * Fonti: i README dei repository. Le demo di Foodie Journal, Boolzapp, Memory e di questo sito sono su GitHub Pages.
  * Ogni progetto ha la sua anteprima: uno scatto vero, importato da src/assets/previews/ (da dove
  * viene ognuno è scritto nel README di quella cartella). Importarle qui fa sì che un file che
  * manca fermi la build.
@@ -17,6 +17,8 @@ import boolzapp from '../assets/previews/boolzapp.webp'
 import boolzappMp4 from '../assets/previews/boolzapp.mp4'
 import boolzappWebm from '../assets/previews/boolzapp.webm'
 import foodie from '../assets/previews/foodie.webp'
+import foodieMp4 from '../assets/previews/foodie.mp4'
+import foodieWebm from '../assets/previews/foodie.webm'
 import incidenti from '../assets/previews/incidenti.webp'
 import incidentiMp4 from '../assets/previews/incidenti.mp4'
 import incidentiWebm from '../assets/previews/incidenti.webm'
@@ -59,10 +61,12 @@ export const projects: Project[] = [
     summary: 'Replica di un tema food in Vue, progetto di gruppo: header, icone social, pagina Chi siamo.',
     stack: ['Vue.js', 'HTML', 'CSS'],
     when: 'maggio 2024',
+    demo: 'https://francesco-mauro.github.io/proj-html-vuejs/',
     tone: 'pink',
     preview: {
       src: foodie,
       alt: 'La home con il logo Avada Food: il menu, le icone social e l’articolo in evidenza sopra la foto di una ciotola con uovo e verdure',
+      video: { webm: foodieWebm, mp4: foodieMp4 },
     },
   },
   {
@@ -82,14 +86,14 @@ export const projects: Project[] = [
   {
     repo: 'Memory-Game',
     title: 'Gioco del Memory',
-    summary: 'Il Memory in JavaScript senza librerie: figure a tratto, timer, mosse, record e tastiera. Logica testata con Node.',
+    summary: 'Il Memory in JavaScript senza librerie: tre livelli, figure a tratto, timer, record e tastiera. Logica testata con Node.',
     stack: ['HTML', 'CSS', 'JavaScript'],
     when: 'ottobre 2024',
     demo: 'https://francesco-mauro.github.io/Memory-Game/',
     tone: 'light',
     preview: {
       src: memory,
-      alt: 'Il Memory durante una partita: venti carte scure, due coppie trovate con il bordo lime e una carta girata con un triangolo',
+      alt: 'Il Memory durante una partita al livello Normale: venti carte scure, due coppie trovate con il bordo lime e una carta girata con un arco',
       video: { webm: memoryWebm, mp4: memoryMp4 },
     },
   },
