@@ -5,6 +5,9 @@
 # lancia i test end-to-end con Playwright e carica la cartella dist/; "deploy" la
 # pubblica su Pages. Un test rosso, dei dati o end-to-end, ferma la pubblicazione.
 # Nelle impostazioni del repository, Pages deve avere come sorgente "GitHub Actions".
+# Le azioni sono alle versioni che girano su Node 24 (Node 20 è deprecato da GitHub), aggiornate
+# il 13 novembre 2026: lo controlla .github/workflows.test.ts, dentro npm run test:unit.
+# upload-pages-artifact dalla v4 lascia fuori i file nascosti: dist/ non ne ha.
 name: Deploy su GitHub Pages
 
 on:
@@ -25,8 +28,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: npm
@@ -36,7 +39,7 @@ jobs:
       - run: npm run build
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: dist
 
@@ -48,4 +51,4 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5

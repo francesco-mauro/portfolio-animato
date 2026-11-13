@@ -14,8 +14,8 @@ export default defineConfig(({ command }) => ({
   plugins: [react()],
   base: command === 'build' ? '/portfolio-animato/' : '/',
   test: {
-    // Solo i test accanto al codice in src/. Quelli in tests/ sono di Playwright
-    // (npm run test:e2e): hanno bisogno di un browser e Vitest non deve prenderli.
-    include: ['src/**/*.test.ts'],
+    // I test accanto al codice in src/ e quello del workflow in .github/. Quelli in tests/
+    // sono di Playwright (npm run test:e2e): hanno bisogno di un browser e Vitest non deve prenderli.
+    include: ['src/**/*.test.ts', '.github/**/*.test.ts'],
   },
 }))

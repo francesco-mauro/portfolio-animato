@@ -26,7 +26,7 @@ npm run dev        # server di sviluppo su http://localhost:5173, si aggiorna da
 npm run build      # controllo dei tipi (tsc -b) e build di produzione in dist/
 npm run preview    # serve la build di dist/ su http://localhost:4173
 npm run lint       # controlla il codice con oxlint
-npm run test:unit  # test dei dati con Vitest, senza browser (src/data/data.test.ts)
+npm run test:unit  # test dei dati e del workflow con Vitest, senza browser (src/data/data.test.ts, .github/workflows.test.ts)
 npm run test:e2e   # test end-to-end con Playwright in un browser vero (tests/)
 ```
 
@@ -65,6 +65,7 @@ sito-animato/
 ├── .gitignore                 cosa git non salva (node_modules, dist, log)
 ├── .oxlintrc.json             regole del linter oxlint (npm run lint)
 ├── .github/workflows/deploy.yml  test e pubblicazione su GitHub Pages a ogni push su main
+├── .github/workflows.test.ts     le azioni del workflow sono a versioni che girano su Node 24
 ├── public/                    file serviti così come sono (la favicon, l'immagine di anteprima del link)
 ├── docs/                      documenti: gli stili presi dal video
 ├── tests/                     test end-to-end: le animazioni controllate nel browser
@@ -96,7 +97,7 @@ Ogni cartella ha il suo `README.md` con l'elenco dei file e cosa fa ciascuno. Og
 
 ## Pubblicazione: GitHub Pages
 
-Il sito è online su https://francesco-mauro.github.io/portfolio-animato/ e si aggiorna da solo: a ogni push su `main` il workflow `.github/workflows/deploy.yml` installa le dipendenze, passa il linter, lancia i test dei dati, fa la build, lancia i test di `tests/` e pubblica `dist/` su GitHub Pages. Nella build Vite usa il percorso base `/portfolio-animato/` (in `vite.config.ts`); in sviluppo resta `/`.
+Il sito è online su https://francesco-mauro.github.io/portfolio-animato/ e si aggiorna da solo: a ogni push su `main` il workflow `.github/workflows/deploy.yml` installa le dipendenze, passa il linter, lancia i test dei dati e del workflow, fa la build, lancia i test di `tests/` e pubblica `dist/` su GitHub Pages. Le azioni del workflow girano su Node 24: un'azione nuova va aggiunta anche alla tabella di `.github/workflows.test.ts`, dopo aver controllato nel suo `action.yml` su che Node gira. Nella build Vite usa il percorso base `/portfolio-animato/` (in `vite.config.ts`); in sviluppo resta `/`.
 
 ## La storia dei commit
 
