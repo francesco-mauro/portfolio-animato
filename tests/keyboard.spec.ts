@@ -78,12 +78,24 @@ const focusedAnimations = (page: Page) =>
       .filter(Boolean),
   )
 
+/**
+ * Apre la pagina e aspetta che React l'abbia disegnata. page.goto torna quando la pagina
+ * è caricata, ma React disegna un attimo dopo: un Tab premuto in quell'attimo non trova
+ * ancora niente e il focus resta sul corpo della pagina, senza anello. Capita di rado
+ * (il 14 novembre 2026 una volta in GitHub Actions e una su 80 ripetizioni in locale),
+ * quindi senza questa attesa i test diventano rossi a caso.
+ */
+async function open(page: Page) {
+  await page.goto('/')
+  await expect(page.locator('.skip-link')).toBeAttached()
+}
+
 test.beforeEach(async ({ page }) => {
   await page.emulateMedia({ colorScheme: 'light' })
 })
 
 test('il primo Tab mostra «Salta al contenuto», e Invio porta al contenuto', async ({ page }) => {
-  await page.goto('/')
+  await open(page)
   const skip = page.getByRole('link', { name: 'Salta al contenuto' })
   await expect(skip).toBeAttached()
   // Prima del focus non si vede: fuori dallo schermo o ritagliato a niente.
@@ -101,7 +113,7 @@ test('il primo Tab mostra «Salta al contenuto», e Invio porta al contenuto', a
 
 /** Il giro completo con Tab: ordine delle fermate, nessuna dimenticata, ognuna visibile. */
 async function tabTour(page: Page) {
-  await page.goto('/')
+  await open(page)
   const expected = [
     'Salta al contenuto',
     ...(await namesIn(page, 'nav')),
@@ -133,7 +145,7 @@ test('anche sul telefono, a 390 px', async ({ page }) => {
 })
 
 test('a ogni fermata c\'è un anello a due colori ben visibile', async ({ page }) => {
-  await page.goto('/')
+  await open(page)
   const total = await stopCount(page)
   for (let i = 0; i < total; i++) {
     await page.keyboard.press('Tab')
@@ -146,13 +158,13 @@ test('a ogni fermata c\'è un anello a due colori ben visibile', async ({ page }
 })
 
 test('l\'anello entra con un\'animazione, con Motion On', async ({ page }) => {
-  await page.goto('/')
+  await open(page)
   await page.keyboard.press('Tab')
   expect(await focusedAnimations(page)).toContainEqual(expect.stringContaining('focus-ring'))
 })
 
 test('con Motion Off l\'anello c\'è ma non si anima', async ({ page }) => {
-  await page.goto('/')
+  await open(page)
   await page.getByRole('radio', { name: 'Off' }).click()
   await page.locator('body').click({ position: { x: 5, y: 5 } })
   await page.keyboard.press('Tab')
@@ -162,14 +174,14 @@ test('con Motion Off l\'anello c\'è ma non si anima', async ({ page }) => {
 
 test('col sistema che chiede meno movimento l\'anello non si anima', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
-  await page.goto('/')
+  await open(page)
   await page.keyboard.press('Tab')
   expect((await focusedRing(page)).outlineStyle).toBe('solid')
   expect(await focusedAnimations(page)).toEqual([])
 })
 
 test('con un click del mouse l\'anello non compare', async ({ page }) => {
-  await page.goto('/')
+  await open(page)
   await page.getByRole('radio', { name: 'On' }).click()
   expect((await focusedRing(page)).outlineStyle).toBe('none')
 })
