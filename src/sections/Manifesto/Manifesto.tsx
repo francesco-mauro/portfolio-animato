@@ -1,10 +1,14 @@
 /**
  * Manifesto.tsx
- * Il testo grande che si accende parola per parola mentre scorri.
- * La sezione è alta il doppio dello schermo e il testo resta fermo al centro
+ * La frase grande che si accende parola per parola mentre scorri, in cima alla sezione
+ * «Chi sono» (sections/About, che la mette prima del titolo e dei blocchi).
+ * Il blocco è alto il doppio dello schermo e il testo resta fermo al centro
  * (position: sticky): così lo scroll serve solo ad accendere le parole.
  * useScrollProgress dà l'avanzamento da 0 a 1; ogni parola si accende quando
- * l'avanzamento supera la sua posizione nella frase.
+ * l'avanzamento supera la sua posizione nella frase. Accendersi vuol dire cambiare colore,
+ * da grigio scuro a chiaro: lo fa il CSS, con una transizione.
+ * data-testid="manifesto" serve ai test (tests/manifesto.spec.ts, tests/about.spec.ts):
+ * la regione «Chi sono» ora contiene anche il resto della sezione.
  */
 import { useRef, type CSSProperties } from 'react'
 import { useScrollProgress } from '../../hooks/useScrollProgress.ts'
@@ -15,7 +19,7 @@ import { ui } from '../../data/ui.ts'
 import styles from './Manifesto.module.css'
 
 export function Manifesto() {
-  const ref = useRef<HTMLElement>(null)
+  const ref = useRef<HTMLDivElement>(null)
   const progress = useScrollProgress(ref)
   const { mode } = useMotionMode()
   const { t } = useLanguage()
@@ -24,7 +28,7 @@ export function Manifesto() {
   const words = t(profile.manifesto).split(' ')
 
   return (
-    <section ref={ref} id="chi-sono" className={styles.section} aria-label={t(ui.sections.about)}>
+    <div ref={ref} className={styles.scroller} data-testid="manifesto">
       <div className={styles.sticky}>
         <p className={styles.text} data-xray={t(ui.xray.manifesto)}>
           {words.map((word, i) => {
@@ -41,6 +45,6 @@ export function Manifesto() {
           })}
         </p>
       </div>
-    </section>
+    </div>
   )
 }

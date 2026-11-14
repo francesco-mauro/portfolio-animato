@@ -1,13 +1,14 @@
 /*
  * Manifesto.module.css
- * Stesso blu notte della fascia Marquee, così le due sezioni sembrano una sola.
+ * Il blocco della frase grande, alto due schermi. Il blu notte lo dà la sezione «Chi sono»
+ * (About.module.css), lo stesso della fascia Marquee, così sembrano una cosa sola.
  * Le parole spente sono grigio scuro (--color-dim), quelle accese diventano chiare
  * con una transizione breve. In fondo c'è un alone indaco.
  */
-.section {
+.scroller {
   position: relative;
   height: 200svh;
-  background: radial-gradient(ellipse at 50% 85%, rgb(91 92 240 / 0.22), transparent 55%), var(--color-night);
+  background: radial-gradient(ellipse at 50% 85%, rgb(91 92 240 / 0.22), transparent 55%);
 }
 
 .sticky {

@@ -50,6 +50,19 @@ export const ui = {
   projects: {
     viewOnGitHub: text('Vedi su GitHub', 'View on GitHub'),
     tryDemo: text('Prova la demo', 'Try the demo'),
+    /** Le tre parti del racconto nelle schede in evidenza (story in projects.ts). */
+    story: {
+      start: text('Il punto di partenza', 'Starting point'),
+      did: text('Cosa ho fatto', 'What I did'),
+      result: text('Cosa ne è uscito', 'What came out of it'),
+    },
+  },
+  /** I titoli dei quattro blocchi della sezione «Chi sono» (about in profile.ts). */
+  about: {
+    path: text('Percorso', 'Education'),
+    experience: text('Esperienze', 'Experience'),
+    languages: text('Lingue', 'Languages'),
+    lookingFor: text('Cosa cerco', "What I'm looking for"),
   },
   contact: {
     /** Il titolo grande, sulle sue due righe. */
@@ -67,7 +80,8 @@ export const ui = {
     buildCard: text('React · FloatingCard · tono green', 'React · FloatingCard · green tone'),
     repoCard: text('React · dati da src/data/projects.ts', 'React · data from src/data/projects.ts'),
     marquee: text('CSS · marquee · translateX(-50%) infinito', 'CSS · marquee · translateX(-50%) infinite'),
-    manifesto: text('React · useScrollProgress · opacity per parola', 'React · useScrollProgress · opacity per word'),
+    manifesto: text('React · useScrollProgress · colore per parola', 'React · useScrollProgress · colour per word'),
+    about: text('React · dati da src/data/profile.ts · griglia, due colonne da 700 px', 'React · data from src/data/profile.ts · grid, two columns from 700 px'),
     contactDisc: text('CSS · disco · @keyframes spin', 'CSS · disc · @keyframes spin'),
     shapes: {
       sphere: text('CSS · sfera · gradiente radiale', 'CSS · sphere · radial gradient'),

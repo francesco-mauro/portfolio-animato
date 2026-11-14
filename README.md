@@ -30,8 +30,8 @@ npm run test:e2e   # end-to-end tests with Playwright in a real browser (tests/)
 |---|---|---|
 | 1 | **Hero** | the title comes in word by word, five coral shapes float, three cards drift and tilt towards the mouse |
 | 2 | **Marquee** | the band with the technologies scrolls forever, even with the mouse over it |
-| 3 | **Manifesto** | the text stays still in the middle and lights up word by word as you scroll |
-| 4 | **Projects** | six cards, each with a real preview of the project that zooms in with the mouse over it. They come in one after another as you scroll, in CSS only (`animation-timeline: view()`), and tilt towards the mouse |
+| 3 | **About me** | a sentence stays still in the middle and lights up word by word as you scroll. Below it, a short paragraph and four blocks: education, experience, languages and the role I'm looking for |
+| 4 | **Projects** | six cards, each with a real preview of the project that zooms in with the mouse over it. The two featured ones at the top are larger and tell the project in three parts: the starting point, what I did, what came out of it. The other four sit below them, in a row on a wide screen. They come in one after another as you scroll, in CSS only (`animation-timeline: view()`), and tilt towards the mouse |
 | 5 | **Contact** | coral background, a disc turns in perspective |
 
 In the four project cards with an online demo, a short video of the demo starts with the mouse over it. The road accidents card has no demo and shows a video of its Power BI dashboard.
@@ -78,7 +78,7 @@ portfolio-animato/
 ## Project rules
 
 - **One component, one folder:** `Name.tsx` with `Name.module.css` next to it. Styles stay inside the folder (CSS Modules).
-- **Texts live in `src/data/`**, never inside the components, **in Italian and English** (`{ it, en }`). The interface texts are in `ui.ts`. `tests/language.spec.ts` finds any text left in one language only. `npm run test:unit` checks the links, demos, dates and duplicates of the projects. It also checks that their number stays a multiple of three: on a wide screen the grid has three columns, so a seventh project would leave two empty spots.
+- **Texts live in `src/data/`**, never inside the components, **in Italian and English** (`{ it, en }`). The interface texts are in `ui.ts`. `tests/language.spec.ts` finds any text left in one language only. `npm run test:unit` checks the links, demos, dates and duplicates of the projects. It also checks that the two featured projects come first and that the others stay a multiple of four: on a wide screen they sit in a row of four, so a fifth one would leave three empty spots.
 - **Colours live in `src/styles/tokens.css`**, never written by hand elsewhere if the variable exists.
 - **The site works with the keyboard** (`tests/keyboard.spec.ts`): the first Tab shows "Skip to content", then the menu, which ends with the preferences button, then the content, each with a two-colour focus ring that shows on any background. The menu sits at the bottom of the screen but comes first in the DOM.
 - **Accessibility is checked by axe** (`tests/a11y.spec.ts`, part of `npm run test:e2e`): the page must pass with no violations in every theme and every Motion mode. The easiest thing to break is contrast: small white text goes on the deep coral, not on the coral of the titles, where the contrast is below WCAG AA.

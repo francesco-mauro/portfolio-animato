@@ -1,0 +1,76 @@
+/*
+ * About.module.css
+ * La sezione «Chi sono»: tutta blu notte, come la fascia Marquee sopra, così frase grande,
+ * titolo e blocchi sembrano una cosa sola. Il titolo è corallo e grande come quello dei
+ * Progetti; il paragrafo è largo al massimo 760 px, per righe che si leggono bene.
+ * I quattro blocchi stanno su una colonna sul telefono e su due da 700 px in su.
+ * I titoli dei blocchi sono piccoli, in maiuscolo e corallo: sul blu notte il corallo
+ * ha un contrasto di 4,7 a 1, sopra il 4,5 che serve al testo piccolo.
+ */
+.section {
+  position: relative;
+  background: var(--color-night);
+  color: var(--color-light);
+}
+
+.content {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 40px 24px 140px;
+}
+
+.heading {
+  color: var(--color-coral);
+  font-size: clamp(48px, 8vw, 104px);
+  font-weight: 600;
+  margin: 0 0 32px;
+}
+
+.text {
+  max-width: 760px;
+  margin: 0;
+  font-size: clamp(18px, 2vw, 21px);
+  line-height: 1.6;
+}
+
+.blocks {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px 56px;
+  margin-top: 64px;
+}
+
+@media (min-width: 700px) {
+  .blocks {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.block {
+  border-top: 1px solid rgb(244 244 246 / 0.18);
+  padding-top: 18px;
+}
+
+.blockTitle {
+  margin: 0 0 14px;
+  color: var(--color-coral);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.list li,
+.line {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.5;
+}

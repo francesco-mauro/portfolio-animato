@@ -22,9 +22,25 @@ export interface Profile {
   city: Localized
   /** Frase sotto il titolo grande. */
   intro: Localized
-  /** Testo che si accende parola per parola nella sezione Manifesto. */
+  /** La frase grande che si accende parola per parola, in cima alla sezione «Chi sono». */
   manifesto: Localized
+  /** Il resto della sezione «Chi sono», sotto la frase grande. */
+  about: About
   links: ProfileLink[]
+}
+
+/** I testi della sezione «Chi sono»: un paragrafo e quattro blocchi. */
+export interface About {
+  /** Il paragrafo sotto il titolo: da dove arrivi. */
+  text: Localized
+  /** Il blocco Percorso: corsi e studi, uno per riga. */
+  path: Localized[]
+  /** Il blocco Esperienze: un lavoro per riga. */
+  experience: Localized[]
+  /** Il blocco Lingue, su una riga. */
+  languages: Localized
+  /** Il blocco Cosa cerco: il ruolo e dove. */
+  lookingFor: Localized
 }
 
 export interface ProfileLink {
@@ -32,12 +48,28 @@ export interface ProfileLink {
   href: string
 }
 
-/** Un progetto del portfolio, preso dalla vetrina GitHub. */
-export interface Project {
+/** Il racconto di un progetto in evidenza, in tre frasi. */
+export interface ProjectStory {
+  /** Il punto di partenza: cosa chiedeva il progetto. */
+  start: Localized
+  /** Cosa ho fatto. */
+  did: Localized
+  /** Cosa ne è uscito. */
+  result: Localized
+}
+
+/**
+ * Un progetto del portfolio, preso dalla vetrina GitHub. Ha una descrizione corta (summary)
+ * oppure, se è in evidenza, il racconto in tre frasi (story): mai tutti e due, e TypeScript
+ * non compila un progetto che li ha entrambi o nessuno.
+ */
+export type Project = ProjectBase &
+  ({ summary: Localized; story?: undefined } | { story: ProjectStory; summary?: undefined })
+
+interface ProjectBase {
   /** Nome del repository su GitHub, usato anche come chiave. */
   repo: string
   title: Localized
-  summary: Localized
   stack: string[]
   /** Quando è stato fatto, come scritto nei README ("aprile 2024", "April 2024"). */
   when?: Localized

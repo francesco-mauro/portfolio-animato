@@ -1,11 +1,11 @@
 # Projects/
 
-La griglia dei progetti.
+I progetti, in due griglie: in testa le due schede in evidenza, più grandi, che raccontano il progetto in tre parti; sotto le altre quattro, corte.
 
 | File | Cosa fa |
 |---|---|
-| `Projects.tsx` | `ProjectItem` per ogni progetto di `data/projects.ts`: l'anteprima in cima (`<img>` con `width` e `height`, così lo spazio è riservato, e `loading="lazy"`), con sopra il video della demo quando c'è (`PreviewVideo` e `usePreviewVideo`, vedi sotto), poi numero, data, titolo, descrizione, stack, link a GitHub e alla demo quando c'è; a ogni scheda passa `--stagger` (0, 1, 2), il suo posto nella riga quando le colonne sono tre. Tiene `useReveal` come riserva per i browser senza timeline di scroll |
-| `Projects.module.css` | griglia a colonne automatiche (minimo 300 px), schede della stessa altezza (`.cardFrame` è la cornice della FloatingCard, `.card` la scheda dentro) con i link sempre in fondo, freccia che scatta al passaggio del mouse, il riquadro dell'anteprima che si ingrandisce col mouse sopra la scheda (fermo con Motion Off), il video che copre l'immagine e si vede solo mentre va (`.video`, `data-playing`), e l'entrata delle schede con lo scroll |
+| `Projects.tsx` | `ProjectItem` per ogni progetto di `data/projects.ts`: l'anteprima in cima (`<img>` con `width` e `height`, così lo spazio è riservato, e `loading="lazy"`), con sopra il video della demo quando c'è (`PreviewVideo` e `usePreviewVideo`, vedi sotto), poi numero, data, titolo, la descrizione corta o, nelle schede in evidenza, il racconto (`Story`: il punto di partenza, cosa ho fatto, cosa ne è uscito, in un `<dl>`), stack, link a GitHub e alla demo quando c'è; a ogni scheda passa `--stagger`, il suo posto nella riga del computer (0-1 in evidenza, 0-3 sotto). Tiene `useReveal` come riserva per i browser senza timeline di scroll |
+| `Projects.module.css` | due griglie: `.featured` su due colonne da 900 px in su, `.others` su una, due da 600 px e quattro da 1100 px, con il titolo più piccolo; schede della stessa altezza (`.cardFrame` è la cornice della FloatingCard, `.card` la scheda dentro) con i link sempre in fondo, freccia che scatta al passaggio del mouse, il riquadro dell'anteprima che si ingrandisce col mouse sopra la scheda (fermo con Motion Off), il video che copre l'immagine e si vede solo mentre va (`.video`, `data-playing`), e l'entrata delle schede con lo scroll |
 
 Le anteprime sono scatti veri dei progetti: stanno in `src/assets/previews/`, con la provenienza di ognuna nel README di quella cartella. Test: `tests/previews.spec.ts`.
 
@@ -29,14 +29,14 @@ Le schede non entrano a tempo: le porta dentro lo scroll, avanti e indietro. Ogn
   .grid .item {
     animation: enter linear both;
     animation-timeline: view();
-    animation-range: entry calc(var(--stagger, 0) * 15%) entry calc(70% + var(--stagger, 0) * 15%);
+    animation-range: entry calc(var(--stagger, 0) * 10%) entry calc(70% + var(--stagger, 0) * 10%);
   }
 }
 ```
 
 - `animation-timeline: view()`: l'avanzamento dell'animazione è la posizione della scheda nello schermo, non un orologio. Nessun ascolto dello scroll in JavaScript.
 - `animation-range: entry …`: l'animazione si svolge mentre la scheda entra dal fondo dello schermo. `entry 0%` è il bordo alto sul fondo dello schermo, `entry 100%` è la scheda entrata tutta.
-- `--stagger`: vale 0, 1 o 2 (`index % 3`) e sposta il tratto del 15% per volta. Con tre colonne, sul computer, è il posto nella riga: la seconda e la terza scheda arrivano un poco dopo la prima, e la terza finisce a `entry 100%`. Con due colonne (una finestra stretta, un tablet) o una (il telefono) il numero resta quello: lo sfasamento c'è, ma non segue più la riga.
+- `--stagger`: è il posto della scheda nella sua riga sul computer, 0 o 1 tra le due in evidenza, da 0 a 3 nella riga da quattro, e sposta il tratto del 10% per volta: ogni scheda arriva un poco dopo quella alla sua sinistra, e la quarta finisce a `entry 100%`. Con meno colonne (un tablet, il telefono) il numero resta quello: lo sfasamento c'è, ma non segue più la riga.
 - `@keyframes enter` scrive solo la partenza (trasparente, 40 px più in basso, un filo più piccola): l'arrivo è la scheda com'è.
 
 Con Motion Off e con `prefers-reduced-motion` le animazioni sono spente da `styles/global.css` e le schede stanno già al loro posto, visibili. Nei browser che non hanno ancora `animation-timeline` il blocco `@supports` non vale: lì resta l'entrata con `useReveal` e la classe `.reveal`.

@@ -120,7 +120,7 @@ async function pageSays(page: Page) {
       )
       if (direct) {
         lines.add(direct)
-        if (!el.closest('#chi-sono')) pieces.add(direct)
+        if (!el.closest('[data-testid="manifesto"]')) pieces.add(direct)
       }
       const whole = clean(el.textContent)
       if (whole) lines.add(whole)

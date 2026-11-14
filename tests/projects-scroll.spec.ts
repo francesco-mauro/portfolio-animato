@@ -8,7 +8,8 @@
  *  - sotto lo schermo la scheda è trasparente, entrata tutta è piena;
  *  - ferma a metà entrata resta a metà, anche aspettando;
  *  - tornando su ridiventa trasparente;
- *  - nella stessa riga le schede entrano una dopo l'altra (a 1440 px, con tre colonne);
+ *  - nella stessa riga le schede entrano una dopo l'altra (a 1440 px, nella riga da quattro
+ *    sotto le due in evidenza);
  *  - con Motion Off si vedono subito, anche sotto lo schermo.
  * La posizione si calcola dal layout (offsetTop, offsetHeight) e non da
  * getBoundingClientRect, che conterebbe anche lo spostamento dell'animazione.
@@ -73,17 +74,19 @@ test('tornando su la scheda ridiventa trasparente', async ({ page }) => {
 })
 
 test('nella stessa riga le schede entrano una dopo l’altra', async ({ page }) => {
-  const [first, second, third] = await cards(page).all()
-  // A 1440 px la griglia ha tre colonne: le prime tre schede stanno sulla stessa riga.
-  const tops = await Promise.all([first, second, third].map((card) => card.evaluate((el) => (el as HTMLElement).offsetTop)))
+  // A 1440 px le quattro schede sotto le due in evidenza stanno sulla stessa riga.
+  const row = await page.locator('#progetti > ul').nth(1).locator(':scope > li').all()
+  expect(row).toHaveLength(4)
+  const tops = await Promise.all(row.map((card) => card.evaluate((el) => (el as HTMLElement).offsetTop)))
   expect(new Set(tops).size).toBe(1)
 
-  await enterBy(first, 0.5)
+  await enterBy(row[0], 0.5)
   await page.waitForTimeout(1500)
 
-  const [a, b, c] = await Promise.all([first, second, third].map(opacityOf))
+  const [a, b, c, d] = await Promise.all(row.map(opacityOf))
   expect(a).toBeGreaterThan(b)
   expect(b).toBeGreaterThan(c)
+  expect(c).toBeGreaterThan(d)
 })
 
 test('con Motion Off le schede si vedono subito, anche sotto lo schermo', async ({ page }) => {

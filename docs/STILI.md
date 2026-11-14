@@ -16,7 +16,7 @@ Colori, font, forme, curve e movimenti del sito, ognuno con il file del codice d
 | `--color-ink-soft` | `#6b6b70` | il testo secondario della prima schermata |
 | `--color-coral` | `#e8553d` | il titolo, le forme e il fondo dei Contatti |
 | `--color-coral-light` | `#f39a7c` | il lato in luce delle forme |
-| `--color-coral-deep` | `#c9402b` | il lato in ombra delle forme e del disco, e il fondo sotto il testo bianco piccolo (menu a pillola, pillola della città, bottone attivo di Motion): il bianco sul corallo del titolo ha un contrasto di 3,62 a 1, sotto il 4,5 a 1 di WCAG AA; qui è 4,94 a 1 |
+| `--color-coral-deep` | `#c9402b` | il lato in ombra delle forme e del disco, e il fondo sotto il testo bianco piccolo (menu a pillola, pillola della città, bottone attivo di Motion, schede di tono corallo): il bianco sul corallo del titolo ha un contrasto di 3,62 a 1, sotto il 4,5 a 1 di WCAG AA; qui è 4,94 a 1 |
 | `--color-card-green` | `#4caf6a` | la scheda verde della prima schermata |
 | `--color-card-blue` | `#3d6fe0` | il bordo della scheda bianca con la curva |
 | `--color-card-pink` | `#fbe7ef` | la scheda rosa |

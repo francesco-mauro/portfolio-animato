@@ -16,6 +16,15 @@ import { profile } from './profile.ts'
 import { projects, repoUrl } from './projects.ts'
 import { stack } from './stack.ts'
 import { fill, ui } from './ui.ts'
+import type { Localized, Project } from '../types/content.ts'
+
+/** Le schede in evidenza sono quelle che raccontano il progetto (story) invece di riassumerlo. */
+const featured = projects.filter((project) => project.story)
+const others = projects.filter((project) => !project.story)
+
+/** Le frasi che descrivono un progetto: le tre del racconto, o la descrizione corta. */
+const descriptionOf = (project: Project): Localized[] =>
+  project.story ? [project.story.start, project.story.did, project.story.result] : [project.summary]
 
 const GITHUB = 'https://github.com/francesco-mauro'
 const PAGES = 'https://francesco-mauro.github.io'
@@ -58,9 +67,21 @@ const numbersIn = (text: string) => (text.match(/\d[\d.,]*\d|\d/g) ?? []).map((n
 const placeholdersIn = (text: string) => (text.match(/\{\w+\}/g) ?? []).sort()
 
 describe('i progetti', () => {
-  it('riempiono le righe della griglia a tre colonne, senza un posto vuoto in fondo', () => {
-    expect(projects.length).toBeGreaterThan(0)
-    expect(projects.length % 3).toBe(0)
+  it('due in evidenza, in testa: gli incidenti stradali e questo sito', () => {
+    expect(featured.map((project) => project.repo)).toEqual(['capston_project_final', 'portfolio-animato'])
+    expect(projects.slice(0, featured.length)).toEqual(featured)
+  })
+
+  it('il racconto di questo sito non dice che i test fermano la pubblicazione, in nessuna lingua', () => {
+    // La pipeline che ferma la pubblicazione non l'ha costruita l'autore: la scheda racconta solo i test.
+    const site = projects.find((project) => project.repo === 'portfolio-animato')!
+    const told = descriptionOf(site).flatMap((sentence) => [sentence.it, sentence.en]).join(' ')
+    expect(told).not.toMatch(/non viene pubblicato|not published/i)
+  })
+
+  it('le altre riempiono le righe da quattro della griglia, senza un posto vuoto in fondo', () => {
+    expect(others.length).toBeGreaterThan(0)
+    expect(others.length % 4).toBe(0)
   })
 
   it('compaiono una volta sola: repository e titoli sono tutti diversi, in ogni lingua', () => {
@@ -69,11 +90,14 @@ describe('i progetti', () => {
     for (const lang of LANGS) expect(allDifferent(projects.map((project) => project.title[lang]))).toBe(true)
   })
 
-  it.each(projects)('$repo: titolo, descrizione e stack ci sono', (project) => {
+  it.each(projects)('$repo: titolo e stack ci sono, e una descrizione o un racconto, mai tutti e due', (project) => {
+    expect(Boolean(project.story) !== Boolean(project.summary), 'o la descrizione o il racconto').toBe(true)
     for (const lang of LANGS) {
       expect(project.title[lang].trim()).not.toBe('')
-      expect(project.summary[lang].trim()).not.toBe('')
-      expect(project.summary[lang].endsWith('.'), `la descrizione (${lang}) è una frase finita`).toBe(true)
+      for (const sentence of descriptionOf(project)) {
+        expect(sentence[lang].trim()).not.toBe('')
+        expect(sentence[lang].endsWith('.'), `«${sentence[lang]}» è una frase finita`).toBe(true)
+      }
     }
     expect(project.stack.length).toBeGreaterThan(0)
     expect(allDifferent(project.stack), 'nessuna tecnologia scritta due volte').toBe(true)
@@ -132,6 +156,15 @@ describe('il profilo', () => {
     expect(profile.links.length).toBeGreaterThan(0)
   })
 
+  it('ha i testi di «Chi sono»: paragrafo, percorso, esperienze, lingue e cosa cerca', () => {
+    const { text, path, experience, languages, lookingFor } = profile.about
+    expect(path.length).toBeGreaterThan(0)
+    expect(experience.length).toBeGreaterThan(0)
+    for (const item of [text, ...path, ...experience, languages, lookingFor]) {
+      for (const lang of LANGS) expect(item[lang].trim()).not.toBe('')
+    }
+  })
+
   it.each(profile.links)('$label è un indirizzo https', (link) => {
     expect(link.label.trim()).not.toBe('')
     expect(new URL(link.href).protocol).toBe('https:')
@@ -173,13 +206,15 @@ describe('le due lingue', () => {
     expect(text.en).not.toBe(text.it)
   })
 
-  it('città, frase e Manifesto del profilo sono tradotti', () => {
-    for (const text of [profile.city, profile.intro, profile.manifesto]) expect(text.en).not.toBe(text.it)
+  it('città, frase, Manifesto e testi di «Chi sono» del profilo sono tradotti', () => {
+    const { text: about, path, experience, languages, lookingFor } = profile.about
+    const texts = [profile.city, profile.intro, profile.manifesto, about, ...path, ...experience, languages, lookingFor]
+    for (const text of texts) expect(text.en).not.toBe(text.it)
   })
 
-  it.each(projects)('$repo: descrizione e testo alternativo sono tradotti', (project) => {
+  it.each(projects)('$repo: descrizione o racconto e testo alternativo sono tradotti', (project) => {
     // Il titolo no: «Boolzapp» e «Foodie Journal» sono nomi, uguali in ogni lingua.
-    expect(project.summary.en).not.toBe(project.summary.it)
+    for (const sentence of descriptionOf(project)) expect(sentence.en).not.toBe(sentence.it)
     expect(project.preview.alt.en).not.toBe(project.preview.alt.it)
   })
 

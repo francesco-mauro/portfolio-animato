@@ -1,10 +1,16 @@
 /**
  * Projects.tsx
- * La griglia dei sei progetti della vetrina GitHub. Ogni progetto è una FloatingCard
- * che entra con lo scroll e si inclina verso il mouse. L'entrata è solo CSS
- * (animation-timeline: view() in Projects.module.css, test in tests/projects-scroll.spec.ts):
- * da qui passa soltanto --stagger, il posto della scheda nella riga quando le colonne
- * sono tre, che le fa arrivare una dopo l'altra. Nei browser che non hanno ancora le timeline di scroll resta l'entrata
+ * I sei progetti della vetrina GitHub, in due liste. In testa le due schede in evidenza,
+ * più grandi e affiancate sul computer: invece della descrizione corta raccontano il
+ * progetto in tre parti (story in projects.ts: il punto di partenza, cosa ho fatto, cosa
+ * ne è uscito). Sotto le altre quattro, corte: su una riga sul computer, due per riga sul
+ * tablet, una sotto l'altra sul telefono (test in tests/projects.spec.ts). Il numero delle
+ * schede continua da una lista all'altra, da 01 a 06.
+ * Ogni progetto è una FloatingCard che entra con lo scroll e si inclina verso il mouse.
+ * L'entrata è solo CSS (animation-timeline: view() in Projects.module.css, test in
+ * tests/projects-scroll.spec.ts): da qui passa soltanto --stagger, il posto della scheda
+ * nella sua riga sul computer (0-1 in evidenza, 0-3 sotto), che le fa arrivare una dopo
+ * l'altra. Nei browser che non hanno ancora le timeline di scroll resta l'entrata
  * di prima: useReveal e la classe reveal, sfasata di 90 ms dalla scheda precedente.
  * In cima a ogni scheda c'è l'anteprima, uno scatto vero del progetto (src/assets/previews/,
  * test in tests/previews.spec.ts): col mouse sopra la scheda si ingrandisce un poco.
@@ -15,8 +21,9 @@
  * browser non lo scarica finché non parte (preload="none").
  * I dati arrivano da src/data/projects.ts: qui c'è solo la forma.
  * Se il progetto ha una demo online compare anche il link "Prova la demo".
- * Titolo, descrizione, data e testo alternativo arrivano nelle due lingue: t() di useLanguage
- * sceglie quella corrente. I testi dei link e il titolo della sezione stanno in src/data/ui.ts.
+ * Titolo, descrizione o racconto, data e testo alternativo arrivano nelle due lingue: t() di
+ * useLanguage sceglie quella corrente. I testi dei link, le tre etichette del racconto e il
+ * titolo della sezione stanno in src/data/ui.ts.
  */
 import { useEffect, useRef, useState, type CSSProperties, type PointerEvent, type RefObject } from 'react'
 import { FloatingCard } from '../../components/FloatingCard/FloatingCard.tsx'
@@ -25,7 +32,7 @@ import { useReveal } from '../../hooks/useReveal.ts'
 import { useLanguage } from '../../hooks/useLanguage.ts'
 import { projects, repoUrl } from '../../data/projects.ts'
 import { ui } from '../../data/ui.ts'
-import type { PreviewVideo as PreviewVideoSources, Project } from '../../types/content.ts'
+import type { PreviewVideo as PreviewVideoSources, Project, ProjectStory } from '../../types/content.ts'
 import styles from './Projects.module.css'
 
 /**
@@ -98,7 +105,32 @@ function usePreviewVideo() {
   return { videoRef, playing, onPlaying: () => setPlaying(true), onPause: () => setPlaying(false), start, stop }
 }
 
-function ProjectItem({ project, index }: { project: Project; index: number }) {
+/** Il racconto di una scheda in evidenza: tre etichette, ognuna con la sua frase. */
+function Story({ story }: { story: ProjectStory }) {
+  const { t } = useLanguage()
+  const parts = [
+    [ui.projects.story.start, story.start],
+    [ui.projects.story.did, story.did],
+    [ui.projects.story.result, story.result],
+  ] as const
+
+  return (
+    <dl className={styles.story}>
+      {parts.map(([label, sentence]) => (
+        <div key={label.it}>
+          <dt>{t(label)}</dt>
+          <dd>{t(sentence)}</dd>
+        </div>
+      ))}
+    </dl>
+  )
+}
+
+/**
+ * Una scheda. index è il suo posto in tutta la vetrina (dà il numero, da 01 a 06);
+ * column il suo posto nella riga sul computer, per --stagger.
+ */
+function ProjectItem({ project, index, column }: { project: Project; index: number; column: number }) {
   const ref = useRef<HTMLLIElement>(null)
   // Riserva per i browser senza animation-timeline: dove c'è, il CSS non guarda questa classe.
   useReveal(ref)
@@ -106,8 +138,8 @@ function ProjectItem({ project, index }: { project: Project; index: number }) {
   const video = usePreviewVideo()
   const sources = project.preview.video
 
-  // --stagger: 0, 1, 2 da sinistra a destra nella griglia a tre colonne del computer.
-  const style = { '--reveal-delay': `${index * 90}ms`, '--stagger': index % 3 } as CSSProperties
+  // --stagger: il posto nella riga del computer, da sinistra a destra.
+  const style = { '--reveal-delay': `${index * 90}ms`, '--stagger': column } as CSSProperties
 
   return (
     <li
@@ -141,7 +173,7 @@ function ProjectItem({ project, index }: { project: Project; index: number }) {
           {project.when && <span className={styles.when}>{t(project.when)}</span>}
         </div>
         <h3 className={styles.title}>{t(project.title)}</h3>
-        <p className={styles.summary}>{t(project.summary)}</p>
+        {project.story ? <Story story={project.story} /> : <p className={styles.summary}>{t(project.summary)}</p>}
         <ul className={styles.stack}>
           {project.stack.map((tech) => (
             <li key={tech}>{tech}</li>
@@ -166,15 +198,24 @@ export function Projects() {
   const headingRef = useRef<HTMLHeadingElement>(null)
   useReveal(headingRef)
   const { t } = useLanguage()
+  // In projects.ts quelle in evidenza vengono prima (lo controlla data.test.ts): il numero
+  // delle altre riparte da dove finiscono.
+  const featured = projects.filter((project) => project.story)
+  const others = projects.filter((project) => !project.story)
 
   return (
     <section id="progetti" className={styles.section}>
       <h2 ref={headingRef} className={`reveal ${styles.heading}`}>
         {t(ui.sections.projects)}
       </h2>
-      <ul className={styles.grid}>
-        {projects.map((project, index) => (
-          <ProjectItem key={project.repo} project={project} index={index} />
+      <ul className={`${styles.grid} ${styles.featured}`}>
+        {featured.map((project, index) => (
+          <ProjectItem key={project.repo} project={project} index={index} column={index % 2} />
+        ))}
+      </ul>
+      <ul className={`${styles.grid} ${styles.others}`}>
+        {others.map((project, index) => (
+          <ProjectItem key={project.repo} project={project} index={featured.length + index} column={index % 4} />
         ))}
       </ul>
     </section>

@@ -1,6 +1,7 @@
 /**
  * projects.ts
- * I cinque progetti della vetrina GitHub, nello stesso ordine del profilo, e in fondo questo sito.
+ * I cinque progetti della vetrina GitHub più questo sito. In testa i due in evidenza, gli incidenti
+ * stradali e questo sito; poi gli altri quattro nell'ordine del profilo.
  * Il gestionale documentale è uscito dalla vetrina il 7 novembre 2026 e al suo posto è entrato
  * il portfolio animato (test: tests/projects.spec.ts).
  * Fonti: i README dei repository. Le demo di Foodie Journal, Boolzapp, Memory e di questo sito sono su GitHub Pages.
@@ -10,7 +11,11 @@
  * I progetti con una demo online hanno anche un breve video della demo, che parte col mouse sopra
  * la scheda (test: tests/animated-previews.spec.ts), in WebM e in MP4, dalla stessa cartella.
  * Gli incidenti stradali non hanno una demo: il loro video mostra le pagine della dashboard Power BI.
- * La forma dei dati (link, demo, date, doppioni, multiplo di tre, anteprime, video) la controlla data.test.ts.
+ * La forma dei dati (link, demo, date, doppioni, le due in evidenza in testa e le altre a gruppi di quattro,
+ * anteprime, video) la controlla data.test.ts.
+ * Le due schede in evidenza, gli incidenti stradali e questo sito, hanno il racconto in tre frasi (story)
+ * al posto della descrizione corta (summary). Il numero dei test end-to-end nel racconto del sito va
+ * rifatto quando se ne aggiungono: npx playwright test --list.
  * Titolo, descrizione, data e testo alternativo hanno l'italiano e l'inglese ({ it, en }): data.test.ts
  * controlla anche che l'inglese ci sia ovunque e che numeri e date siano gli stessi dell'italiano.
  * I titoli che sono nomi («Boolzapp», «Foodie Journal») sono uguali nelle due lingue.
@@ -39,9 +44,19 @@ export const projects: Project[] = [
   {
     repo: 'capston_project_final',
     title: { it: 'Incidenti stradali in Italia', en: 'Road accidents in Italy' },
-    summary: {
-      it: 'Dati ISTAT del 2025, indicatori per abitante e per km², K-Means: 1.202 comuni in tre profili, con un punteggio di priorità.',
-      en: 'ISTAT data from 2025, indicators per inhabitant and per km², K-Means: 1,202 municipalities in three profiles, with a priority score.',
+    story: {
+      start: {
+        it: 'Il progetto finale del master in Data Analytics chiedeva in quali comuni investire in sicurezza stradale.',
+        en: 'The final project of my Data Analytics Master program asked where in Italy to invest in road safety.',
+      },
+      did: {
+        it: 'Ho unito i dati ISTAT a popolazione e superficie, calcolato gli incidenti per 100.000 abitanti e per km² e diviso con K-Means i 1.202 comuni sopra i 10.000 abitanti in tre profili: bassa incidentalità, alta incidenza, alta densità.',
+        en: 'I joined accident data from ISTAT, the national statistics institute, with population and area, worked out accidents per 100,000 residents and per km², and split the 1,202 municipalities above 10,000 residents into three K-Means profiles: Low, High incidence and High density.',
+      },
+      result: {
+        it: 'Un punteggio di priorità da 0 a 100, calcolato sulla media 2023-2025, e una dashboard Power BI a tre pagine. In testa alla classifica Bergamo, Firenze e Genova.',
+        en: 'A priority score from 0 to 100, based on the 2023-2025 average, and a three-page Power BI dashboard. Top of the ranking: Bergamo, Firenze and Genova.',
+      },
     },
     stack: ['Python', 'pandas', 'K-Means', 'Power BI'],
     when: { it: 'agosto 2026', en: 'August 2026' },
@@ -53,6 +68,36 @@ export const projects: Project[] = [
         en: 'The Power BI dashboard of the project: the top ten municipalities by priority score and the chart of the three profiles',
       },
       video: { webm: incidentiWebm, mp4: incidentiMp4 },
+    },
+  },
+  {
+    repo: 'portfolio-animato',
+    title: { it: 'Portfolio animato', en: 'Animated portfolio' },
+    story: {
+      start: {
+        it: 'Animare questo sito senza librerie di animazione.',
+        en: 'Animating this site with no animation library.',
+      },
+      did: {
+        it: 'Questo sito, in React, TypeScript e Vite. Forme 3D e schede che fluttuano sono in CSS, il testo che si accende allo scroll lo guida TypeScript. Nella vista X-ray ogni pezzo dice come è fatto, per esempio «CSS · sfera · gradiente radiale».',
+        en: 'This site, in React, TypeScript and Vite. The 3D shapes and floating cards are CSS, and TypeScript drives the text that lights up on scroll. In the X-ray view every piece says how it is made, for example "CSS · sphere · radial gradient".',
+      },
+      result: {
+        it: 'Due lingue, uso da tastiera, nessuna violazione axe. I 131 test end-to-end con Playwright girano a ogni push.',
+        en: 'Two languages, keyboard support, no axe violations. The 131 end-to-end Playwright tests run on every push.',
+      },
+    },
+    stack: ['React', 'TypeScript', 'Vite', 'Playwright'],
+    when: { it: 'novembre 2026', en: 'November 2026' },
+    demo: 'https://francesco-mauro.github.io/portfolio-animato/',
+    tone: 'coral',
+    preview: {
+      src: portfolio,
+      alt: {
+        it: 'La prima schermata di questo sito: il titolo corallo tra forme 3D e schede che fluttuano',
+        en: 'The first screen of this site: the coral title among 3D shapes and floating cards',
+      },
+      video: { webm: portfolioWebm, mp4: portfolioMp4 },
     },
   },
   {
@@ -76,8 +121,8 @@ export const projects: Project[] = [
     repo: 'proj-html-vuejs',
     title: { it: 'Foodie Journal', en: 'Foodie Journal' },
     summary: {
-      it: 'Replica di un tema food in Vue, progetto di gruppo: header, icone social, pagina Chi siamo.',
-      en: 'A food theme replica in Vue, a group project: header, social icons, About Us page.',
+      it: 'Replica del tema Avada Food in Vue, in un gruppo di tre. La mia parte: l’header, le icone social, la pagina Chi siamo e gli effetti al passaggio del mouse in home.',
+      en: 'A replica of the Avada Food theme in Vue, built by a team of three. I did the header, the social icons, the About Us page and the hover effects on the home page.',
     },
     stack: ['Vue.js', 'HTML', 'CSS'],
     when: { it: 'maggio 2024', en: 'May 2024' },
@@ -127,26 +172,6 @@ export const projects: Project[] = [
         en: 'Memory during a game on the "Normale" level: twenty dark cards, two matched pairs with a lime border and one flipped card showing an arc',
       },
       video: { webm: memoryWebm, mp4: memoryMp4 },
-    },
-  },
-  {
-    repo: 'portfolio-animato',
-    title: { it: 'Portfolio animato', en: 'Animated portfolio' },
-    summary: {
-      it: 'Questo sito: forme 3D in CSS, cursore che insegue, testo che si accende allo scroll, vista X-ray. Test con Playwright.',
-      en: 'This site: 3D shapes in CSS, a cursor that follows you, text that lights up on scroll, X-ray view. Tested with Playwright.',
-    },
-    stack: ['React', 'TypeScript', 'Vite', 'Playwright'],
-    when: { it: 'novembre 2026', en: 'November 2026' },
-    demo: 'https://francesco-mauro.github.io/portfolio-animato/',
-    tone: 'coral',
-    preview: {
-      src: portfolio,
-      alt: {
-        it: 'La prima schermata di questo sito: il titolo corallo tra forme 3D e schede che fluttuano',
-        en: 'The first screen of this site: the coral title among 3D shapes and floating cards',
-      },
-      video: { webm: portfolioWebm, mp4: portfolioMp4 },
     },
   },
 ]

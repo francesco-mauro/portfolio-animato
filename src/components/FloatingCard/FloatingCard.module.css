@@ -3,6 +3,8 @@
  * La scheda ruota in 3D con le variabili --tilt-x e --tilt-y di usePointerTilt;
  * un riflesso chiaro (::before) segue il mouse con --glow-x e --glow-y.
  * Sei toni: corallo, verde, bianco con il bordo blu, rosa con il bordo bianco, notte, bianco.
+ * Il corallo delle schede è quello scuro (--color-coral-deep): sopra c'è testo bianco piccolo,
+ * che sul corallo del titolo avrebbe un contrasto di 3,62 a 1, sotto il 4,5 di WCAG AA.
  * .frame è la cornice piatta intorno: posto, galleggiare ed etichetta X-ray, che così
  * non si inclina con la scheda.
  */
@@ -41,7 +43,7 @@
 }
 
 .coral {
-  background: var(--color-coral);
+  background: var(--color-coral-deep);
   color: #fff;
 }
 .green {

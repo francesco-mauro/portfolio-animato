@@ -1,19 +1,21 @@
 /**
  * manifesto.spec.ts
- * Test del Manifesto (sections/Manifesto, la sezione «Chi sono»): il testo grande che si
- * accende parola per parola mentre scorri. È l'effetto più delicato della pagina, perché
- * dipende dal calcolo dello scroll (hooks/useScrollProgress), dall'altezza della sezione
- * e dal CSS: se uno dei tre cambia, le parole restano spente o si accendono tutte insieme.
- * Si controlla che con l'inizio della sezione a metà schermo le parole siano spente, che
+ * Test del Manifesto (sections/Manifesto, in cima alla sezione «Chi sono»): il testo grande
+ * che si accende parola per parola mentre scorri. È l'effetto più delicato della pagina,
+ * perché dipende dal calcolo dello scroll (hooks/useScrollProgress), dall'altezza del suo
+ * blocco e dal CSS: se uno dei tre cambia, le parole restano spente o si accendono tutte insieme.
+ * Si controlla che con l'inizio del blocco a metà schermo le parole siano spente, che
  * in fondo siano tutte accese e che con Motion Off siano accese subito, senza scorrere.
  * Accesa o spenta si legge dal colore, quello che vede chi guarda la pagina.
+ * Il blocco si trova da data-testid="manifesto": il resto della sezione, sotto, è il
+ * paragrafo con i quattro blocchi (tests/about.spec.ts).
  */
 import { expect, test, type Page } from '@playwright/test'
 import { setMotion } from './preferences.ts'
 
 const LIT = 'rgb(244, 244, 246)' // --color-light, parola accesa
 
-const section = (page: Page) => page.getByRole('region', { name: 'Chi sono' })
+const section = (page: Page) => page.getByTestId('manifesto')
 
 /** Quante parole sono accese e quante sono in tutto. */
 const litCount = (page: Page) =>

@@ -22,7 +22,7 @@ import { PillNav } from './components/PillNav/PillNav.tsx'
 import { ReadingBar } from './components/ReadingBar/ReadingBar.tsx'
 import { Hero } from './sections/Hero/Hero.tsx'
 import { Marquee } from './sections/Marquee/Marquee.tsx'
-import { Manifesto } from './sections/Manifesto/Manifesto.tsx'
+import { About } from './sections/About/About.tsx'
 import { Projects } from './sections/Projects/Projects.tsx'
 import { Contact } from './sections/Contact/Contact.tsx'
 
@@ -42,7 +42,7 @@ function Page() {
       <main id="contenuto" tabIndex={-1}>
         <Hero />
         <Marquee />
-        <Manifesto />
+        <About />
         <Projects />
         <Contact />
       </main>

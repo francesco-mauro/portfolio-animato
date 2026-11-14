@@ -1,8 +1,11 @@
 /*
  * Projects.module.css
- * Griglia a colonne automatiche (minimo 300px per scheda): tre colonne su desktop,
- * una sul telefono. Le schede hanno tutte la stessa altezza nella stessa riga e i
- * link (GitHub e, se c'è, la demo) stanno sempre in fondo (flex column + margin-top: auto).
+ * Due griglie. In testa .featured, le due schede in evidenza: affiancate da 900 px in su,
+ * una sotto l'altra sotto i 900. Sotto .others, le altre quattro: una colonna sul telefono,
+ * due da 600 px, quattro da 1100 px, con titolo e testo più piccoli perché la scheda è stretta.
+ * Le schede hanno tutte la stessa altezza nella stessa riga e i link (GitHub e, se c'è, la
+ * demo) stanno sempre in fondo (flex column + margin-top: auto).
+ * Nelle schede in evidenza il racconto (.story) ha tre etichette piccole, ognuna sopra la sua frase.
  * Le schede entrano con lo scroll, solo CSS: il blocco @supports sotto .item.
  * Nelle schede con la demo il video dell'anteprima (.video) sta sopra l'immagine,
  * trasparente finché non va: lo accende e lo spegne Projects.tsx.
@@ -22,11 +25,33 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   gap: 26px;
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+.featured {
+  margin-bottom: 26px;
+}
+
+@media (min-width: 900px) {
+  .featured {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 600px) {
+  .others {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1100px) {
+  .others {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 }
 
 .item {
@@ -37,9 +62,9 @@
  * Entrata con lo scroll, solo CSS. Ogni scheda ha una timeline sua, legata a quanto è
  * entrata nello schermo (animation-timeline: view()): l'animazione non va a tempo, la
  * porta avanti e indietro lo scroll. animation-range dice in quale tratto dell'entrata
- * si svolge; --stagger (0, 1, 2, da Projects.tsx) lo sposta più avanti. Con tre colonne,
- * sul computer, è il posto nella riga: le schede di una riga arrivano una dopo l'altra.
- * Con due colonne o una il numero resta quello: lo sfasamento c'è, ma non segue la riga.
+ * si svolge; --stagger (da Projects.tsx: 0-1 in evidenza, 0-3 sotto) lo sposta più avanti
+ * del 10% per volta. Sul computer è il posto nella riga: le schede di una riga arrivano una
+ * dopo l'altra. Con meno colonne il numero resta quello: lo sfasamento c'è, ma non segue la riga.
  * Senza animazione la scheda è al suo posto e visibile: è quello che resta con Motion Off
  * e con prefers-reduced-motion, che spengono tutte le animazioni (global.css).
  * .grid .item batte .reveal di global.css, che terrebbe la scheda trasparente; nei
@@ -53,7 +78,7 @@
     transition: none;
     animation: enter linear both;
     animation-timeline: view();
-    animation-range: entry calc(var(--stagger, 0) * 15%) entry calc(70% + var(--stagger, 0) * 15%);
+    animation-range: entry calc(var(--stagger, 0) * 10%) entry calc(70% + var(--stagger, 0) * 10%);
   }
 }
 
@@ -138,11 +163,11 @@
   }
 }
 
+/* Numero e data senza trasparenza: a 13 px, sul corallo scuro, un bianco più tenue scenderebbe sotto 4,5 a 1 */
 .top {
   display: flex;
   justify-content: space-between;
   font-size: 13px;
-  opacity: 0.75;
 }
 
 .number {
@@ -160,6 +185,36 @@
   font-size: 15px;
   line-height: 1.5;
   opacity: 0.85;
+}
+
+/* Le schede strette della riga da quattro: titolo più piccolo, così non va a capo tre volte */
+.others .title {
+  font-size: 24px;
+}
+
+/*
+ * Il racconto delle schede in evidenza: etichetta piccola sopra, frase sotto. L'etichetta
+ * si distingue per maiuscolo e spaziatura, non per trasparenza: a 12 px, sul corallo
+ * scuro, un bianco più tenue scenderebbe sotto il contrasto che serve.
+ */
+.story {
+  display: grid;
+  gap: 14px;
+  margin: 0 0 20px;
+}
+
+.story dt {
+  margin-bottom: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.story dd {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
 }
 
 .stack {
