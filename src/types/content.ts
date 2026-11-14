@@ -43,7 +43,7 @@ export interface Project {
   when?: Localized
   /** Link alla demo online, se c'è (GitHub Pages). */
   demo?: string
-  /** Colore della scheda: uno dei toni presi dalle schede del video. */
+  /** Colore della scheda: uno dei toni di components/FloatingCard. */
   tone: 'coral' | 'green' | 'blue' | 'pink' | 'night' | 'light'
   /** L'immagine in cima alla scheda: uno scatto vero del progetto, da src/assets/previews/. */
   preview: ProjectPreview

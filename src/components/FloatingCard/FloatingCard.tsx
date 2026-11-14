@@ -1,7 +1,6 @@
 /**
  * FloatingCard.tsx
- * La scheda arrotondata che fluttua e si inclina verso il mouse, come le schede
- * "Render", "Ease" e "Shared a scene" del sito "Kinetic" (14:15). Serve sia nel Hero
+ * La scheda arrotondata che fluttua e si inclina verso il mouse. Serve sia nel Hero
  * (schede piccole sparse intorno al titolo) sia nella sezione Progetti (schede grandi).
  *
  * Due elementi: fuori una cornice piatta, che sta al suo posto, galleggia e porta

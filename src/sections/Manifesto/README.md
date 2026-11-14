@@ -1,6 +1,6 @@
 # Manifesto/
 
-Il testo che si accende allo scroll, sul modello di "Ridgeline" (15:48-15:50).
+Il testo che si accende allo scroll.
 
 | File | Cosa fa |
 |---|---|

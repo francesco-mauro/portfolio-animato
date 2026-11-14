@@ -1,6 +1,6 @@
 # Contact/
 
-La chiusura, sul modello della schermata corallo di "Kinetic" (14:26).
+La chiusura, a tutto corallo.
 
 | File | Cosa fa |
 |---|---|

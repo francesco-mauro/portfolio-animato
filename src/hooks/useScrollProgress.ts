@@ -2,8 +2,8 @@
  * useScrollProgress.ts
  * Dice quanto di una sezione è già passato sotto gli occhi, da 0 a 1:
  * 0 quando il suo inizio arriva a metà schermo, 1 quando la sua fine tocca il
- * fondo dello schermo. Serve al Manifesto per accendere le parole una dopo l'altra,
- * come il testo del sito "Ridgeline" che si illumina mentre scorri (15:50).
+ * fondo dello schermo. Serve al Manifesto per accendere le parole una dopo l'altra
+ * mentre scorri.
  * Ascolta lo scroll una volta per fotogramma (requestAnimationFrame), non di più.
  *
  * @param ref l'elemento di cui misurare l'avanzamento

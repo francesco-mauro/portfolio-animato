@@ -1,110 +1,98 @@
-# Sito animato · portfolio di Francesco Mauro
+# Animated portfolio · Francesco Mauro
 
-Una pagina portfolio animata, costruita con **React + TypeScript + Vite**. Lo stile ricalca i siti mostrati nel video di Jack Roberts "Anthropic Just Shipped Claude Office" (minuti 14:07-16:26): le forme 3D corallo e le schede che fluttuano del sito "Kinetic", il testo che si accende allo scroll e la fascia di loghi del sito "Ridgeline", l'interruttore Motion · Off · On · X-ray. Le animazioni sono quasi tutte CSS, come dice il video; TypeScript serve solo per il cursore, lo scroll e l'inclinazione delle schede.
+![The first screen of the portfolio: the title, coral shapes and floating cards](docs/screenshot.png)
 
 **Demo:** https://francesco-mauro.github.io/portfolio-animato/
 
-I testi (progetti, stack, formazione) vengono dal mio CV e dai README dei miei repository: le fonti sono scritte in testa a ogni file di `src/data/`.
+**Code comments and folder READMEs:** in Italian.
 
-## Contenuti
-- Avviarlo
-- Cosa si vede: le cinque sezioni
-- Le tre modalità di movimento
-- La struttura: ogni cartella e ogni file
-- Regole del progetto
-- Pubblicazione: GitHub Pages
-- La storia dei commit
-- Documenti
+An animated portfolio page, built with **React + TypeScript + Vite** and no animation library. The look is a mix of styles I liked around the internet: coral 3D shapes and floating cards, a band of technologies that scrolls forever, text that lights up as you scroll, and a Motion switch with Off, On and X-ray. Almost all the animations are CSS. TypeScript drives the cursor, the card tilt, the reveals on scroll, the Manifesto text and the theme change.
 
-## Avviarlo
+The texts come from my CV, my LinkedIn profile and the READMEs of my GitHub repositories, with the sources at the top of `profile.ts`, `projects.ts` and `stack.ts` in `src/data/`.
 
-Serve Node.js 20 o più recente (provato con Node 24).
+## Getting started
+
+You need Node.js 20.19+ or 22.12+, as required by Vite 8. Tested with Node 24.
 
 ```bash
-npm install        # una volta sola, scarica le dipendenze
-npm run dev        # server di sviluppo su http://localhost:5173, si aggiorna da solo
-npm run build      # controllo dei tipi (tsc -b) e build di produzione in dist/
-npm run preview    # serve la build di dist/ su http://localhost:4173
-npm run lint       # controlla il codice con oxlint
-npm run test:unit  # test dei dati e del workflow con Vitest, senza browser (src/data/data.test.ts, .github/workflows.test.ts)
-npm run test:e2e   # test end-to-end con Playwright in un browser vero (tests/)
+npm install        # once, downloads the dependencies
+npm run dev        # development server on http://localhost:5173
+npm run build      # type check (tsc -b) and production build in dist/
+npm run preview    # serves the build in dist/ on http://localhost:4173
+npm run lint       # checks the code with oxlint
+npm run test:unit  # data and workflow tests with Vitest, no browser
+npm run test:e2e   # end-to-end tests with Playwright in a real browser (tests/)
 ```
 
-## Cosa si vede
+## What you see
 
-| # | Sezione | Ispirata a | Cosa si muove |
-|---|---|---|---|
-| 1 | **Hero** | sito "Kinetic", 14:15 | il titolo entra parola per parola, cinque forme corallo galleggiano, tre schede fluttuano e si inclinano verso il mouse |
-| 2 | **Marquee** | sito "Ridgeline", 15:48 | la fascia con le tecnologie scorre all'infinito, anche con il mouse sopra |
-| 3 | **Manifesto** | sito "Ridgeline", 15:48-15:50 | il testo resta fermo al centro e si accende parola per parola mentre scorri |
-| 4 | **Progetti** | schede di "Kinetic", 14:15 | sei schede, ognuna con l'anteprima vera del progetto che si ingrandisce col mouse sopra (e, nelle tre con la demo online, un breve video della demo che parte col mouse sopra), entrano una dopo l'altra seguendo lo scroll, solo in CSS (`animation-timeline: view()`), e si inclinano verso il mouse |
-| 5 | **Contatti** | schermata "One app for all your motion", 14:26 | fondo corallo, un disco ruota in prospettiva |
+| # | Section | What moves |
+|---|---|---|
+| 1 | **Hero** | the title comes in word by word, five coral shapes float, three cards drift and tilt towards the mouse |
+| 2 | **Marquee** | the band with the technologies scrolls forever, even with the mouse over it |
+| 3 | **Manifesto** | the text stays still in the middle and lights up word by word as you scroll |
+| 4 | **Projects** | six cards, each with a real preview of the project that zooms in with the mouse over it. They come in one after another as you scroll, in CSS only (`animation-timeline: view()`), and tilt towards the mouse |
+| 5 | **Contact** | coral background, a disc turns in perspective |
 
-Sempre presenti: il **cursore** (punto più anello che lo insegue, 14:32), il **menu a pillola** in basso al centro, che è l'unico oggetto fisso in basso: il suo ultimo bottone apre il **pannello delle preferenze**, con lingua, tema e Motion (prima erano tre blocchi in basso a destra, che sul telefono coprivano il contenuto). Il **tema chiaro e scuro** parte dal tema del sistema, ricorda la scelta e anima il passaggio con le View Transitions. In cima, la **barra di lettura**: una riga indaco che si riempie mentre la pagina scorre, solo in CSS (`animation-timeline: scroll()`).
+In the four project cards with an online demo, a short video of the demo starts with the mouse over it. The road accidents card has no demo and shows a video of its Power BI dashboard.
 
-Il sito è in **italiano e in inglese**: nel pannello delle preferenze c'è l'interruttore **IT · EN**. Parte nella lingua del browser (italiano se il browser è in italiano, inglese per tutti gli altri), ricorda la scelta e cambia ogni testo della pagina, anche quelli per i lettori di schermo e le etichette della vista X-ray. La descrizione della pagina e l'anteprima del link (Open Graph) restano in italiano: chi prepara l'anteprima di un link (LinkedIn, WhatsApp, Telegram) non esegue JavaScript.
+Always there: the **cursor** (a dot plus a ring that follows it), and the **pill menu** at the bottom centre. Its last button opens the **preferences panel**, with language, theme and Motion. The **light and dark theme** starts from the system theme, remembers the choice and animates the change with View Transitions. At the top, the **reading bar**: an indigo line that fills up as the page scrolls, in CSS only (`animation-timeline: scroll()`).
 
-## Le tre modalità di movimento
+The site is in **Italian and English**: the preferences panel has an **IT · EN** switch. It starts in the browser's language (Italian if the browser is in Italian, English for everyone else), remembers the choice and changes the texts on the page, including the ones for screen readers and the X-ray labels. Only the page description and the link preview (Open Graph) stay in Italian: LinkedIn, WhatsApp and Telegram build previews without running JavaScript.
 
-- **On**: tutto acceso, è la partenza.
-- **Off**: tutto fermo e già al suo posto. Si parte da Off anche se il sistema chiede meno movimento (`prefers-reduced-motion`).
-- **X-ray**: come nel video (14:38), ogni pezzo mostra un contorno e un'etichetta che dice com'è fatto, per esempio "CSS · sfera · gradiente radiale".
+## The three motion modes
 
-La modalità sta su `<html data-motion="...">`: i CSS la leggono da lì (`src/styles/global.css`, `src/styles/xray.css`).
+- **On**: everything moves. This is where it starts.
+- **Off**: everything is still and already in place. The site also starts in Off if the system asks for reduced motion (`prefers-reduced-motion`).
+- **X-ray**: every piece shows an outline and a label that says how it is made, for example "CSS · sphere · radial gradient".
 
-## La struttura
+The mode lives on `<html data-motion="...">`, and the CSS reads it from there (`src/styles/global.css`, `src/styles/xray.css`).
+
+## The structure
 
 ```
-sito-animato/
-├── index.html                 la pagina che Vite serve, carica src/main.tsx
-├── package.json               dipendenze e comandi npm
-├── package-lock.json          versioni esatte delle dipendenze (generato da npm)
-├── vite.config.ts             configurazione di Vite con il plugin React, e di Vitest (npm run test:unit)
-├── tsconfig.json              rimanda ai due tsconfig sotto
-├── tsconfig.app.json          regole TypeScript per il codice in src/
-├── tsconfig.node.json         regole TypeScript per i file di configurazione e i test
-├── playwright.config.ts       configurazione dei test end-to-end (npm run test:e2e)
-├── .gitignore                 cosa git non salva (node_modules, dist, log)
-├── .oxlintrc.json             regole del linter oxlint (npm run lint)
-├── .github/workflows/deploy.yml  test e pubblicazione su GitHub Pages a ogni push su main
-├── .github/workflows.test.ts     le azioni del workflow sono a versioni che girano su Node 24
-├── public/                    file serviti così come sono (la favicon, l'immagine di anteprima del link)
-├── docs/                      documenti: gli stili presi dal video
-├── tests/                     test end-to-end: le animazioni controllate nel browser
+portfolio-animato/
+├── index.html                 the page Vite serves, loads src/main.tsx
+├── package.json               dependencies and npm scripts
+├── vite.config.ts             Vite config with the React plugin, and Vitest config (npm run test:unit)
+├── .github/workflows/deploy.yml  tests and deployment to GitHub Pages on every push to main
+├── .github/workflows.test.ts     checks that the workflow actions run on Node 24
+├── public/                    files served as they are (the favicon, the link preview image)
+├── docs/                      documents: the style guide, the screenshot above, and what is in public/
+├── tests/                     end-to-end tests: the animations checked in the browser
 └── src/
-    ├── main.tsx               punto di ingresso: stili globali e <App />
-    ├── App.tsx                compone la pagina: sezioni e menu fisso
-    ├── styles/                CSS globali: variabili, regole comuni, vista X-ray
-    ├── types/                 i tipi TypeScript dei contenuti
-    ├── data/                  i testi del sito in italiano e in inglese: profilo, progetti, stack, interfaccia, con i loro test
-    ├── assets/                le immagini importate dal codice: le anteprime dei progetti
-    ├── context/               la modalità di movimento (On, Off, X-ray) e la lingua (IT, EN), condivise da tutta la pagina
-    ├── hooks/                 la logica riusabile: cursore, scroll, entrate, inclinazione, lingua
-    ├── components/            i pezzi riusabili: cursore, forme, schede, menu, preferenze (lingua, tema, Motion), barra di lettura
-    └── sections/              le cinque sezioni della pagina, in ordine
+    ├── main.tsx               entry point: global styles and <App />
+    ├── App.tsx                builds the page: sections and fixed menu
+    ├── styles/                global CSS: variables, shared rules, X-ray view
+    ├── types/                 the TypeScript types of the content
+    ├── data/                  the texts of the site in Italian and English: profile, projects, stack, interface, with their tests
+    ├── assets/                the images imported by the code: the project previews
+    ├── context/               the motion mode (On, Off, X-ray) and the language (IT, EN), shared by the whole page
+    ├── hooks/                 the reusable logic: cursor, scroll, entrances, tilt, language
+    ├── components/            the reusable pieces: cursor, shapes, cards, menu, preferences (language, theme, Motion), reading bar
+    └── sections/              the five sections of the page, in order
 ```
 
-Ogni cartella ha il suo `README.md` con l'elenco dei file e cosa fa ciascuno. Ogni file ha in testa un commento che dice cosa fa e da dove viene.
+`src/` and its folders, `tests/` and `docs/` each have a `README.md` that lists their files, and every file starts with a comment that says what it does.
 
-## Regole del progetto
+## Project rules
 
-- **Un componente, una cartella:** `Nome.tsx` più `Nome.module.css` accanto. Lo stile non esce dalla cartella (CSS Modules).
-- **I testi stanno in `src/data/`**, mai scritti dentro i componenti, **in italiano e in inglese** (`{ it, en }`): quelli dell'interfaccia in `ui.ts`. Una scritta lasciata in una lingua sola la trova `tests/language.spec.ts`. Chi aggiunge o cambia un progetto lancia `npm run test:unit`: controlla link, demo, date e doppioni, e che i progetti restino un multiplo di tre (un settimo progetto da solo lascerebbe due posti vuoti nella griglia).
-- **I colori stanno in `src/styles/tokens.css`**, mai scritti a mano altrove se esiste la variabile.
-- **Il sito si usa da tastiera** (`tests/keyboard.spec.ts`): il primo Tab mostra «Salta al contenuto», poi il menu, che finisce con il bottone delle preferenze, e il contenuto, ognuno con un anello a due colori che si vede su ogni fondo. Il menu sta in basso sullo schermo ma prima nel DOM: l'ordine del DOM è l'ordine del Tab, quindi un pezzo nuovo va messo nel punto giusto di `App.tsx`.
-- **L'accessibilità la controlla axe** (`tests/a11y.spec.ts`, dentro `npm run test:e2e`): la pagina deve passare senza violazioni in ogni tema e in ogni modalità di Motion. Il caso più facile da rompere è il contrasto: il testo bianco piccolo va sul corallo scuro (`--color-coral-deep`, 4,94 a 1), non sul corallo dei titoli (3,62 a 1, sotto il 4,5 a 1 di WCAG AA).
-- **Le animazioni rispettano Off e `prefers-reduced-motion`:** chi aggiunge un'animazione non deve fare niente, le regole in `global.css` le fermano tutte.
-- **Ogni nuovo `data-xray`** va su un elemento che ha già una `position` nel suo CSS (l'etichetta si appoggia lì) e che non ruota, non si inclina e non scala, né lui né i suoi genitori: l'etichetta ne erediterebbe la rotazione. Un pezzo che si muove così si divide in due, un contenitore piatto con `data-xray` e dentro la parte che si muove con `data-xray-outline`, che prende il contorno (come le forme, il disco dei Contatti e le schede).
-- **Nessuna libreria di animazione:** solo CSS e un po' di TypeScript, come nel video.
+- **One component, one folder:** `Name.tsx` with `Name.module.css` next to it. Styles stay inside the folder (CSS Modules).
+- **Texts live in `src/data/`**, never inside the components, **in Italian and English** (`{ it, en }`). The interface texts are in `ui.ts`. `tests/language.spec.ts` finds any text left in one language only. `npm run test:unit` checks the links, demos, dates and duplicates of the projects. It also checks that their number stays a multiple of three: on a wide screen the grid has three columns, so a seventh project would leave two empty spots.
+- **Colours live in `src/styles/tokens.css`**, never written by hand elsewhere if the variable exists.
+- **The site works with the keyboard** (`tests/keyboard.spec.ts`): the first Tab shows "Skip to content", then the menu, which ends with the preferences button, then the content, each with a two-colour focus ring that shows on any background. The menu sits at the bottom of the screen but comes first in the DOM.
+- **Accessibility is checked by axe** (`tests/a11y.spec.ts`, part of `npm run test:e2e`): the page must pass with no violations in every theme and every Motion mode. The easiest thing to break is contrast: small white text goes on the deep coral, not on the coral of the titles, where the contrast is below WCAG AA.
+- **Animations respect Off and `prefers-reduced-motion`:** the rules in `global.css` stop every animation, new ones included.
 
-## Pubblicazione: GitHub Pages
+## Deployment: GitHub Pages
 
-Il sito è online su https://francesco-mauro.github.io/portfolio-animato/ e si aggiorna da solo: a ogni push su `main` il workflow `.github/workflows/deploy.yml` installa le dipendenze, passa il linter, lancia i test dei dati e del workflow, fa la build, lancia i test di `tests/` e pubblica `dist/` su GitHub Pages. Le azioni del workflow girano su Node 24: un'azione nuova va aggiunta anche alla tabella di `.github/workflows.test.ts`, dopo aver controllato nel suo `action.yml` su che Node gira. Nella build Vite usa il percorso base `/portfolio-animato/` (in `vite.config.ts`); in sviluppo resta `/`.
+The site is online at https://francesco-mauro.github.io/portfolio-animato/ and updates by itself: on every push to `main`, the workflow `.github/workflows/deploy.yml` installs the dependencies, runs the linter, runs the data and workflow tests, builds the site, runs the tests in `tests/` and publishes `dist/` to GitHub Pages. In the build, Vite uses the base path `/portfolio-animato/` (in `vite.config.ts`). In development it stays `/`.
 
-## La storia dei commit
+## The commit history
 
-I primi dodici commit, fino a `ci: deploy to GitHub Pages with GitHub Actions`, sono stati riordinati in passaggi prima della pubblicazione, il 5 novembre 2026: ognuno compila e passa il linter, ma portano tutti l'orario di quel giorno, a pochi secondi l'uno dall'altro. Da lì in avanti ogni commit è una modifica vera, con la data del giorno in cui è stata fatta.
+The first twelve commits, up to `ci: deploy to GitHub Pages with GitHub Actions`, were reorganised into steps before publishing, on 5 November 2026. Each one compiles and passes the linter, and all twelve carry that day's time, a few seconds apart. Every later commit is a real change, with the date it was made.
 
-## Documenti
+## Documents
 
-- [docs/STILI.md](docs/STILI.md): colori, font, curve e movimenti, ognuno con il fotogramma del video da cui viene.
+- [docs/STILI.md](docs/STILI.md), in Italian: the style guide (colours, fonts, shapes, curves and movements, each with the file where it lives).
+- [docs/README.md](docs/README.md): the documents folder, and what the files in `public/` do.

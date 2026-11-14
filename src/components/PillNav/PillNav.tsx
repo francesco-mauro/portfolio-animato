@@ -1,7 +1,6 @@
 /**
  * PillNav.tsx
- * Il menu a pillola corallo fisso in basso al centro, come "Product · Studio · Company"
- * del sito "Kinetic" (14:15). Porta alle sezioni con le ancore (#progetti, #contatti),
+ * Il menu a pillola corallo fisso in basso al centro. Porta alle sezioni con le ancore (#progetti, #contatti),
  * lo scroll morbido lo fa html { scroll-behavior: smooth } in global.css.
  * Le voci cambiano con la lingua (src/data/ui.ts); le ancore no, sono indirizzi.
  * L'ultimo elemento è il bottone delle preferenze (components/Preferences), con il suo

@@ -1,8 +1,8 @@
 /**
  * usePointerTilt.ts
- * Inclina leggermente una scheda verso il mouse quando ci passi sopra, come le schede
- * che fluttuano nel sito "Kinetic" del video (14:15). Scrive le variabili CSS
- * --tilt-x e --tilt-y (in gradi) e --glow-x / --glow-y (posizione del riflesso, in %);
+ * Inclina leggermente una scheda verso il mouse quando ci passi sopra.
+ * Scrive le variabili CSS --tilt-x e --tilt-y (in gradi) e --glow-x / --glow-y
+ * (posizione del riflesso, in %);
  * la rotazione vera la fa il CSS Module della scheda. Uscito il mouse, torna dritta.
  *
  * @param ref     la scheda

@@ -2,7 +2,7 @@
  * FloatingCard.module.css
  * La scheda ruota in 3D con le variabili --tilt-x e --tilt-y di usePointerTilt;
  * un riflesso chiaro (::before) segue il mouse con --glow-x e --glow-y.
- * I toni ricalcano le schede del video: verde Render, bordo blu Ease, rosa Shared.
+ * Sei toni: corallo, verde, bianco con il bordo blu, rosa con il bordo bianco, notte, bianco.
  * .frame è la cornice piatta intorno: posto, galleggiare ed etichetta X-ray, che così
  * non si inclina con la scheda.
  */

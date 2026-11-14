@@ -1,6 +1,6 @@
 # Hero/
 
-La prima schermata, sul modello del sito "Kinetic" (14:15).
+La prima schermata.
 
 | File | Cosa fa |
 |---|---|

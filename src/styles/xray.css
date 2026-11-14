@@ -1,6 +1,6 @@
 /*
  * xray.css
- * La vista X-ray, come quella del video (14:38): con l'interruttore su "X-ray"
+ * La vista X-ray: con l'interruttore su "X-ray"
  * ogni elemento che ha l'attributo data-xray mostra un contorno tratteggiato e
  * un'etichetta che dice com'è fatto ("CSS · sfera · gradiente radiale").
  * È tutto CSS: l'etichetta è un ::after che legge il testo con attr(data-xray).

@@ -1,7 +1,6 @@
 /**
  * Marquee.tsx
- * La fascia che scorre all'infinito con le tecnologie, come i loghi dei clienti
- * nel sito "Ridgeline" (15:48). L'elenco viene ripetuto due volte: quando la prima
+ * La fascia che scorre all'infinito con le tecnologie. L'elenco viene ripetuto due volte: quando la prima
  * copia è uscita a sinistra, la seconda è esattamente al suo posto e l'animazione
  * riparte senza salto. La seconda copia è nascosta agli screen reader.
  * Le tecnologie sono nomi, uguali in ogni lingua; la scritta sopra e il nome della

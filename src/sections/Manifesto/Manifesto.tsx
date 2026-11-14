@@ -1,7 +1,6 @@
 /**
  * Manifesto.tsx
- * Il testo grande che si accende parola per parola mentre scorri, come "We build
- * websites that feel like places you walk into" nel sito "Ridgeline" (15:48-15:50).
+ * Il testo grande che si accende parola per parola mentre scorri.
  * La sezione è alta il doppio dello schermo e il testo resta fermo al centro
  * (position: sticky): così lo scroll serve solo ad accendere le parole.
  * useScrollProgress dà l'avanzamento da 0 a 1; ogni parola si accende quando

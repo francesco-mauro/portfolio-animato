@@ -1,7 +1,7 @@
 /**
  * Hero.tsx
- * La prima schermata, ricalcata sul sito "Kinetic" del video (14:15): fondo chiaro,
- * titolo grande corallo al centro, forme 3D che galleggiano e tre schede sparse.
+ * La prima schermata: fondo chiaro, titolo grande corallo al centro, forme 3D che
+ * galleggiano e tre schede sparse.
  * Le schede raccontano il sito con fatti veri: la build, la curva usata per le
  * animazioni, il primo progetto della vetrina. Il titolo entra parola per parola.
  * Il titolo parla di tutto il percorso, da quello che si vede a quello che c'è dietro:

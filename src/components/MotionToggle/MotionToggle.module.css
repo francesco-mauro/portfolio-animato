@@ -1,6 +1,6 @@
 /*
  * MotionToggle.module.css
- * Una piccola pillola scura con tre bottoni; quello attivo è corallo come nel video.
+ * Una piccola pillola scura con tre bottoni; quello attivo è corallo.
  * I colori del testo sono scelti per il contrasto (WCAG AA, 4,5 a 1 sul testo piccolo,
  * controllato da tests/a11y.spec.ts): il bottone attivo ha il testo bianco sul corallo
  * scuro (4,94 a 1, era 3,30 sul corallo dei titoli). La scritta "Motion" ora la scrive il

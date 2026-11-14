@@ -1,7 +1,6 @@
 /**
  * useCursorFollower.ts
- * Fa seguire il mouse a un elemento con un leggero ritardo, come il cursore che
- * "ci segue" nel sito del video (14:32). Ogni fotogramma la posizione dell'elemento
+ * Fa seguire il mouse a un elemento con un leggero ritardo. Ogni fotogramma la posizione dell'elemento
  * si avvicina a quella del mouse di una frazione (lerp), così il movimento è morbido.
  * Scrive solo le variabili CSS --x e --y sull'elemento: lo spostamento vero lo fa
  * il CSS con transform, senza far ridisegnare React a ogni movimento.

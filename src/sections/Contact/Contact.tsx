@@ -1,7 +1,6 @@
 /**
  * Contact.tsx
- * La chiusura a tutto corallo, come la schermata "One app for all your motion" del
- * sito "Kinetic" (14:26): fondo corallo con una luce chiara in alto, un disco che
+ * La chiusura a tutto corallo: fondo corallo con una luce chiara in alto, un disco che
  * gira lento e il titolo grande in basso a sinistra, con i link a destra.
  * I link vengono da src/data/profile.ts. Niente email in pagina, per privacy.
  * Titolo e frase stanno in src/data/ui.ts, nelle due lingue: nella frase il ruolo e la

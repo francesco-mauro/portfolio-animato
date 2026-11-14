@@ -2,7 +2,7 @@
  * MotionModeContext.tsx
  * La modalità di movimento del sito, condivisa da tutti i componenti:
  *  - 'on'   animazioni accese (partenza);
- *  - 'off'  tutto fermo, come l'interruttore "Off" del video;
+ *  - 'off'  tutto fermo;
  *  - 'xray' animazioni accese più le etichette che dicono com'è fatto ogni pezzo.
  * La modalità si scrive anche su <html data-motion="...">: è da lì che la leggono
  * global.css e xray.css, senza passare props a ogni componente.

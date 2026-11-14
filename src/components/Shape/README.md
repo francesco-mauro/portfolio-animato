@@ -1,6 +1,6 @@
 # Shape/
 
-Le forme corallo che galleggiano nel Hero, come quelle del sito "Kinetic" del video.
+Le forme corallo che galleggiano nel Hero.
 
 | File | Cosa fa |
 |---|---|

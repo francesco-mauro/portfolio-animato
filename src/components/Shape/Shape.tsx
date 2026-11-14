@@ -1,8 +1,8 @@
 /**
  * Shape.tsx
- * Le forme "3D" corallo che galleggiano nel sito "Kinetic" del video (14:15):
- * sfera, capsula, ciambella e disco. Nel video sono generate; qui sono solo CSS,
- * gradienti radiali e ombre che danno il volume, senza immagini né WebGL.
+ * Le forme "3D" corallo che galleggiano nella prima schermata: sfera, capsula,
+ * ciambella e disco. Sono solo CSS, gradienti radiali e ombre che danno il volume,
+ * senza immagini né WebGL.
  * Ogni forma fluttua su e giù con la stessa durata ma un ritardo suo, così non si
  * muovono tutte insieme.
  *

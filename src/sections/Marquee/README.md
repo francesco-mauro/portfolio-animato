@@ -1,6 +1,6 @@
 # Marquee/
 
-La fascia con le tecnologie, sul modello dei loghi di "Ridgeline" (15:48).
+La fascia con le tecnologie che scorre.
 
 | File | Cosa fa |
 |---|---|
