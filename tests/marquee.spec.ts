@@ -6,6 +6,7 @@
  * di distanza, e guarda se è cambiata.
  */
 import { expect, test, type Page } from '@playwright/test'
+import { setMotion } from './preferences.ts'
 
 const track = (page: Page) => page.locator('#stack ul')
 
@@ -25,7 +26,7 @@ test.beforeEach(async ({ page }) => {
 })
 
 test('con Motion On la fascia scorre anche con il cursore sopra', async ({ page }) => {
-  await page.getByRole('radio', { name: 'On' }).click()
+  await setMotion(page, 'On')
   // Il cursore va al centro del riquadro della fascia, che sta fermo: la traccia
   // dentro si muove, e Playwright non ci punterebbe sopra.
   await track(page).locator('..').hover()
@@ -33,6 +34,6 @@ test('con Motion On la fascia scorre anche con il cursore sopra', async ({ page 
 })
 
 test('con Motion Off la fascia sta ferma', async ({ page }) => {
-  await page.getByRole('radio', { name: 'Off' }).click()
+  await setMotion(page, 'Off')
   expect(await movesWithin(page, 600)).toBe(false)
 })

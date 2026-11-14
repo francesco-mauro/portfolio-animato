@@ -17,6 +17,7 @@
  * Oggi nessuno sta così in alto; chi sposta una forma lo guardi a occhio in X-ray.
  */
 import { expect, test, type Page } from '@playwright/test'
+import { setMotion } from './preferences.ts'
 
 /** Dove deve esserci almeno un pezzo etichettato: le cinque sezioni e il menu. */
 const PLACES = ['#top', '#stack', '#chi-sono', '#progetti', '#contatti', 'nav']
@@ -41,7 +42,7 @@ const pieces = (page: Page) =>
 const quoted = (text: string) => `"${text}"`
 
 async function choose(page: Page, mode: 'On' | 'X-ray') {
-  await page.getByRole('radio', { name: mode }).click()
+  await setMotion(page, mode)
   await expect(page.locator('html')).toHaveAttribute('data-motion', mode === 'On' ? 'on' : 'xray')
 }
 

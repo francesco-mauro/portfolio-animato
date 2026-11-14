@@ -1,6 +1,7 @@
 /**
  * LanguageToggle.tsx
- * L'interruttore della lingua, IT · EN, in basso a destra accanto al bottone del tema.
+ * L'interruttore della lingua, IT · EN, nella prima riga del pannello delle preferenze
+ * (components/Preferences).
  * Cambia la lingua nel contesto LanguageContext: tutti i testi della pagina arrivano da
  * src/data/ già nelle due lingue, quindi basta questo perché la pagina si riscriva.
  * Dove il browser le supporta il passaggio è una dissolvenza, con le View Transitions

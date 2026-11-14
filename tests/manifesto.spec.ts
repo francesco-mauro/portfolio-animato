@@ -9,6 +9,7 @@
  * Accesa o spenta si legge dal colore, quello che vede chi guarda la pagina.
  */
 import { expect, test, type Page } from '@playwright/test'
+import { setMotion } from './preferences.ts'
 
 const LIT = 'rgb(244, 244, 246)' // --color-light, parola accesa
 
@@ -36,7 +37,7 @@ async function scrollTo(page: Page, where: 'inizio' | 'fine') {
 test.beforeEach(async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto('/')
-  await page.getByRole('radio', { name: 'On' }).click()
+  await setMotion(page, 'On')
 })
 
 test('con l’inizio della sezione a metà schermo le parole sono spente', async ({ page }) => {
@@ -53,7 +54,7 @@ test('in fondo alla sezione le parole sono tutte accese', async ({ page }) => {
 })
 
 test('con Motion Off le parole sono tutte accese anche senza scorrere', async ({ page }) => {
-  await page.getByRole('radio', { name: 'Off' }).click()
+  await setMotion(page, 'Off')
   await scrollTo(page, 'inizio')
   await expect.poll(async () => {
     const { lit, total } = await litCount(page)

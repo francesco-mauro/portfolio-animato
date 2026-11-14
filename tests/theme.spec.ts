@@ -7,9 +7,14 @@
  * veda davvero, dal colore di fondo della pagina.
  */
 import { expect, test, type Page } from '@playwright/test'
+import { openPreferences } from './preferences.ts'
 
 const html = (page: Page) => page.locator('html')
-const themeButton = (page: Page) => page.getByRole('button', { name: /tema/i })
+/** Il bottone del tema sta nel pannello delle preferenze: prima lo apre, se è chiuso. */
+async function themeButton(page: Page) {
+  await openPreferences(page)
+  return page.getByRole('button', { name: /tema/i })
+}
 const bodyBackground = (page: Page) =>
   page.evaluate(() => getComputedStyle(document.body).backgroundColor)
 
@@ -29,16 +34,16 @@ test('il bottone cambia tema e la scelta resta dopo il ricaricamento', async ({ 
   await expect(html(page)).toHaveAttribute('data-theme', 'light')
   const lightBackground = await bodyBackground(page)
 
-  await themeButton(page).click()
+  await (await themeButton(page)).click()
   await expect(html(page)).toHaveAttribute('data-theme', 'dark')
   await expect.poll(() => bodyBackground(page)).not.toBe(lightBackground)
 
   // Il sistema resta chiaro: se dopo il ricaricamento è scuro, è la scelta salvata.
   await page.reload()
   await expect(html(page)).toHaveAttribute('data-theme', 'dark')
-  await expect(themeButton(page)).toHaveAttribute('aria-pressed', 'true')
+  await expect(await themeButton(page)).toHaveAttribute('aria-pressed', 'true')
 
-  await themeButton(page).click()
+  await (await themeButton(page)).click()
   await page.reload()
   await expect(html(page)).toHaveAttribute('data-theme', 'light')
 })

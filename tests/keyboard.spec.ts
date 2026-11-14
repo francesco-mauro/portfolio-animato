@@ -5,7 +5,9 @@
  *    con Invio il focus passa al contenuto principale (<main>) e il Tab dopo resta lì.
  *  - L'ordine delle fermate: il link per saltare, il menu (che sta in basso allo schermo
  *    ma viene prima nel DOM, così il link per saltare ha qualcosa da saltare), tutti i
- *    link del contenuto nell'ordine della pagina, e in fondo le preferenze (Motion e tema).
+ *    link del contenuto nell'ordine della pagina. L'ultima fermata del menu è il bottone
+ *    delle preferenze: lingua, tema e Motion stanno nel suo pannello, che da chiuso non è
+ *    nella pagina (le fermate dentro il pannello le prova tests/preferences.spec.ts).
  *    Ogni link e bottone della pagina è una fermata, e una sola volta.
  *    Contano solo gli elementi visibili: sul telefono alcuni pezzi sono nascosti.
  *  - A ogni fermata l'elemento si vede: dentro lo schermo e pieno, non trasparente a metà.
@@ -19,6 +21,7 @@
  *    Con un click del mouse l'anello non compare (:focus-visible).
  */
 import { expect, test, type Page } from '@playwright/test'
+import { openPreferences, setMotion } from './preferences.ts'
 
 /** Il nome di ogni link e bottone della pagina, nell'ordine del DOM, dentro un'area. */
 const namesIn = (page: Page, selector: string) =>
@@ -118,9 +121,8 @@ async function tabTour(page: Page) {
     'Salta al contenuto',
     ...(await namesIn(page, 'nav')),
     ...(await namesIn(page, 'main')),
-    ...(await namesIn(page, 'aside')),
   ]
-  // Il menu ha la casetta e le tre voci; nessuna fermata resta fuori dalle tre aree.
+  // Il menu ha la casetta e le tre voci; nessuna fermata resta fuori dalle due aree (il bottone delle preferenze è l'ultimo del menu).
   expect(expected.slice(1, 5)).toEqual(['Torna su', 'Chi sono', 'Progetti', 'Contatti'])
   expect(expected).toHaveLength(await stopCount(page))
 
@@ -165,7 +167,7 @@ test('l\'anello entra con un\'animazione, con Motion On', async ({ page }) => {
 
 test('con Motion Off l\'anello c\'è ma non si anima', async ({ page }) => {
   await open(page)
-  await page.getByRole('radio', { name: 'Off' }).click()
+  await setMotion(page, 'Off')
   await page.locator('body').click({ position: { x: 5, y: 5 } })
   await page.keyboard.press('Tab')
   expect((await focusedRing(page)).outlineStyle).toBe('solid')
@@ -182,6 +184,7 @@ test('col sistema che chiede meno movimento l\'anello non si anima', async ({ pa
 
 test('con un click del mouse l\'anello non compare', async ({ page }) => {
   await open(page)
+  await openPreferences(page)
   await page.getByRole('radio', { name: 'On' }).click()
   expect((await focusedRing(page)).outlineStyle).toBe('none')
 })

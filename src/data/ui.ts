@@ -20,7 +20,7 @@ export const ui = {
   headline: [text('Quello che vedi,', 'What you see,'), text("e quello che c'è dietro.", "and what's behind it.")],
   /** Il link nascosto che compare con il primo Tab (tests/keyboard.spec.ts). */
   skipLink: text('Salta al contenuto', 'Skip to content'),
-  /** Il nome della regione con i controlli fissi: lingua, tema e Motion. */
+  /** Il nome del bottone delle preferenze e del pannello che apre: lingua, tema e Motion. */
   preferences: text('Preferenze di visualizzazione', 'Display preferences'),
   /** I nomi delle sezioni: nel menu, nei titoli e nei nomi delle regioni. */
   sections: {
@@ -36,6 +36,7 @@ export const ui = {
   /** La scritta visibile dell'interruttore resta «Motion» nelle due lingue: questo è il nome del gruppo per i lettori di schermo. */
   motion: { label: text('Movimento', 'Motion mode') },
   theme: {
+    caption: text('Tema', 'Theme'),
     label: text('Tema scuro', 'Dark theme'),
     toLight: text('Passa al tema chiaro', 'Switch to the light theme'),
     toDark: text('Passa al tema scuro', 'Switch to the dark theme'),

@@ -8,6 +8,7 @@
  * perché l'inseguimento dura qualche fotogramma.
  */
 import { expect, test, type Locator, type Page } from '@playwright/test'
+import { setMotion } from './preferences.ts'
 
 const dot = (page: Page) => page.getByTestId('cursor-dot')
 const ring = (page: Page) => page.getByTestId('cursor-ring')
@@ -27,7 +28,7 @@ test.beforeEach(async ({ page }) => {
 })
 
 test('con Motion On punto e anello seguono il puntatore', async ({ page }) => {
-  await page.getByRole('radio', { name: 'On' }).click()
+  await setMotion(page, 'On')
 
   // Due punti lontani tra loro: se il cursore arriva su tutti e due, lo sta seguendo
   // davvero e non è fermo per caso nel posto giusto.
@@ -43,11 +44,11 @@ test('con Motion On punto e anello seguono il puntatore', async ({ page }) => {
 
 test('con Motion Off punto e anello non si vedono', async ({ page }) => {
   // Prima con On il cursore c'è: così il test non passa solo perché non trova niente.
-  await page.getByRole('radio', { name: 'On' }).click()
+  await setMotion(page, 'On')
   await page.mouse.move(400, 300)
   await expect(dot(page)).toBeVisible()
 
-  await page.getByRole('radio', { name: 'Off' }).click()
+  await setMotion(page, 'Off')
 
   await expect(dot(page)).toHaveCount(0)
   await expect(ring(page)).toHaveCount(0)

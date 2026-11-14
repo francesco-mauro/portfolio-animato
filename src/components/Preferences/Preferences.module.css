@@ -1,0 +1,81 @@
+/**
+ * Preferences.module.css
+ * Il bottone tondo in fondo al menu a pillola e il pannello scuro che si apre sopra il menu.
+ * Il pannello si aggancia al bordo destro del menu (.wrap non è posizionato apposta: il
+ * riferimento è il menu, che è fisso) e non è mai più largo dello schermo.
+ * Il fondo è pieno, non trasparente: così axe misura sempre il contrasto di quello che c'è
+ * dentro, qualunque cosa ci sia sotto.
+ * L'entrata è una sola animazione breve: Motion Off e prefers-reduced-motion la fermano
+ * da global.css.
+ */
+.wrap {
+  display: flex;
+  margin-left: 4px;
+}
+
+.button {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: rgb(255 255 255 / 0.18);
+  color: #fff;
+  transition: background-color 0.25s;
+}
+
+.button:hover,
+.button[aria-expanded='true'] {
+  background: rgb(0 0 0 / 0.22);
+}
+
+.button svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+}
+
+.panel {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 10px);
+  display: grid;
+  gap: 8px;
+  width: max-content;
+  max-width: calc(100vw - 24px);
+  padding: 12px;
+  border: 1px solid rgb(255 255 255 / 0.16);
+  border-radius: 18px;
+  background: var(--color-night);
+  box-shadow: 0 18px 40px -16px rgb(0 0 0 / 0.55);
+  color: var(--color-light);
+  font-size: 12px;
+  transform-origin: bottom right;
+  animation: open 0.22s var(--ease-out-back) both;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 34px;
+}
+
+.caption {
+  color: #b4b6c3;
+}
+
+@keyframes open {
+  from {
+    opacity: 0;
+    scale: 0.92;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}

@@ -14,6 +14,7 @@
  * getBoundingClientRect, che conterebbe anche lo spostamento dell'animazione.
  */
 import { expect, test, type Locator, type Page } from '@playwright/test'
+import { setMotion } from './preferences.ts'
 
 const cards = (page: Page) => page.locator('#progetti > ul > li')
 
@@ -36,7 +37,7 @@ async function enterBy(card: Locator, inside: number) {
 test.beforeEach(async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto('/')
-  await page.getByRole('radio', { name: 'On' }).click()
+  await setMotion(page, 'On')
 })
 
 test('sotto lo schermo la scheda è trasparente, entrata tutta è piena', async ({ page }) => {
@@ -86,7 +87,7 @@ test('nella stessa riga le schede entrano una dopo l’altra', async ({ page }) 
 })
 
 test('con Motion Off le schede si vedono subito, anche sotto lo schermo', async ({ page }) => {
-  await page.getByRole('radio', { name: 'Off' }).click()
+  await setMotion(page, 'Off')
   const card = cards(page).first()
 
   await enterBy(card, -0.2)

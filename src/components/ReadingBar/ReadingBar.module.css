@@ -8,7 +8,7 @@
  * dei Contatti proprio quando la barra è piena.
  * Con Motion Off e con prefers-reduced-motion global.css spegne le animazioni: la barra
  * resta a zero, cioè non si vede. Lo stesso nei browser senza animation-timeline.
- * Sta sopra i controlli fissi (z-index 40) e sotto le etichette X-ray (50) e il cursore.
+ * Sta sopra il menu fisso (z-index 40) e sotto le etichette X-ray (50) e il cursore.
  */
 .bar {
   position: fixed;

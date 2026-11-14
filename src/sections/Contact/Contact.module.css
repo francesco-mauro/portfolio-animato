@@ -83,6 +83,17 @@
   opacity: 0.8;
 }
 
+/* Sugli schermi stretti il menu fisso arriva fin sopra l'angolo del copyright: lì il
+   copyright sale sopra il menu (22 px dal fondo più i 44 del menu). Con il carattere di
+   Windows il menu smette di toccare il copyright verso i 680 px, ma il carattere cambia da
+   una macchina all'altra e uno più largo allarga tutti e due: 900 px tiene anche con
+   Verdana. Test: tests/preferences.spec.ts, da 320 a 1440 px, anche con un carattere largo */
+@media (max-width: 900px) {
+  .footer {
+    bottom: 78px;
+  }
+}
+
 @keyframes spin {
   0%,
   100% {

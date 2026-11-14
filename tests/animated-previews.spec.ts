@@ -33,6 +33,7 @@
  * perché le classi dei CSS Modules cambiano nome a ogni build.
  */
 import { expect, test, type Locator, type Page } from '@playwright/test'
+import { setMotion } from './preferences.ts'
 
 const cards = (page: Page) => page.locator('#progetti > ul > li')
 const demoCards = (page: Page) => cards(page).filter({ has: page.getByRole('link', { name: /Prova la demo/ }) })
@@ -205,7 +206,7 @@ test.describe('col mouse, sul computer', () => {
   })
 
   test('col mouse sopra il video parte e si vede', async ({ page }) => {
-    await page.getByRole('radio', { name: 'On' }).click()
+    await setMotion(page, 'On')
     const { card, video } = await firstDemoCard(page)
 
     const atRest = await stateOf(video)
@@ -219,7 +220,7 @@ test.describe('col mouse, sul computer', () => {
   })
 
   test('col mouse sopra parte anche il video della dashboard, nella scheda senza demo', async ({ page }) => {
-    await page.getByRole('radio', { name: 'On' }).click()
+    await setMotion(page, 'On')
     const card = dashboardCard(page)
     await card.scrollIntoViewIfNeeded()
     const video = card.locator('video')
@@ -232,7 +233,7 @@ test.describe('col mouse, sul computer', () => {
   })
 
   test('togliendo il mouse il video si ferma, sparisce e riparte da capo', async ({ page }) => {
-    await page.getByRole('radio', { name: 'On' }).click()
+    await setMotion(page, 'On')
     const { card, video } = await firstDemoCard(page)
 
     await card.hover()
@@ -245,7 +246,7 @@ test.describe('col mouse, sul computer', () => {
   })
 
   test('con Motion Off il video resta fermo anche col mouse sopra', async ({ page }) => {
-    await page.getByRole('radio', { name: 'Off' }).click()
+    await setMotion(page, 'Off')
     const { card, video } = await firstDemoCard(page)
 
     await card.hover()
@@ -261,7 +262,7 @@ test.describe('col mouse, sul computer', () => {
     await page.goto('/')
     // Con questa richiesta il sito parte da Off: si rimette On, così a tenere fermo il video
     // resta solo il controllo di prefers-reduced-motion.
-    await page.getByRole('radio', { name: 'On' }).click()
+    await setMotion(page, 'On')
     await expect(page.locator('html')).toHaveAttribute('data-motion', 'on')
     const { card, video } = await firstDemoCard(page)
 
@@ -284,7 +285,7 @@ test.describe('sul telefono', () => {
       if (request.resourceType() === 'media') videoRequests.push(request.url())
     })
     await page.goto('/')
-    await page.getByRole('radio', { name: 'On' }).click()
+    await setMotion(page, 'On')
     const { card, video } = await firstDemoCard(page)
 
     // Si tocca il titolo, non un link: la scheda riceve il tocco senza cambiare pagina.

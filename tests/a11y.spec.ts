@@ -13,7 +13,11 @@
  * opacità 0, lo dà per buono (in axe-core 4.14 è il controllo `opacityHidden`): una
  * scheda non ancora entrata passerebbe sempre. In fondo alla pagina, e sempre con
  * Motion Off, il testo si vede tutto e viene misurato.
- * Altri due controlli: a 390 px, un telefono, dove menu e interruttori cambiano misura
+ * Lingua, tema e Motion stanno nel pannello delle preferenze, che da chiuso non è nella
+ * pagina: le sei combinazioni qui sopra girano a pannello chiuso, e altre sei lo rifanno
+ * con il pannello aperto, più una sul telefono in fondo alla pagina, dove il pannello sta
+ * sopra il corallo dei Contatti.
+ * Altri due controlli: a 390 px, un telefono, dove il menu cambia misura
  * e posto; e con il mouse sopra una voce del menu, che cambia fondo.
  *
  * Cosa non dice. axe trova solo quello che una regola automatica può decidere da sola.
@@ -30,6 +34,7 @@
  */
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Page } from '@playwright/test'
+import { openPreferences, setMotion } from './preferences.ts'
 
 /** Le violazioni trovate da axe, una riga ciascuna: regola, gravità, cosa chiede, dove. */
 async function violations(page: Page, include?: string): Promise<string[]> {
@@ -72,7 +77,7 @@ for (const theme of ['light', 'dark'] as const) {
       await page.emulateMedia({ colorScheme: theme })
       await page.goto('/')
       await expect(page.locator('html')).toHaveAttribute('data-theme', theme)
-      await page.getByRole('radio', { name: mode }).click()
+      await setMotion(page, mode)
       await settle(page)
       expect(await violations(page), 'in cima alla pagina').toEqual([])
 
@@ -82,6 +87,29 @@ for (const theme of ['light', 'dark'] as const) {
     })
   }
 }
+
+for (const theme of ['light', 'dark'] as const) {
+  for (const mode of ['Off', 'On', 'X-ray']) {
+    test(`nessuna violazione con il pannello delle preferenze aperto, tema ${theme} e Motion ${mode}`, async ({ page }) => {
+      await page.emulateMedia({ colorScheme: theme })
+      await page.goto('/')
+      await openPreferences(page)
+      await page.getByRole('radio', { name: mode }).click()
+      await expect(page.getByRole('radiogroup', { name: 'Lingua' })).toBeVisible()
+      await settle(page)
+      expect(await violations(page)).toEqual([])
+    })
+  }
+}
+
+test('nessuna violazione a 390 px con il pannello aperto in fondo alla pagina, sopra i Contatti', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto('/')
+  await scrollToBottom(page)
+  await openPreferences(page)
+  await settle(page)
+  expect(await violations(page)).toEqual([])
+})
 
 test('nessuna violazione a 390 px, la larghezza di un telefono', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })

@@ -1,6 +1,7 @@
 /**
  * ThemeToggle.tsx
- * Il bottone tondo fisso in basso a destra, sopra MotionToggle, che passa dal tema chiaro a quello scuro.
+ * Il bottone tondo che passa dal tema chiaro a quello scuro, nella seconda riga del pannello
+ * delle preferenze (components/Preferences).
  * Il tema di partenza lo sceglie lo script in index.html (scelta salvata o tema del
  * sistema) e lo scrive su <html data-theme="...">: da lì lo leggono le variabili di
  * src/styles/tokens.css. Il bottone cambia quell'attributo, salva la scelta in

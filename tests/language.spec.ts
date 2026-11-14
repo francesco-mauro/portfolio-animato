@@ -22,6 +22,7 @@
  * della traduzione, che un test non può giudicare.
  */
 import { expect, test, type Page } from '@playwright/test'
+import { openPreferences } from './preferences.ts'
 
 type Lang = 'it' | 'en'
 type Localized = Record<Lang, string>
@@ -206,6 +207,7 @@ test.describe('con il browser in italiano', () => {
 
   test('il sito parte in italiano', async ({ page }) => {
     await page.goto('/')
+    await openPreferences(page)
     await expect(page.locator('html')).toHaveAttribute('lang', 'it')
     await expect(languageButton(page, 'it')).toHaveAttribute('aria-checked', 'true')
     await expect(page.getByRole('heading', { level: 1 }).locator('span')).toHaveText([
@@ -216,6 +218,7 @@ test.describe('con il browser in italiano', () => {
 
   test('EN mette in inglese ogni testo dei dati, e IT li rimette in italiano', async ({ page }) => {
     await page.goto('/')
+    await openPreferences(page)
     const data = await siteData(page)
     // Se il test non trovasse i dati passerebbe a vuoto: profilo, sei progetti e interfaccia sono più di 40 testi.
     expect(data.localized.length).toBeGreaterThan(40)
@@ -237,6 +240,7 @@ test.describe('con il browser in italiano', () => {
 
   test('passando a EN non resta niente in italiano: cambia ogni testo che non sia un nome, una tecnologia o codice', async ({ page }) => {
     await page.goto('/')
+    await openPreferences(page)
     const data = await siteData(page)
     const italian = await pageSays(page)
     await languageButton(page, 'en').click()
@@ -252,11 +256,13 @@ test.describe('con il browser in italiano', () => {
 
   test('la scelta resta dopo il ricaricamento', async ({ page }) => {
     await page.goto('/')
+    await openPreferences(page)
     await languageButton(page, 'en').click()
     await expect(page.locator('html')).toHaveAttribute('lang', 'en')
 
     // Il browser resta in italiano: se dopo il ricaricamento è in inglese, è la scelta salvata.
     await page.reload()
+    await openPreferences(page)
     await expect(page.locator('html')).toHaveAttribute('lang', 'en')
     await expect(languageButton(page, 'en')).toHaveAttribute('aria-checked', 'true')
     await expect(page.getByRole('heading', { level: 1 }).locator('span').first()).toHaveText('What you see,')
@@ -265,6 +271,7 @@ test.describe('con il browser in italiano', () => {
   test('una scelta salvata che non è una lingua del sito non conta: vale la lingua del browser', async ({ page }) => {
     await page.addInitScript(() => localStorage.setItem('lang', 'xx'))
     await page.goto('/')
+    await openPreferences(page)
     await expect(page.locator('html')).toHaveAttribute('lang', 'it')
     await expect(languageButton(page, 'it')).toHaveAttribute('aria-checked', 'true')
   })
@@ -279,6 +286,7 @@ test.describe('con il browser in italiano', () => {
       })
     })
     await page.goto('/')
+    await openPreferences(page)
     await expect(page.locator('html')).toHaveAttribute('lang', 'it')
     await languageButton(page, 'en').click()
     await expect(page.locator('html')).toHaveAttribute('lang', 'en')
@@ -288,6 +296,7 @@ test.describe('con il browser in italiano', () => {
   test('in inglese il titolo sta su una riga per pezzo a 1440 px, e a 390 px resta dentro lo schermo', async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 })
     await page.goto('/')
+    await openPreferences(page)
     await languageButton(page, 'en').click()
     await expect(page.locator('html')).toHaveAttribute('lang', 'en')
     // Il caso peggiore, un font largo: lo stesso di hero.spec.ts, per dire la stessa cosa su ogni macchina.
@@ -306,6 +315,7 @@ test.describe('con il browser in italiano', () => {
     test(`a ${width} px l'interruttore della lingua sta nello schermo e non copre gli altri controlli`, async ({ page }) => {
       await page.setViewportSize({ width, height: 844 })
       await page.goto('/')
+      await openPreferences(page)
       const language = await page.getByRole('radiogroup', { name: 'Lingua' }).boundingBox()
       expect(language).not.toBeNull()
       expect(language!.x).toBeGreaterThanOrEqual(0)
@@ -315,6 +325,7 @@ test.describe('con il browser in italiano', () => {
       const others = {
         Motion: page.getByRole('radiogroup', { name: 'Movimento' }),
         tema: page.getByRole('button', { name: 'Tema scuro' }),
+        // Il riquadro del menu è la pillola: il pannello, che è assoluto, non lo allarga.
         menu: page.getByRole('navigation', { name: 'Sezioni' }),
       }
       for (const [name, locator] of Object.entries(others)) {
@@ -336,6 +347,7 @@ test.describe('con il browser in un’altra lingua', () => {
 
   test('il sito parte in inglese', async ({ page }) => {
     await page.goto('/')
+    await openPreferences(page)
     await expect(page.locator('html')).toHaveAttribute('lang', 'en')
     await expect(languageButton(page, 'en')).toHaveAttribute('aria-checked', 'true')
     await expect(page.getByRole('heading', { level: 1 }).locator('span')).toHaveText([
@@ -346,9 +358,11 @@ test.describe('con il browser in un’altra lingua', () => {
 
   test('la lingua scelta con il bottone vince su quella del browser', async ({ page }) => {
     await page.goto('/')
+    await openPreferences(page)
     await languageButton(page, 'it').click()
     await expect(page.locator('html')).toHaveAttribute('lang', 'it')
     await page.reload()
+    await openPreferences(page)
     await expect(page.locator('html')).toHaveAttribute('lang', 'it')
     await expect(languageButton(page, 'it')).toHaveAttribute('aria-checked', 'true')
   })

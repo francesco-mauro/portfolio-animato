@@ -11,6 +11,7 @@
  *  - con Motion Off resta vuota, come ogni altro movimento del sito.
  */
 import { expect, test, type Page } from '@playwright/test'
+import { setMotion } from './preferences.ts'
 
 const bar = (page: Page) => page.getByTestId('reading-bar')
 
@@ -27,7 +28,7 @@ async function scrollToPart(page: Page, part: number) {
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/')
-  await page.getByRole('radio', { name: 'On' }).click()
+  await setMotion(page, 'On')
 })
 
 test('in cima alla pagina la barra è vuota', async ({ page }) => {
@@ -56,6 +57,6 @@ test('con Motion Off la barra resta vuota', async ({ page }) => {
   await scrollToPart(page, 1)
   await expect.poll(() => fill(page)).toBeGreaterThan(0.99)
 
-  await page.getByRole('radio', { name: 'Off' }).click()
+  await setMotion(page, 'Off')
   await expect.poll(() => fill(page)).toBe(0)
 })

@@ -1,14 +1,10 @@
 /*
  * ThemeToggle.module.css
- * Un bottone tondo scuro come l'interruttore Motion, appena sopra di lui a destra
- * (in basso a sinistra copriva la riga del copyright nei Contatti); l'icona
+ * Un bottone tondo scuro come l'interruttore Motion, nella seconda riga del pannello
+ * delle preferenze (components/Preferences), che gli dà il posto; l'icona
  * (luna nel tema chiaro, sole in quello scuro) è disegnata con il colore del testo.
  */
 .toggle {
-  position: fixed;
-  right: 18px;
-  bottom: 68px;
-  z-index: 40;
   display: grid;
   place-items: center;
   width: 34px;
@@ -16,8 +12,7 @@
   padding: 0;
   border: 1px solid rgb(255 255 255 / 0.22);
   border-radius: var(--radius-pill);
-  background: rgb(25 27 39 / 0.88);
-  backdrop-filter: blur(8px);
+  background: rgb(255 255 255 / 0.08);
   color: var(--color-light);
   transition: background-color 0.25s;
 }
@@ -34,10 +29,4 @@
   stroke-width: 1.8;
   stroke-linecap: round;
   stroke-linejoin: round;
-}
-
-@media (max-width: 640px) {
-  .toggle {
-    bottom: 122px;
-  }
 }

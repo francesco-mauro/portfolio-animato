@@ -1,6 +1,7 @@
 /**
  * MotionToggle.tsx
- * L'interruttore fisso in basso a destra "Motion · Off · On · X-ray", lo stesso
+ * L'interruttore "Motion · Off · On · X-ray", nella terza riga del pannello delle preferenze
+ * (components/Preferences, che scrive anche la parola «Motion» accanto), lo stesso
  * dei siti mostrati nel video (14:15 e 15:48). Cambia la modalità nel contesto
  * MotionModeContext: Off ferma tutto, X-ray mostra com'è fatto ogni pezzo.
  * Le scritte che si vedono (Motion, Off, On, X-ray) sono inglesi anche nel sito italiano,
@@ -24,7 +25,6 @@ export function MotionToggle() {
 
   return (
     <div className={styles.toggle} role="radiogroup" aria-label={t(ui.motion.label)}>
-      <span className={styles.caption}>Motion</span>
       {options.map((option) => (
         <button
           key={option.value}

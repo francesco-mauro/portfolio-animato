@@ -18,6 +18,7 @@
  * CSS Modules cambiano nome a ogni build.
  */
 import { expect, test, type Locator, type Page } from '@playwright/test'
+import { setMotion } from './preferences.ts'
 
 const cards = (page: Page) => page.locator('#progetti > ul > li')
 
@@ -71,7 +72,7 @@ test('il tag dell’anteprima dichiara le misure in 16:10 e il caricamento pigro
 })
 
 test('col mouse sopra la scheda l’anteprima si ingrandisce', async ({ page }) => {
-  await page.getByRole('radio', { name: 'On' }).click()
+  await setMotion(page, 'On')
   const card = cards(page).first()
   await card.scrollIntoViewIfNeeded()
   const img = card.locator('img')
@@ -82,7 +83,7 @@ test('col mouse sopra la scheda l’anteprima si ingrandisce', async ({ page }) 
 })
 
 test('con Motion Off l’anteprima resta ferma anche col mouse sopra', async ({ page }) => {
-  await page.getByRole('radio', { name: 'Off' }).click()
+  await setMotion(page, 'Off')
   const card = cards(page).first()
   await card.scrollIntoViewIfNeeded()
   const img = card.locator('img')
@@ -97,7 +98,7 @@ test('con il sistema che chiede meno movimento l’anteprima resta ferma', async
   await page.goto('/')
   // Con questa richiesta il sito parte da Off: si rimette On, così a tenere ferma
   // l'anteprima resta solo la regola @media di Projects.module.css.
-  await page.getByRole('radio', { name: 'On' }).click()
+  await setMotion(page, 'On')
   await expect(page.locator('html')).toHaveAttribute('data-motion', 'on')
   const card = cards(page).first()
   await card.scrollIntoViewIfNeeded()

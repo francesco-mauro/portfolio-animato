@@ -4,9 +4,12 @@
  * del sito "Kinetic" (14:15). Porta alle sezioni con le ancore (#progetti, #contatti),
  * lo scroll morbido lo fa html { scroll-behavior: smooth } in global.css.
  * Le voci cambiano con la lingua (src/data/ui.ts); le ancore no, sono indirizzi.
+ * L'ultimo elemento è il bottone delle preferenze (components/Preferences), con il suo
+ * pannello: così in basso c'è un oggetto solo, anche sul telefono.
  */
 import { useLanguage } from '../../hooks/useLanguage.ts'
 import { ui } from '../../data/ui.ts'
+import { Preferences } from '../Preferences/Preferences.tsx'
 import styles from './PillNav.module.css'
 
 const items = [
@@ -30,6 +33,7 @@ export function PillNav() {
           {t(item.label)}
         </a>
       ))}
+      <Preferences />
     </nav>
   )
 }

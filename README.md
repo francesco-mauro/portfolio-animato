@@ -40,9 +40,9 @@ npm run test:e2e   # test end-to-end con Playwright in un browser vero (tests/)
 | 4 | **Progetti** | schede di "Kinetic", 14:15 | sei schede, ognuna con l'anteprima vera del progetto che si ingrandisce col mouse sopra (e, nelle tre con la demo online, un breve video della demo che parte col mouse sopra), entrano una dopo l'altra seguendo lo scroll, solo in CSS (`animation-timeline: view()`), e si inclinano verso il mouse |
 | 5 | **Contatti** | schermata "One app for all your motion", 14:26 | fondo corallo, un disco ruota in prospettiva |
 
-Sempre presenti: il **cursore** (punto più anello che lo insegue, 14:32), il **menu a pillola** in basso al centro e l'**interruttore Motion** in basso a destra, con sopra il **bottone del tema chiaro e scuro**: parte dal tema del sistema, ricorda la scelta e anima il passaggio con le View Transitions. In cima, la **barra di lettura**: una riga indaco che si riempie mentre la pagina scorre, solo in CSS (`animation-timeline: scroll()`).
+Sempre presenti: il **cursore** (punto più anello che lo insegue, 14:32), il **menu a pillola** in basso al centro, che è l'unico oggetto fisso in basso: il suo ultimo bottone apre il **pannello delle preferenze**, con lingua, tema e Motion (prima erano tre blocchi in basso a destra, che sul telefono coprivano il contenuto). Il **tema chiaro e scuro** parte dal tema del sistema, ricorda la scelta e anima il passaggio con le View Transitions. In cima, la **barra di lettura**: una riga indaco che si riempie mentre la pagina scorre, solo in CSS (`animation-timeline: scroll()`).
 
-Il sito è in **italiano e in inglese**: accanto al bottone del tema c'è l'interruttore **IT · EN**. Parte nella lingua del browser (italiano se il browser è in italiano, inglese per tutti gli altri), ricorda la scelta e cambia ogni testo della pagina, anche quelli per i lettori di schermo e le etichette della vista X-ray. La descrizione della pagina e l'anteprima del link (Open Graph) restano in italiano: chi prepara l'anteprima di un link (LinkedIn, WhatsApp, Telegram) non esegue JavaScript.
+Il sito è in **italiano e in inglese**: nel pannello delle preferenze c'è l'interruttore **IT · EN**. Parte nella lingua del browser (italiano se il browser è in italiano, inglese per tutti gli altri), ricorda la scelta e cambia ogni testo della pagina, anche quelli per i lettori di schermo e le etichette della vista X-ray. La descrizione della pagina e l'anteprima del link (Open Graph) restano in italiano: chi prepara l'anteprima di un link (LinkedIn, WhatsApp, Telegram) non esegue JavaScript.
 
 ## Le tre modalità di movimento
 
@@ -73,14 +73,14 @@ sito-animato/
 ├── tests/                     test end-to-end: le animazioni controllate nel browser
 └── src/
     ├── main.tsx               punto di ingresso: stili globali e <App />
-    ├── App.tsx                compone la pagina: sezioni e controlli fissi
+    ├── App.tsx                compone la pagina: sezioni e menu fisso
     ├── styles/                CSS globali: variabili, regole comuni, vista X-ray
     ├── types/                 i tipi TypeScript dei contenuti
     ├── data/                  i testi del sito in italiano e in inglese: profilo, progetti, stack, interfaccia, con i loro test
     ├── assets/                le immagini importate dal codice: le anteprime dei progetti
     ├── context/               la modalità di movimento (On, Off, X-ray) e la lingua (IT, EN), condivise da tutta la pagina
     ├── hooks/                 la logica riusabile: cursore, scroll, entrate, inclinazione, lingua
-    ├── components/            i pezzi riusabili: cursore, forme, schede, menu, interruttore, tema, lingua, barra di lettura
+    ├── components/            i pezzi riusabili: cursore, forme, schede, menu, preferenze (lingua, tema, Motion), barra di lettura
     └── sections/              le cinque sezioni della pagina, in ordine
 ```
 
@@ -91,7 +91,7 @@ Ogni cartella ha il suo `README.md` con l'elenco dei file e cosa fa ciascuno. Og
 - **Un componente, una cartella:** `Nome.tsx` più `Nome.module.css` accanto. Lo stile non esce dalla cartella (CSS Modules).
 - **I testi stanno in `src/data/`**, mai scritti dentro i componenti, **in italiano e in inglese** (`{ it, en }`): quelli dell'interfaccia in `ui.ts`. Una scritta lasciata in una lingua sola la trova `tests/language.spec.ts`. Chi aggiunge o cambia un progetto lancia `npm run test:unit`: controlla link, demo, date e doppioni, e che i progetti restino un multiplo di tre (un settimo progetto da solo lascerebbe due posti vuoti nella griglia).
 - **I colori stanno in `src/styles/tokens.css`**, mai scritti a mano altrove se esiste la variabile.
-- **Il sito si usa da tastiera** (`tests/keyboard.spec.ts`): il primo Tab mostra «Salta al contenuto», poi il menu, il contenuto e le preferenze, ognuno con un anello a due colori che si vede su ogni fondo. Il menu sta in basso sullo schermo ma prima nel DOM: l'ordine del DOM è l'ordine del Tab, quindi un pezzo nuovo va messo nel punto giusto di `App.tsx`.
+- **Il sito si usa da tastiera** (`tests/keyboard.spec.ts`): il primo Tab mostra «Salta al contenuto», poi il menu, che finisce con il bottone delle preferenze, e il contenuto, ognuno con un anello a due colori che si vede su ogni fondo. Il menu sta in basso sullo schermo ma prima nel DOM: l'ordine del DOM è l'ordine del Tab, quindi un pezzo nuovo va messo nel punto giusto di `App.tsx`.
 - **L'accessibilità la controlla axe** (`tests/a11y.spec.ts`, dentro `npm run test:e2e`): la pagina deve passare senza violazioni in ogni tema e in ogni modalità di Motion. Il caso più facile da rompere è il contrasto: il testo bianco piccolo va sul corallo scuro (`--color-coral-deep`, 4,94 a 1), non sul corallo dei titoli (3,62 a 1, sotto il 4,5 a 1 di WCAG AA).
 - **Le animazioni rispettano Off e `prefers-reduced-motion`:** chi aggiunge un'animazione non deve fare niente, le regole in `global.css` le fermano tutte.
 - **Ogni nuovo `data-xray`** va su un elemento che ha già una `position` nel suo CSS (l'etichetta si appoggia lì).
