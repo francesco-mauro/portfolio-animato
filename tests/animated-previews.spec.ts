@@ -70,16 +70,28 @@ const contrastAt = (page: Page, src: string, times: number[]) =>
       canvas.width = 72
       canvas.height = 45
       const context = canvas.getContext('2d', { willReadFrequently: true })!
-      const result: number[] = []
-      for (const time of times) {
-        video.currentTime = time
-        await new Promise((resolve) => (video.onseeked = resolve))
+      const sample = () => {
         context.drawImage(video, 0, 0, canvas.width, canvas.height)
         const { data } = context.getImageData(0, 0, canvas.width, canvas.height)
         const light: number[] = []
         for (let i = 0; i < data.length; i += 4) light.push(0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2])
         const mean = light.reduce((a, b) => a + b, 0) / light.length
-        result.push(Math.sqrt(light.reduce((a, b) => a + (b - mean) ** 2, 0) / light.length))
+        return Math.sqrt(light.reduce((a, b) => a + (b - mean) ** 2, 0) / light.length)
+      }
+      const result: number[] = []
+      for (const time of times) {
+        video.currentTime = time
+        await new Promise((resolve) => (video.onseeked = resolve))
+        // Con il PC sotto carico, all'evento «seeked» il fotogramma può non essere ancora
+        // decodificato e la tela resta vuota (contrasto 0): il 14 novembre 2026 è capitato
+        // una volta su 101 test, e mai rilanciando il test da solo. Si riprova per un secondo e
+        // mezzo: un fotogramma davvero bianco resta bianco, e il test fallisce lo stesso.
+        let contrast = sample()
+        for (let i = 0; i < 30 && contrast === 0; i++) {
+          await new Promise((resolve) => setTimeout(resolve, 50))
+          contrast = sample()
+        }
+        result.push(contrast)
       }
       return result
     },
