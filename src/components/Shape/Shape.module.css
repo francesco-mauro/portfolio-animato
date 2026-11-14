@@ -2,7 +2,10 @@
  * Shape.module.css
  * Il volume delle forme viene da tre cose: un gradiente radiale con la luce in alto
  * a sinistra, un'ombra interna scura in basso a destra e un'ombra morbida sotto.
- * L'animazione "float" le fa salire e scendere di pochi pixel con una leggera rotazione.
+ * L'animazione "float" le fa salire e scendere di pochi pixel.
+ * .shape è il contenitore piatto: posto, larghezza, galleggiare ed etichetta X-ray.
+ * .body è la forma che si vede: la rotazione di partenza e l'inclinazione in 3D stanno
+ * qui, così l'etichetta X-ray del contenitore non le eredita.
  */
 .shape {
   position: absolute;
@@ -11,8 +14,12 @@
   width: var(--size);
   animation: float 7s ease-in-out infinite;
   animation-delay: var(--delay);
-  rotate: var(--rotate);
   will-change: transform;
+}
+
+.body {
+  width: 100%;
+  rotate: var(--rotate);
 }
 
 .sphere {

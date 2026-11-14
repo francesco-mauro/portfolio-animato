@@ -65,6 +65,12 @@
   }
 }
 
+/* La cornice piatta della FloatingCard riempie la cella; la scheda dentro la riempie a sua volta */
+.cardFrame {
+  display: flex;
+  width: 100%;
+}
+
 .card {
   display: flex;
   flex-direction: column;

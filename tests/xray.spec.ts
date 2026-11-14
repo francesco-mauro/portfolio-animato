@@ -4,14 +4,17 @@
  * l'interruttore su X-ray ogni pezzo che ha l'attributo data-xray prende un contorno
  * tratteggiato e un'etichetta, un ::after che legge il testo dall'attributo.
  * Uno pseudo-elemento non si trova con un selettore: si legge con
- * getComputedStyle(elemento, '::after'). Quattro controlli:
+ * getComputedStyle(elemento, '::after'). Cinque controlli:
  *  - con X-ray ogni pezzo mostra la sua etichetta, con il testo del suo data-xray,
  *    e in ogni sezione della pagina ce n'è almeno uno;
  *  - con On etichette e contorni non ci sono;
  *  - nessun pezzo taglia la propria etichetta con il suo overflow: sta 30 px sopra
- *    l'elemento, quindi un overflow nascosto la farebbe sparire (è il motivo della regola
- *    X-ray in components/FloatingCard/FloatingCard.module.css);
- *  - X-ray lascia acceso il movimento: la fascia dello stack continua a scorrere.
+ *    l'elemento, quindi un overflow nascosto la farebbe sparire (per questo nella
+ *    FloatingCard, che taglia il suo contenuto, l'etichetta sta sulla cornice intorno);
+ *  - X-ray lascia acceso il movimento: la fascia dello stack continua a scorrere;
+ *  - ogni etichetta è dritta: né il pezzo che la porta né i suoi genitori ruotano, si
+ *    inclinano in 3D o si schiacciano (prima la capsula la girava di 28 gradi e il disco
+ *    la schiacciava a metà), anche con la scheda inclinata dal mouse.
  * Cosa non controlla: un contenitore con l'overflow nascosto (la prima schermata, i
  * Contatti) taglierebbe l'etichetta di un pezzo messo a meno di 30 px dal suo bordo alto.
  * Oggi nessuno sta così in alto; chi sposta una forma lo guardi a occhio in X-ray.
@@ -22,17 +25,23 @@ import { setMotion } from './preferences.ts'
 /** Dove deve esserci almeno un pezzo etichettato: le cinque sezioni e il menu. */
 const PLACES = ['#top', '#stack', '#chi-sono', '#progetti', '#contatti', 'nav']
 
-/** Per ogni pezzo: il testo dell'attributo e cosa disegnano davvero lui e il suo ::after. */
+/**
+ * Per ogni pezzo: il testo dell'attributo e cosa disegnano davvero lui e il suo ::after.
+ * Il contorno sta sul pezzo, o sulla sua parte che si muove (il figlio con
+ * data-xray-outline): in quel caso il pezzo stesso non ne disegna un secondo.
+ */
 const pieces = (page: Page) =>
   page.locator('[data-xray]').evaluateAll((els) =>
     els.map((el) => {
       const own = getComputedStyle(el)
       const after = getComputedStyle(el, '::after')
+      const body = el.querySelector(':scope > [data-xray-outline]')
       return {
         text: el.getAttribute('data-xray') ?? '',
         label: after.content,
         labelDisplay: after.display,
-        outline: own.outlineStyle,
+        outline: getComputedStyle(body ?? el).outlineStyle,
+        secondOutline: body ? own.outlineStyle : 'none',
         overflow: `${own.overflowX} ${own.overflowY}`,
       }
     }),
@@ -63,6 +72,7 @@ test('con X-ray ogni pezzo mostra la sua etichetta', async ({ page }) => {
     expect(piece.label, `etichetta di «${piece.text}»`).toBe(quoted(piece.text))
     expect(piece.labelDisplay, `etichetta di «${piece.text}»`).not.toBe('none')
     expect(piece.outline, `contorno di «${piece.text}»`).toBe('dashed')
+    expect(piece.secondOutline, `secondo contorno di «${piece.text}»`).toBe('none')
   }
 })
 
@@ -95,4 +105,66 @@ test('con X-ray il movimento resta acceso', async ({ page }) => {
   const before = await offsetX()
   await page.waitForTimeout(600)
   expect(await offsetX()).not.toBe(before)
+})
+
+/**
+ * Cosa piega l'etichetta di un pezzo: rotazioni, scale e trasformazioni del pezzo e dei
+ * suoi genitori, fino a html. Lo spostamento (translate, il galleggiare) è ammesso, e
+ * anche una prospettiva da sola, che sul piano dell'elemento non cambia niente.
+ * Una lista vuota vuol dire etichetta dritta e a grandezza piena.
+ */
+const bentBy = (page: Page, index: number) =>
+  page.locator('[data-xray]').nth(index).evaluate((el) => {
+    const near = (a: number, b: number) => Math.abs(a - b) < 0.001
+    const bent: string[] = []
+    for (let node: Element | null = el; node && node !== document.documentElement; node = node.parentElement) {
+      const style = getComputedStyle(node)
+      const name = `${node.tagName.toLowerCase()}${node.id ? `#${node.id}` : ''}`
+      if (style.rotate !== 'none' && !/^0(deg)?$/.test(style.rotate)) bent.push(`${name}: rotate ${style.rotate}`)
+      if (style.scale !== 'none' && style.scale.split(' ').some((v) => !near(parseFloat(v), 1))) bent.push(`${name}: scale ${style.scale}`)
+      if (style.transform !== 'none') {
+        const m = new DOMMatrix(style.transform)
+        const flat = near(m.m11, 1) && near(m.m12, 0) && near(m.m21, 0) && near(m.m22, 1) && near(m.m14, 0) && near(m.m24, 0) && near(m.m44, 1)
+        if (!flat) bent.push(`${name}: transform ${style.transform}`)
+      }
+    }
+    return bent
+  })
+
+test('con X-ray ogni etichetta è dritta e a grandezza piena', async ({ page }) => {
+  await choose(page, 'X-ray')
+  const all = page.locator('[data-xray]')
+  const count = await all.count()
+
+  expect(count).toBeGreaterThan(0)
+  for (let i = 0; i < count; i++) {
+    // Al centro dello schermo, dove le schede dei progetti hanno finito di entrare
+    // (la loro entrata le rimpicciolisce un poco finché arrivano).
+    await all.nth(i).evaluate((el) => el.scrollIntoView({ block: 'center', behavior: 'instant' }))
+    await page.waitForTimeout(300)
+    const text = await all.nth(i).getAttribute('data-xray')
+    expect.soft(await bentBy(page, i), `etichetta di «${text}»`).toEqual([])
+  }
+})
+
+test('con X-ray l\'etichetta resta dritta anche quando il mouse inclina la scheda', async ({ page }) => {
+  await choose(page, 'X-ray')
+  const all = page.locator('[data-xray]')
+  const index = await all.evaluateAll((els) => els.findIndex((el) => el.textContent?.includes('tsc -b')))
+  expect(index, 'la scheda Build della prima schermata').toBeGreaterThanOrEqual(0)
+
+  const card = all.nth(index)
+  const box = await card.boundingBox()
+  expect(box).not.toBeNull()
+  // Il mouse verso l'angolo in basso a destra, dove l'inclinazione è forte, ma dentro il
+  // bordo arrotondato: sull'angolo esatto la scheda non lo sente.
+  await page.mouse.move(box!.x + box!.width * 0.85, box!.y + box!.height * 0.85)
+  await page.waitForTimeout(700)
+
+  expect(await bentBy(page, index)).toEqual([])
+  // E la scheda si è inclinata davvero: il contorno, che sta sulla parte che si muove, la segue.
+  const body = card.locator('[data-xray-outline]')
+  await expect(body).toHaveCount(1)
+  const tilt = await body.evaluate((el) => new DOMMatrix(getComputedStyle(el).transform).m11)
+  expect(tilt).toBeLessThan(0.9999)
 })

@@ -72,8 +72,9 @@ for (const [width, height] of [
       if (!box) continue
       // Il rettangolo è preso in un punto qualsiasi del fluttuare: si toglie lo spostamento
       // del momento (la proprietà translate) per tornare alla posizione di riposo, poi si
-      // allunga verso l'alto fino al punto più alto, 18 px sopra.
-      const lift = await shape.evaluate((el) => parseFloat(getComputedStyle(el).translate.split(' ')[1] ?? '0') || 0)
+      // allunga verso l'alto fino al punto più alto, 18 px sopra. data-shape sta sulla forma
+      // che si vede; a galleggiare è il contenitore intorno, il suo genitore.
+      const lift = await shape.evaluate((el) => parseFloat(getComputedStyle(el.parentElement!).translate.split(' ')[1] ?? '0') || 0)
       const restY = box.y - lift
       const reach = { ...box, y: restY - FLOAT, height: box.height + FLOAT }
       const kind = await shape.getAttribute('data-shape')

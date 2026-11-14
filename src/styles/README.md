@@ -6,4 +6,4 @@ I CSS globali, importati una volta da `main.tsx`. Lo stile dei singoli pezzi sta
 |---|---|
 | `tokens.css` | le variabili del design: colori presi dai fotogrammi del video, font, raggi, ombre, le due curve di animazione (`--ease-out-back` letta sulla scheda "Ease" a 14:15); sotto `[data-theme='dark']` i colori del tema scuro e la durata del passaggio con le View Transitions |
 | `global.css` | reset leggero, font del body, cursore nascosto dove c'è un mouse, la classe `.reveal` per le entrate allo scroll, l'anello del focus da tastiera (`:focus-visible`, scuro fuori e chiaro dentro, che entra stringendosi) e il link «Salta al contenuto» (`.skip-link`), lo stop di tutte le animazioni in modalità Off e con `prefers-reduced-motion` |
-| `xray.css` | la vista X-ray: contorno tratteggiato ed etichetta (`::after` con `attr(data-xray)`) su ogni elemento che ha `data-xray` |
+| `xray.css` | la vista X-ray: contorno tratteggiato ed etichetta (`::after` con `attr(data-xray)`) su ogni elemento che ha `data-xray`; se dentro c'è una parte che ruota o si inclina, segnata con `data-xray-outline`, il contorno passa a lei e l'etichetta resta dritta sul contenitore |

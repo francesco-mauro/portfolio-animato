@@ -27,6 +27,25 @@ html[data-motion='xray'] [data-xray]::after {
 }
 
 /*
- * Regola per chi aggiunge un data-xray: l'elemento deve avere già una position
- * (relative, absolute o fixed) nel suo CSS Module, perché l'etichetta si appoggia lì.
+ * Un pezzo che ruota o si inclina (le forme, il disco dei Contatti, le schede che
+ * seguono il mouse) è fatto di due elementi: un contenitore piatto, con il data-xray,
+ * e dentro la parte che si muove, con data-xray-outline. L'etichetta sta sul
+ * contenitore e resta dritta; il contorno passa alla parte che si muove e la segue.
+ * Se l'etichetta stesse sull'elemento ruotato ne erediterebbe la rotazione: la capsula
+ * la girava di 28 gradi, il disco la schiacciava a metà. Test: tests/xray.spec.ts.
+ */
+html[data-motion='xray'] [data-xray]:has(> [data-xray-outline]) {
+  outline: none;
+}
+
+html[data-motion='xray'] [data-xray-outline] {
+  outline: 1.5px dashed var(--color-indigo);
+  outline-offset: 4px;
+}
+
+/*
+ * Regole per chi aggiunge un data-xray: l'elemento deve avere già una position
+ * (relative, absolute o fixed) nel suo CSS Module, perché l'etichetta si appoggia lì;
+ * e non deve ruotare, inclinarsi o scalare, né lui né i suoi genitori: se il pezzo si
+ * muove così, va diviso in contenitore e parte con data-xray-outline, come sopra.
  */

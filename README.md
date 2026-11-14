@@ -94,7 +94,7 @@ Ogni cartella ha il suo `README.md` con l'elenco dei file e cosa fa ciascuno. Og
 - **Il sito si usa da tastiera** (`tests/keyboard.spec.ts`): il primo Tab mostra «Salta al contenuto», poi il menu, che finisce con il bottone delle preferenze, e il contenuto, ognuno con un anello a due colori che si vede su ogni fondo. Il menu sta in basso sullo schermo ma prima nel DOM: l'ordine del DOM è l'ordine del Tab, quindi un pezzo nuovo va messo nel punto giusto di `App.tsx`.
 - **L'accessibilità la controlla axe** (`tests/a11y.spec.ts`, dentro `npm run test:e2e`): la pagina deve passare senza violazioni in ogni tema e in ogni modalità di Motion. Il caso più facile da rompere è il contrasto: il testo bianco piccolo va sul corallo scuro (`--color-coral-deep`, 4,94 a 1), non sul corallo dei titoli (3,62 a 1, sotto il 4,5 a 1 di WCAG AA).
 - **Le animazioni rispettano Off e `prefers-reduced-motion`:** chi aggiunge un'animazione non deve fare niente, le regole in `global.css` le fermano tutte.
-- **Ogni nuovo `data-xray`** va su un elemento che ha già una `position` nel suo CSS (l'etichetta si appoggia lì).
+- **Ogni nuovo `data-xray`** va su un elemento che ha già una `position` nel suo CSS (l'etichetta si appoggia lì) e che non ruota, non si inclina e non scala, né lui né i suoi genitori: l'etichetta ne erediterebbe la rotazione. Un pezzo che si muove così si divide in due, un contenitore piatto con `data-xray` e dentro la parte che si muove con `data-xray-outline`, che prende il contorno (come le forme, il disco dei Contatti e le schede).
 - **Nessuna libreria di animazione:** solo CSS e un po' di TypeScript, come nel video.
 
 ## Pubblicazione: GitHub Pages

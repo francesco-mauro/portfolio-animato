@@ -14,6 +14,10 @@
  *  - rotate rotazione di partenza in gradi
  *  - phoneTop, phoneLeft  posizione sotto i 760px, per una forma che sul telefono
  *    finirebbe sopra il titolo (tests/mobile.spec.ts); senza, resta top e left
+ *
+ * Due elementi: fuori il contenitore piatto, che sta al suo posto, galleggia e porta
+ * l'etichetta X-ray; dentro la forma vera, che ruota e si inclina (data-shape e
+ * data-xray-outline). Così nella vista X-ray l'etichetta resta dritta (styles/xray.css).
  */
 import type { CSSProperties } from 'react'
 import { useLanguage } from '../../hooks/useLanguage.ts'
@@ -49,12 +53,8 @@ export function Shape({ kind, size, top, left, delay = 0, rotate = 0, phoneTop, 
   } as CSSProperties
 
   return (
-    <div
-      className={`${styles.shape} ${styles[kind]}`}
-      style={style}
-      data-shape={kind}
-      data-xray={t(ui.xray.shapes[kind])}
-      aria-hidden="true"
-    />
+    <div className={styles.shape} style={style} data-xray={t(ui.xray.shapes[kind])} aria-hidden="true">
+      <div className={`${styles.body} ${styles[kind]}`} data-shape={kind} data-xray-outline="" />
+    </div>
   )
 }

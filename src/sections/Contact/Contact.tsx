@@ -25,7 +25,11 @@ export function Contact() {
 
   return (
     <section id="contatti" className={styles.section}>
-      <div className={styles.disc} aria-hidden="true" data-xray={t(ui.xray.contactDisc)} />
+      {/* Il contenitore piatto porta l'etichetta X-ray, dentro il disco che gira: così
+          l'etichetta resta dritta mentre il disco ruota (styles/xray.css) */}
+      <div className={styles.disc} aria-hidden="true" data-xray={t(ui.xray.contactDisc)}>
+        <div className={styles.discBody} data-xray-outline="" />
+      </div>
       <div ref={ref} className={`reveal ${styles.content}`}>
         <h2 className={styles.title}>
           {t(firstLine)}

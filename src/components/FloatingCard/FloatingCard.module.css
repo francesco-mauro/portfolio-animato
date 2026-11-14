@@ -3,7 +3,13 @@
  * La scheda ruota in 3D con le variabili --tilt-x e --tilt-y di usePointerTilt;
  * un riflesso chiaro (::before) segue il mouse con --glow-x e --glow-y.
  * I toni ricalcano le schede del video: verde Render, bordo blu Ease, rosa Shared.
+ * .frame è la cornice piatta intorno: posto, galleggiare ed etichetta X-ray, che così
+ * non si inclina con la scheda.
  */
+.frame {
+  position: relative;
+}
+
 .card {
   position: relative;
   border-radius: var(--radius-card);
@@ -26,11 +32,6 @@
 }
 .card:hover::before {
   opacity: 1;
-}
-
-/* In X-ray l'etichetta sta sopra la scheda: non va tagliata */
-:global(html[data-motion='xray']) .card {
-  overflow: visible;
 }
 
 .floating {

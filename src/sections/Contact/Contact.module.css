@@ -16,13 +16,17 @@
   background: radial-gradient(ellipse at 50% 18%, #ffd9c9 0%, var(--color-coral-light) 30%, var(--color-coral) 62%);
 }
 
+/* .disc è il contenitore piatto (posto ed etichetta X-ray), .discBody il disco che gira */
 .disc {
   position: absolute;
   top: 10%;
   left: 50%;
   width: 200px;
-  aspect-ratio: 1;
   margin-left: -100px;
+}
+
+.discBody {
+  aspect-ratio: 1;
   border-radius: 50%;
   background: radial-gradient(circle at 40% 35%, #ff7a5c 0%, var(--color-coral) 50%, var(--color-coral-deep) 100%);
   box-shadow: 0 60px 60px -30px rgb(150 40 20 / 0.45);

@@ -119,7 +119,8 @@ function ProjectItem({ project, index }: { project: Project; index: number }) {
     >
       <FloatingCard
         tone={project.tone}
-        className={styles.card}
+        className={styles.cardFrame}
+        bodyClassName={styles.card}
         xray={index === 0 ? 'CSS · animation-timeline: view() · usePointerTilt' : undefined}
       >
         {/* width e height riservano lo spazio in 16:10 prima che l'immagine arrivi: la pagina non salta */}
