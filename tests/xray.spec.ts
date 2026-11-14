@@ -156,9 +156,14 @@ test('con X-ray l\'etichetta resta dritta anche quando il mouse inclina la sched
   const card = all.nth(index)
   const box = await card.boundingBox()
   expect(box).not.toBeNull()
-  // Il mouse verso l'angolo in basso a destra, dove l'inclinazione è forte, ma dentro il
-  // bordo arrotondato: sull'angolo esatto la scheda non lo sente.
-  await page.mouse.move(box!.x + box!.width * 0.85, box!.y + box!.height * 0.85)
+  // Il mouse verso l'angolo in basso a sinistra, dove l'inclinazione si vede, ma dentro il
+  // bordo arrotondato (sull'angolo esatto la scheda non lo sente). Non a destra: con un
+  // carattere più largo, come in GitHub Actions, lì sopra la scheda arriva il titolo.
+  const x = box!.x + box!.width * 0.15
+  const y = box!.y + box!.height * 0.85
+  const onCard = await card.evaluate((el, [px, py]) => el.contains(document.elementFromPoint(px, py)), [x, y])
+  expect(onCard, 'il punto del mouse è sulla scheda, non coperto da altro').toBe(true)
+  await page.mouse.move(x, y)
   await page.waitForTimeout(700)
 
   expect(await bentBy(page, index)).toEqual([])
