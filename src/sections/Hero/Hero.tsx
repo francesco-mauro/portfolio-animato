@@ -4,26 +4,28 @@
  * titolo grande corallo al centro, forme 3D che galleggiano e tre schede sparse.
  * Le schede raccontano il sito con fatti veri: la build, la curva usata per le
  * animazioni, il primo progetto della vetrina. Il titolo entra parola per parola.
+ * Il titolo parla di tutto il percorso, da quello che si vede a quello che c'è dietro:
+ * due pezzi che entrano uno dopo l'altro. Il suo testo sta in src/data/ui.ts con gli
+ * altri testi dell'interfaccia, nelle due lingue. Test: tests/hero.spec.ts.
  */
 import { Shape } from '../../components/Shape/Shape.tsx'
 import { FloatingCard } from '../../components/FloatingCard/FloatingCard.tsx'
+import { useLanguage } from '../../hooks/useLanguage.ts'
 import { profile } from '../../data/profile.ts'
 import { projects, repoUrl } from '../../data/projects.ts'
+import { ui } from '../../data/ui.ts'
 import type { CSSProperties } from 'react'
 import styles from './Hero.module.css'
 
-// Il titolo parla di tutto il percorso, da quello che si vede a quello che c'è dietro:
-// due pezzi che entrano uno dopo l'altro. Test: tests/hero.spec.ts.
-const headline = ['Quello che vedi,', "e quello che c'è dietro."]
-
 export function Hero() {
+  const { t } = useLanguage()
   const first = projects[0]
 
   return (
     <section id="top" className={styles.hero}>
       <header className={styles.brand}>
         <span className={styles.logo}>{profile.name}</span>
-        <span className={styles.badge}>{profile.city}</span>
+        <span className={styles.badge}>{t(profile.city)}</span>
       </header>
 
       <Shape kind="pill" size={150} top="14%" left="6%" rotate={-28} />
@@ -33,7 +35,7 @@ export function Hero() {
       <Shape kind="torus" size={150} top="74%" left="72%" delay={2} />
       <Shape kind="disc" size={100} top="82%" left="34%" delay={1.6} rotate={-20} />
 
-      <FloatingCard tone="green" floating className={styles.cardBuild} xray="React · FloatingCard · tono green">
+      <FloatingCard tone="green" floating className={styles.cardBuild} xray={t(ui.xray.buildCard)}>
         <span className={styles.cardLabel}>Build</span>
         <strong className={styles.cardBig}>tsc -b && vite build</strong>
         <span className={styles.progress} aria-hidden="true" />
@@ -59,27 +61,29 @@ export function Hero() {
         floating
         className={styles.cardRepo}
         style={{ '--delay': '0.8s' } as CSSProperties}
-        xray="React · dati da src/data/projects.ts"
+        xray={t(ui.xray.repoCard)}
       >
-        <span className={styles.cardLabel}>Primo in vetrina</span>
-        <strong className={styles.cardTitle}>{first.title}</strong>
+        <span className={styles.cardLabel}>{t(ui.hero.firstInShowcase)}</span>
+        <strong className={styles.cardTitle}>{t(first.title)}</strong>
         <a className={styles.cardButton} href={repoUrl(first.repo)} target="_blank" rel="noreferrer">
-          Apri
+          {t(ui.hero.open)}
         </a>
       </FloatingCard>
 
       <div className={styles.center}>
-        <h1 className={styles.title} data-xray="CSS · titolo · @keyframes word-in">
-          {headline.map((word, i) => (
-            <span key={word} className={styles.word} style={{ '--i': i } as CSSProperties}>
-              {word}
+        <h1 className={styles.title} data-xray={t(ui.xray.title)}>
+          {/* La chiave è il posto del pezzo, non il suo testo: cambiando lingua il pezzo
+              resta lo stesso elemento e l'animazione di entrata non riparte */}
+          {ui.headline.map((piece, i) => (
+            <span key={i} className={styles.word} style={{ '--i': i } as CSSProperties}>
+              {t(piece)}
             </span>
           ))}
         </h1>
         <p className={styles.role}>
-          {profile.role} · {profile.city}
+          {profile.role} · {t(profile.city)}
         </p>
-        <p className={styles.intro}>{profile.intro}</p>
+        <p className={styles.intro}>{t(profile.intro)}</p>
       </div>
     </section>
   )

@@ -6,10 +6,13 @@
  * src/styles/tokens.css. Il bottone cambia quell'attributo, salva la scelta in
  * localStorage e, dove il browser le supporta, anima il passaggio con le View
  * Transitions (document.startViewTransition). Con Motion Off il cambio è secco.
+ * Il nome del bottone e il titolo al passaggio del mouse cambiano con la lingua (src/data/ui.ts).
  * Test: tests/theme.spec.ts.
  */
 import { useState } from 'react'
 import { useMotionMode } from '../../hooks/useMotionMode.ts'
+import { useLanguage } from '../../hooks/useLanguage.ts'
+import { ui } from '../../data/ui.ts'
 import styles from './ThemeToggle.module.css'
 
 type Theme = 'light' | 'dark'
@@ -19,6 +22,7 @@ const currentTheme = (): Theme =>
 
 export function ThemeToggle() {
   const { mode } = useMotionMode()
+  const { t } = useLanguage()
   const [theme, setTheme] = useState<Theme>(currentTheme)
   const isDark = theme === 'dark'
 
@@ -44,9 +48,9 @@ export function ThemeToggle() {
     <button
       type="button"
       className={styles.toggle}
-      aria-label="Tema scuro"
+      aria-label={t(ui.theme.label)}
       aria-pressed={isDark}
-      title={isDark ? 'Passa al tema chiaro' : 'Passa al tema scuro'}
+      title={t(isDark ? ui.theme.toLight : ui.theme.toDark)}
       onClick={toggle}
     >
       {isDark ? (

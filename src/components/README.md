@@ -10,4 +10,5 @@ I pezzi grafici riusabili. Ogni componente ha la sua cartella con `Nome.tsx` e `
 | `PillNav/` | il menu a pillola corallo fisso in basso al centro | 14:15 |
 | `MotionToggle/` | l'interruttore Motion · Off · On · X-ray in basso a destra | 14:15, 15:48 |
 | `ThemeToggle/` | il bottone tondo del tema chiaro e scuro, in basso a destra sopra Motion, con il passaggio animato dalle View Transitions | non c'è, aggiunto da me |
+| `LanguageToggle/` | l'interruttore della lingua IT · EN, in basso a destra accanto al bottone del tema, con il passaggio animato dalle View Transitions | non c'è, aggiunto da me |
 | `ReadingBar/` | la barra di lettura in cima allo schermo, che si riempie con lo scroll della pagina, solo CSS (`animation-timeline: scroll()`) | non c'è, aggiunta da me |

@@ -1,0 +1,50 @@
+/*
+ * LanguageToggle.module.css
+ * Una piccola pillola scura con due bottoni, IT e EN, fatta come l'interruttore Motion:
+ * quello attivo ha il testo bianco sul corallo scuro (4,94 a 1, tests/a11y.spec.ts).
+ * Sta sulla riga del bottone del tema, alla sua sinistra: 18 px dal bordo, i 34 del
+ * bottone e 8 di spazio. Sul telefono sale con lui sopra il menu.
+ * Che non copra gli altri controlli lo controlla tests/language.spec.ts.
+ */
+.toggle {
+  position: fixed;
+  right: 60px;
+  bottom: 68px;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  height: 34px;
+  padding: 4px;
+  border-radius: var(--radius-pill);
+  background: rgb(25 27 39 / 0.88);
+  backdrop-filter: blur(8px);
+  font-size: 12px;
+}
+
+.option {
+  height: 26px;
+  padding: 0 9px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--color-light);
+  font: inherit;
+  transition: background-color 0.25s;
+}
+
+.option:hover {
+  background: rgb(255 255 255 / 0.1);
+}
+
+.active,
+.active:hover {
+  background: var(--color-coral-deep);
+  color: #fff;
+}
+
+@media (max-width: 640px) {
+  .toggle {
+    bottom: 122px;
+  }
+}

@@ -15,12 +15,16 @@
  * browser non lo scarica finché non parte (preload="none").
  * I dati arrivano da src/data/projects.ts: qui c'è solo la forma.
  * Se il progetto ha una demo online compare anche il link "Prova la demo".
+ * Titolo, descrizione, data e testo alternativo arrivano nelle due lingue: t() di useLanguage
+ * sceglie quella corrente. I testi dei link e il titolo della sezione stanno in src/data/ui.ts.
  */
 import { useEffect, useRef, useState, type CSSProperties, type PointerEvent, type RefObject } from 'react'
 import { FloatingCard } from '../../components/FloatingCard/FloatingCard.tsx'
 import { useMotionMode } from '../../hooks/useMotionMode.ts'
 import { useReveal } from '../../hooks/useReveal.ts'
+import { useLanguage } from '../../hooks/useLanguage.ts'
 import { projects, repoUrl } from '../../data/projects.ts'
+import { ui } from '../../data/ui.ts'
 import type { PreviewVideo as PreviewVideoSources, Project } from '../../types/content.ts'
 import styles from './Projects.module.css'
 
@@ -98,6 +102,7 @@ function ProjectItem({ project, index }: { project: Project; index: number }) {
   const ref = useRef<HTMLLIElement>(null)
   // Riserva per i browser senza animation-timeline: dove c'è, il CSS non guarda questa classe.
   useReveal(ref)
+  const { t } = useLanguage()
   const video = usePreviewVideo()
   const sources = project.preview.video
 
@@ -119,7 +124,7 @@ function ProjectItem({ project, index }: { project: Project; index: number }) {
       >
         {/* width e height riservano lo spazio in 16:10 prima che l'immagine arrivi: la pagina non salta */}
         <div className={styles.preview}>
-          <img src={project.preview.src} alt={project.preview.alt} width={720} height={450} loading="lazy" decoding="async" />
+          <img src={project.preview.src} alt={t(project.preview.alt)} width={720} height={450} loading="lazy" decoding="async" />
           {sources && (
             <PreviewVideo
               sources={sources}
@@ -132,10 +137,10 @@ function ProjectItem({ project, index }: { project: Project; index: number }) {
         </div>
         <div className={styles.top}>
           <span className={styles.number}>{String(index + 1).padStart(2, '0')}</span>
-          {project.when && <span className={styles.when}>{project.when}</span>}
+          {project.when && <span className={styles.when}>{t(project.when)}</span>}
         </div>
-        <h3 className={styles.title}>{project.title}</h3>
-        <p className={styles.summary}>{project.summary}</p>
+        <h3 className={styles.title}>{t(project.title)}</h3>
+        <p className={styles.summary}>{t(project.summary)}</p>
         <ul className={styles.stack}>
           {project.stack.map((tech) => (
             <li key={tech}>{tech}</li>
@@ -143,11 +148,11 @@ function ProjectItem({ project, index }: { project: Project; index: number }) {
         </ul>
         <div className={styles.links}>
           <a className={styles.link} href={repoUrl(project.repo)} target="_blank" rel="noreferrer">
-            Vedi su GitHub <span aria-hidden="true">→</span>
+            {t(ui.projects.viewOnGitHub)} <span aria-hidden="true">→</span>
           </a>
           {project.demo && (
             <a className={styles.link} href={project.demo} target="_blank" rel="noreferrer">
-              Prova la demo <span aria-hidden="true">→</span>
+              {t(ui.projects.tryDemo)} <span aria-hidden="true">→</span>
             </a>
           )}
         </div>
@@ -159,11 +164,12 @@ function ProjectItem({ project, index }: { project: Project; index: number }) {
 export function Projects() {
   const headingRef = useRef<HTMLHeadingElement>(null)
   useReveal(headingRef)
+  const { t } = useLanguage()
 
   return (
     <section id="progetti" className={styles.section}>
       <h2 ref={headingRef} className={`reveal ${styles.heading}`}>
-        Progetti
+        {t(ui.sections.projects)}
       </h2>
       <ul className={styles.grid}>
         {projects.map((project, index) => (

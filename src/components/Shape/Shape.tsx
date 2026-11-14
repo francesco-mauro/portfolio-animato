@@ -16,6 +16,8 @@
  *    finirebbe sopra il titolo (tests/mobile.spec.ts); senza, resta top e left
  */
 import type { CSSProperties } from 'react'
+import { useLanguage } from '../../hooks/useLanguage.ts'
+import { ui } from '../../data/ui.ts'
 import styles from './Shape.module.css'
 
 export type ShapeKind = 'sphere' | 'pill' | 'torus' | 'disc'
@@ -31,14 +33,9 @@ interface ShapeProps {
   phoneLeft?: string
 }
 
-const xrayLabel: Record<ShapeKind, string> = {
-  sphere: 'CSS · sfera · gradiente radiale',
-  pill: 'CSS · capsula · border-radius + gradiente',
-  torus: 'CSS · ciambella · anello di gradiente radiale',
-  disc: 'CSS · disco · rotateX in 3D',
-}
-
 export function Shape({ kind, size, top, left, delay = 0, rotate = 0, phoneTop, phoneLeft }: ShapeProps) {
+  // L'etichetta della vista X-ray, nella lingua corrente: una per tipo di forma, in src/data/ui.ts.
+  const { t } = useLanguage()
   // La posizione passa da variabili CSS e non da top e left in linea, perché uno stile
   // in linea vincerebbe sulla media query del telefono in Shape.module.css.
   const style = {
@@ -56,7 +53,7 @@ export function Shape({ kind, size, top, left, delay = 0, rotate = 0, phoneTop, 
       className={`${styles.shape} ${styles[kind]}`}
       style={style}
       data-shape={kind}
-      data-xray={xrayLabel[kind]}
+      data-xray={t(ui.xray.shapes[kind])}
       aria-hidden="true"
     />
   )

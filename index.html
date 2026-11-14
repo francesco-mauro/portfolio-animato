@@ -2,7 +2,7 @@
 <!--
   index.html
   La pagina che Vite serve: carica src/main.tsx dentro #root.
-  Lingua italiana, titolo e descrizione del portfolio.
+  Titolo e descrizione del portfolio; la lingua scritta qui, italiano, vale finché lo script non sceglie.
   I meta og: e twitter: sono l'anteprima del link su LinkedIn, WhatsApp, Telegram,
   X e Slack (protocollo Open Graph, https://ogp.me). Gli indirizzi sono assoluti,
   perché chi legge la pagina da fuori non conosce il percorso base: l'immagine è
@@ -11,6 +11,12 @@
   pagina si disegni (niente tag scritti qui: Vite li cercherebbe anche nei commenti),
   così non c'è il lampo del tema sbagliato: la scelta salvata da ThemeToggle se c'è,
   altrimenti quella del sistema. Test: tests/theme.spec.ts.
+  Lo stesso script sceglie la lingua e la scrive sull'attributo lang della pagina: la
+  scelta salvata da LanguageToggle se c'è, altrimenti la lingua del browser, italiano se
+  il browser è in italiano e inglese per tutti gli altri. Da lì la legge React
+  (src/context/LanguageContext.tsx). Test: tests/language.spec.ts.
+  Descrizione e anteprima del link restano in italiano in tutte e due le lingue:
+  chi prepara l'anteprima di un link (LinkedIn, WhatsApp, Telegram) non esegue JavaScript.
 -->
 <html lang="it">
   <head>
@@ -28,6 +34,12 @@
       } catch (e) {
         document.documentElement.dataset.theme = 'light'
       }
+      var lang = /^it\b/i.test(navigator.language || '') ? 'it' : 'en'
+      try {
+        var savedLang = localStorage.getItem('lang')
+        if (savedLang === 'it' || savedLang === 'en') lang = savedLang
+      } catch (e) {}
+      document.documentElement.lang = lang
     </script>
 
     <meta property="og:type" content="website" />

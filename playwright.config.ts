@@ -19,6 +19,9 @@ export default defineConfig({
     baseURL: `http://localhost:${PORT}`,
     ...devices['Desktop Chrome'],
     channel: process.env.CI ? undefined : 'chrome',
+    // Il sito parte nella lingua del browser, e i test cercano i testi italiani: il browser
+    // dei test è in italiano. Quello in un'altra lingua lo prova tests/language.spec.ts.
+    locale: 'it-IT',
   },
   webServer: {
     command: `npx vite --port ${PORT} --strictPort`,
