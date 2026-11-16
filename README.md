@@ -20,7 +20,7 @@ npm run dev        # development server on http://localhost:5173
 npm run build      # type check (tsc -b) and production build in dist/
 npm run preview    # serves the build in dist/ on http://localhost:4173
 npm run lint       # checks the code with oxlint
-npm run test:unit  # data and workflow tests with Vitest, no browser
+npm run test:unit  # data, workflow and page tests with Vitest, no browser
 npm run test:e2e   # end-to-end tests with Playwright in a real browser (tests/)
 ```
 
@@ -38,6 +38,8 @@ In the four project cards with an online demo, a short video of the demo starts 
 
 Always there: the **cursor** (a dot plus a ring that follows it), and the **pill menu** at the bottom centre. Its last button opens the **preferences panel**, with language, theme and Motion. The **light and dark theme** starts from the system theme, remembers the choice and animates the change with View Transitions. At the top, the **reading bar**: an indigo line that fills up as the page scrolls, in CSS only (`animation-timeline: scroll()`).
 
+A wrong address gets the site's own **404 page** instead of the grey GitHub one: the coral shapes float, the "404" comes in digit by digit with the torus as its zero, and a button takes you back to the site. It follows the same theme and language as the site.
+
 The site is in **Italian and English**: the preferences panel has an **IT · EN** switch. It starts in the browser's language (Italian if the browser is in Italian, English for everyone else), remembers the choice and changes the texts on the page, including the ones for screen readers and the X-ray labels. Only the page description and the link preview (Open Graph) stay in Italian: LinkedIn, WhatsApp and Telegram build previews without running JavaScript.
 
 ## The three motion modes
@@ -53,8 +55,10 @@ The mode lives on `<html data-motion="...">`, and the CSS reads it from there (`
 ```
 portfolio-animato/
 ├── index.html                 the page Vite serves, loads src/main.tsx
+├── 404.html                   the page for wrong addresses, loads src/notFound.tsx
 ├── package.json               dependencies and npm scripts
-├── vite.config.ts             Vite config with the React plugin, and Vitest config (npm run test:unit)
+├── vite.config.ts             Vite config: React plugin, the two pages, the 404 in development, and Vitest config
+├── pages.test.ts              checks that the build makes both pages and that they pick theme and language the same way
 ├── .github/workflows/deploy.yml  tests and deployment to GitHub Pages on every push to main
 ├── .github/workflows.test.ts     checks that the workflow actions run on Node 24
 ├── public/                    files served as they are (the favicon, the link preview image)
@@ -62,6 +66,7 @@ portfolio-animato/
 ├── tests/                     end-to-end tests: the animations checked in the browser
 └── src/
     ├── main.tsx               entry point: global styles and <App />
+    ├── notFound.tsx           entry point of the 404 page
     ├── App.tsx                builds the page: sections and fixed menu
     ├── styles/                global CSS: variables, shared rules, X-ray view
     ├── types/                 the TypeScript types of the content
@@ -70,7 +75,8 @@ portfolio-animato/
     ├── context/               the motion mode (On, Off, X-ray) and the language (IT, EN), shared by the whole page
     ├── hooks/                 the reusable logic: cursor, scroll, entrances, tilt, language
     ├── components/            the reusable pieces: cursor, shapes, cards, menu, preferences (language, theme, Motion), reading bar
-    └── sections/              the five sections of the page, in order
+    ├── sections/              the five sections of the page, in order
+    └── pages/                 the pages that are not the site: the 404
 ```
 
 `src/` and its folders, `tests/` and `docs/` each have a `README.md` that lists their files, and every file starts with a comment that says what it does.

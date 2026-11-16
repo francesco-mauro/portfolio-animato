@@ -1,0 +1,164 @@
+/*
+ * NotFound.module.css
+ * La pagina 404 a schermo pieno, come la prima schermata del sito: tutto al centro, le
+ * forme sparse in percentuale e tagliate dai bordi (overflow: hidden), così la pagina non
+ * scorre mai di lato.
+ * Il «404» usa il corallo dei titoli; lo zero è un anello con lo stesso gradiente della
+ * ciambella di Shape, visto di fronte. Le cifre entrano con digit-in, sfasate con --i;
+ * lo zero dopo l'entrata galleggia con ring-float. digit-in muove transform, ring-float la
+ * proprietà translate: sono due proprietà diverse, quindi le due animazioni non si pestano.
+ * Pillola e bottone hanno il fondo corallo scuro: il testo bianco lì fa 4,94 a 1, sopra il
+ * 4,5 a 1 che WCAG AA chiede al testo piccolo (tests/not-found.spec.ts, axe).
+ */
+.brand {
+  position: absolute;
+  top: 26px;
+  left: 32px;
+  z-index: 5;
+}
+
+.logo {
+  font-weight: 800;
+  font-size: 26px;
+  letter-spacing: -0.04em;
+  text-decoration: none;
+}
+/* Il punto corallo chiude il nome, come nella prima schermata */
+.logo::after {
+  content: '.';
+  color: var(--color-coral);
+}
+
+.page {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  padding: 110px 24px 80px;
+}
+
+.center {
+  position: relative;
+  z-index: 3;
+  max-width: 620px;
+  text-align: center;
+}
+
+.code {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.04em;
+  margin: 0 0 12px;
+  color: var(--color-coral);
+  font-size: clamp(110px, 24vw, 240px);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: var(--tracking-tight);
+}
+
+.digit {
+  display: block;
+  animation: digit-in 1s var(--ease-out-back) both;
+  animation-delay: calc(var(--i) * 0.12s + 0.1s);
+}
+
+.zero {
+  width: 0.66em;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    transparent 0 30%,
+    var(--color-coral-deep) 31%,
+    var(--color-coral) 40%,
+    #ffb59c 52%,
+    var(--color-coral) 63%,
+    var(--color-coral-deep) 72%,
+    transparent 73%
+  );
+  filter: drop-shadow(0 18px 18px rgb(201 64 43 / 0.35));
+  animation:
+    digit-in 1s var(--ease-out-back) both,
+    ring-float 6s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 0.12s + 0.1s), 1.3s;
+}
+
+.badge {
+  display: inline-block;
+  margin: 0;
+  padding: 8px 18px;
+  border-radius: var(--radius-pill);
+  background: var(--color-coral-deep);
+  color: #fff;
+  box-shadow: var(--shadow-card);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.title {
+  margin: 22px 0 12px;
+  font-size: clamp(32px, 5vw, 54px);
+  font-weight: 600;
+  text-wrap: balance;
+}
+
+.text {
+  margin: 0 auto;
+  max-width: 460px;
+  color: var(--color-ink-soft);
+  font-size: 17px;
+  line-height: 1.5;
+  text-wrap: balance;
+}
+
+.home {
+  display: inline-block;
+  margin-top: 30px;
+  padding: 14px 28px;
+  border-radius: var(--radius-pill);
+  background: var(--color-coral-deep);
+  color: #fff;
+  box-shadow: var(--shadow-card);
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  transition:
+    translate 0.4s var(--ease-out-back),
+    box-shadow 0.4s var(--ease-soft);
+}
+.home:hover {
+  translate: 0 -3px;
+  box-shadow: 0 24px 40px -16px rgb(201 64 43 / 0.55);
+}
+
+@keyframes digit-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.4em) rotate(6deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes ring-float {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -0.06em;
+  }
+}
+
+@media (max-width: 760px) {
+  .brand {
+    left: 20px;
+  }
+  .logo {
+    font-size: 22px;
+  }
+}

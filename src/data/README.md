@@ -10,7 +10,8 @@ Il sito è in italiano e in inglese. Un testo che cambia con la lingua è scritt
 | `projects.ts` | i sei progetti: in testa i due in evidenza (gli incidenti stradali e questo sito, con il racconto in tre frasi), poi gli altri quattro nell'ordine del profilo GitHub, con le demo online di Foodie Journal, Boolzapp, Memory e di questo sito e l'anteprima di ognuno (l'immagine importata da `src/assets/previews/` e il suo testo alternativo), più `repoUrl()` che fa il link al repository |
 | `stack.ts` | le tecnologie della fascia che scorre |
 | `ui.ts` | i testi dell'interfaccia nelle due lingue: il titolo della prima schermata, il menu, i bottoni, i titoli delle sezioni, i nomi per i lettori di schermo (`aria-label`), le etichette della vista X-ray; più `fill()`, che riempie i segnaposto `{nome}` di un testo |
-| `data.test.ts` | i test di questi quattro file, con [Vitest](https://vitest.dev): `npm run test:unit` |
+| `notFound.ts` | i testi della pagina 404 nelle due lingue: la pillola, il titolo, la riga di spiegazione, il bottone. Stanno qui e non in `ui.ts` perché `tests/language.spec.ts` cerca ogni testo di `ui.ts` sulla prima pagina |
+| `data.test.ts` | i test di questi cinque file, con [Vitest](https://vitest.dev): `npm run test:unit` |
 
 ## Aggiungere o cambiare un testo
 
@@ -28,6 +29,6 @@ Girano in Node, senza browser, in meno di un secondo, e in GitHub Actions prima 
 | i link | `repoUrl()` dà `https://github.com/francesco-mauro/<repo>`; una demo, quando c'è, è `https://francesco-mauro.github.io/<repo>/`; la data, quando c'è, è scritta «mese anno», e in inglese è lo stesso mese dello stesso anno |
 | il profilo | nome, ruolo, città, frase e Manifesto non vuoti; i testi di «Chi sono» ci sono tutti, con almeno una voce in Percorso e in Esperienze; almeno un link; i link in https, senza due etichette o due indirizzi uguali |
 | lo stack | almeno una voce, nessuna vuota, nessuna ripetuta |
-| le due lingue | ogni testo bilingue di profilo, progetti e interfaccia c'è in italiano e in inglese, e solo in quelle; i testi dell'interfaccia, le descrizioni e i testi alternativi sono davvero diversi nelle due lingue; i numeri e i segnaposto sono gli stessi; `fill()` riempie i segnaposto |
+| le due lingue | ogni testo bilingue di profilo, progetti, interfaccia e pagina 404 c'è in italiano e in inglese, e solo in quelle; i testi dell'interfaccia, le descrizioni e i testi alternativi sono davvero diversi nelle due lingue; i numeri e i segnaposto sono gli stessi; `fill()` riempie i segnaposto |
 
-Controllano la forma, non la rete: non aprono gli indirizzi. Nemmeno dicono se una traduzione è buona. Vitest legge `vite.config.ts` e prende i file `src/**/*.test.ts` e `.github/**/*.test.ts`; i `.spec.ts` in `tests/` sono di Playwright.
+Controllano la forma, non la rete: non aprono gli indirizzi. Nemmeno dicono se una traduzione è buona. Vitest legge `vite.config.ts` e prende i file `src/**/*.test.ts`, `.github/**/*.test.ts` e `pages.test.ts`; i `.spec.ts` in `tests/` sono di Playwright.

@@ -1,6 +1,6 @@
 /**
  * data.test.ts
- * Test dei dati del sito (projects.ts, profile.ts, stack.ts, ui.ts) con Vitest: girano in Node,
+ * Test dei dati del sito (projects.ts, profile.ts, stack.ts, ui.ts, notFound.ts) con Vitest: girano in Node,
  * senza browser, in un attimo (npm run test:unit). Un portfolio vive dei suoi link: un
  * indirizzo scritto male o un progetto messo due volte qui si vede prima di pubblicare.
  * Controllano la forma dei dati, non la rete: che un indirizzo risponda davvero non si
@@ -16,6 +16,7 @@ import { profile } from './profile.ts'
 import { projects, repoUrl } from './projects.ts'
 import { stack } from './stack.ts'
 import { fill, ui } from './ui.ts'
+import { notFound } from './notFound.ts'
 import type { Localized, Project } from '../types/content.ts'
 
 /** Le schede in evidenza sono quelle che raccontano il progetto (story) invece di riassumerlo. */
@@ -57,7 +58,9 @@ function localizedIn(value: unknown, path: string): Found[] {
 
 const profileTexts = localizedIn(profile, 'profile')
 const projectTexts = localizedIn(projects, 'projects')
-const uiTexts = localizedIn(ui, 'ui')
+// I testi della pagina 404 sono testi dell'interfaccia come gli altri: stanno in un file loro
+// solo perché tests/language.spec.ts cerca quelli di ui.ts sulla prima pagina.
+const uiTexts = [...localizedIn(ui, 'ui'), ...localizedIn(notFound, 'notFound')]
 const everyText = [...profileTexts, ...projectTexts, ...uiTexts]
 
 /** I numeri di un testo, senza i separatori delle migliaia: «1.202» e «1,202» sono lo stesso numero. */
@@ -185,11 +188,12 @@ describe('lo stack', () => {
 })
 
 describe('le due lingue', () => {
-  it('i testi bilingui si trovano: profilo, progetti e interfaccia', () => {
+  it('i testi bilingui si trovano: profilo, progetti, interfaccia e pagina 404', () => {
     // Senza questo, se la ricerca non trovasse niente i test qui sotto passerebbero a vuoto.
     expect(profileTexts.length).toBeGreaterThanOrEqual(3)
     expect(projectTexts.length).toBeGreaterThanOrEqual(projects.length * 3)
     expect(uiTexts.length).toBeGreaterThan(20)
+    expect(uiTexts.filter(({ path }) => path.startsWith('notFound.'))).toHaveLength(4)
   })
 
   it.each(everyText)('$path: c’è in italiano e in inglese, e solo in quelle due lingue', ({ text }) => {

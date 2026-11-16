@@ -1,0 +1,44 @@
+<!doctype html>
+<!--
+  404.html
+  La pagina degli indirizzi sbagliati: GitHub Pages la mostra per ogni indirizzo che non
+  esiste sotto /portfolio-animato/, al posto della sua pagina grigia. Carica
+  src/notFound.tsx dentro #root. Vite la costruisce accanto alla prima pagina perché è tra
+  gli input della build in vite.config.ts; in sviluppo il plugin notFoundPage, nello stesso
+  file, la serve con lo stato 404 per ogni indirizzo che non esiste, come fa Pages.
+  Ogni file che carica ha un indirizzo assoluto: la pagina si apre anche in fondo a più
+  cartelle (/portfolio-animato/una/cartella/sbagliata).
+  Lo script nella testa è lo stesso di index.html, carattere per carattere: sceglie tema e
+  lingua prima che la pagina si disegni. Se cambia lì cambia anche qui (pages.test.ts).
+  noindex: i motori di ricerca non la mettono tra i risultati.
+  Test: tests/not-found.spec.ts e pages.test.ts.
+-->
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>404 · Francesco Mauro</title>
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      try {
+        var saved = localStorage.getItem('theme')
+        var dark = saved ? saved === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches
+        document.documentElement.dataset.theme = dark ? 'dark' : 'light'
+      } catch (e) {
+        document.documentElement.dataset.theme = 'light'
+      }
+      var lang = /^it\b/i.test(navigator.language || '') ? 'it' : 'en'
+      try {
+        var savedLang = localStorage.getItem('lang')
+        if (savedLang === 'it' || savedLang === 'en') lang = savedLang
+      } catch (e) {}
+      document.documentElement.lang = lang
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/notFound.tsx"></script>
+  </body>
+</html>
