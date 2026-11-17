@@ -46,8 +46,24 @@ test('il richiamo segue la lingua del sito', async ({ page }) => {
   await page.goto('/')
   await openPreferences(page)
   await page.getByRole('radio', { name: 'English' }).click()
+  // Prima che React applichi la lingua il richiamo è ancora quello italiano.
+  await expect(page.locator('html')).toHaveAttribute('lang', 'en')
 
   await setHidden(page, true)
+  await expect(page).toHaveTitle('Come back 👋')
+
+  await setHidden(page, false)
+  await expect(page).toHaveTitle(ORIGINAL)
+})
+
+test('se la lingua cambia con la pagina nascosta, il richiamo resta e cambia lingua', async ({ page }) => {
+  await page.goto('/')
+  await openPreferences(page)
+  await setHidden(page, true)
+  await expect(page).toHaveTitle('Torna qui 👋')
+
+  await page.getByRole('radio', { name: 'English' }).click()
+  await expect(page.locator('html')).toHaveAttribute('lang', 'en')
   await expect(page).toHaveTitle('Come back 👋')
 
   await setHidden(page, false)

@@ -25,6 +25,8 @@ export function useAwayTitle(away: string) {
     }
 
     document.addEventListener('visibilitychange', onVisibilityChange)
+    // Se l'effetto riparte con la pagina già nascosta (il testo è cambiato), il richiamo va messo subito.
+    onVisibilityChange()
     return () => {
       document.removeEventListener('visibilitychange', onVisibilityChange)
       if (original !== null) document.title = original
