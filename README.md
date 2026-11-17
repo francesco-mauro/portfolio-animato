@@ -36,7 +36,7 @@ npm run test:e2e   # end-to-end tests with Playwright in a real browser (tests/)
 
 In the four project cards with an online demo, a short video of the demo starts with the mouse over it. The road accidents card has no demo and shows a video of its Power BI dashboard.
 
-Always there: the **cursor** (a dot plus a ring that follows it), and the **pill menu** at the bottom centre. Its last button opens the **preferences panel**, with language, theme and Motion. The **light and dark theme** starts from the system theme, remembers the choice and animates the change with View Transitions. At the top, the **reading bar**: an indigo line that fills up as the page scrolls, in CSS only (`animation-timeline: scroll()`).
+Always there: the **cursor** (a dot plus a ring that follows it), and the **pill menu** at the bottom centre. Its last button opens the **preferences panel**, with language, theme and Motion. The **light and dark theme** starts from the system theme, remembers the choice and animates the change with View Transitions. At the top, the **reading bar**: an indigo line that fills up as the page scrolls, in CSS only (`animation-timeline: scroll()`). Switch to another tab and the **tab title** calls you back ("Torna qui 👋", or "Come back 👋" in English), then goes back to normal when you return.
 
 A wrong address gets the site's own **404 page** instead of the grey GitHub one: the coral shapes float, the "404" comes in digit by digit with the torus as its zero, and a button takes you back to the site. It follows the same theme and language as the site.
 

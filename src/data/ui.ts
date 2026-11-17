@@ -20,6 +20,8 @@ export const ui = {
   headline: [text('Quello che vedi,', 'What you see,'), text("e quello che c'è dietro.", "and what's behind it.")],
   /** Il link nascosto che compare con il primo Tab (tests/keyboard.spec.ts). */
   skipLink: text('Salta al contenuto', 'Skip to content'),
+  /** Il titolo della scheda mentre l'utente è su un'altra scheda (hooks/useAwayTitle.ts, tests/tab-title.spec.ts). Sulla pagina non compare mai. */
+  awayTitle: text('Torna qui 👋', 'Come back 👋'),
   /** Il nome del bottone delle preferenze e del pannello che apre: lingua, tema e Motion. */
   preferences: text('Preferenze di visualizzazione', 'Display preferences'),
   /** I nomi delle sezioni: nel menu, nei titoli e nei nomi delle regioni. */

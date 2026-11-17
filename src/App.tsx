@@ -16,6 +16,7 @@
 import { MotionModeProvider } from './context/MotionModeContext.tsx'
 import { LanguageProvider } from './context/LanguageContext.tsx'
 import { useLanguage } from './hooks/useLanguage.ts'
+import { useAwayTitle } from './hooks/useAwayTitle.ts'
 import { ui } from './data/ui.ts'
 import { Cursor } from './components/Cursor/Cursor.tsx'
 import { PillNav } from './components/PillNav/PillNav.tsx'
@@ -28,6 +29,7 @@ import { Contact } from './sections/Contact/Contact.tsx'
 
 function Page() {
   const { t } = useLanguage()
+  useAwayTitle(t(ui.awayTitle))
 
   return (
     <>

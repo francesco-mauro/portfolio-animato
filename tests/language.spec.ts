@@ -68,7 +68,9 @@ const NO_LANGUAGE_PATTERNS = [/^\d\d$/, /^© \d{4} /]
  * stringhe semplici, che sono nomi, tecnologie e indirizzi e quindi non hanno lingua.
  * Un testo bilingue uguale nelle due lingue (un nome proprio, come «Boolzapp») conta
  * anche tra quelli senza lingua. In più il titolo del bottone del tema che compare solo
- * nel tema scuro, perché nel tema chiaro sulla pagina non c'è.
+ * nel tema scuro, perché nel tema chiaro sulla pagina non c'è. Resta fuori il titolo della
+ * scheda di quando l'utente è altrove (ui.awayTitle): non sta mai sulla pagina, ma nel
+ * titolo della scheda, e lo controlla tests/tab-title.spec.ts.
  */
 async function siteData(page: Page) {
   return page.evaluate(async (files) => {
@@ -88,7 +90,10 @@ async function siteData(page: Page) {
     let onlyInDark: { it: string; en: string } | null = null
     for (const file of files) {
       const module = { ...(await import(/* @vite-ignore */ file)) }
-      if (module.ui) onlyInDark = module.ui.theme.toLight
+      if (module.ui) {
+        onlyInDark = module.ui.theme.toLight
+        module.ui = { ...module.ui, awayTitle: undefined }
+      }
       walk(module)
     }
     return { localized, neutral, onlyInDark }

@@ -10,3 +10,4 @@ La logica riusabile, senza grafica. Gli hook che muovono qualcosa scrivono varia
 | `useReveal.ts` | aggiunge `is-visible` quando l'elemento entra nello schermo (IntersectionObserver) | About (il titolo), Projects (il titolo; per le schede solo come riserva dove manca `animation-timeline`), Contact |
 | `useScrollProgress.ts` | dà da 0 a 1 quanto una sezione è stata scorsa | Manifesto |
 | `usePointerTilt.ts` | inclina una scheda verso il mouse, scrive `--tilt-x`, `--tilt-y`, `--glow-x`, `--glow-y` | FloatingCard |
+| `useAwayTitle.ts` | con la pagina nascosta (un'altra scheda in primo piano) cambia il titolo della scheda in un richiamo, tornando visibile rimette quello di prima | App |
