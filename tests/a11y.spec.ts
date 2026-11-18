@@ -49,25 +49,41 @@ async function violations(page: Page, include?: string): Promise<string[]> {
 /**
  * Aspetta che la pagina stia ferma: le animazioni di entrata e le transizioni finite.
  * Restano fuori quelle senza fine (le forme che fluttuano, la fascia dello stack) e
- * quelle legate allo scroll, che vanno avanti solo scorrendo.
+ * quelle legate allo scroll, che vanno avanti solo scorrendo, e quelle dentro una sezione
+ * non ancora disegnata (content-visibility: auto, tests/performance.spec.ts): lì le
+ * animazioni sono ferme finché la sezione non si avvicina, e non finirebbero mai.
  */
 async function settle(page: Page) {
   await page.evaluate(async () => {
     await new Promise((done) => requestAnimationFrame(() => requestAnimationFrame(done)))
+    const drawn = (a: Animation) => {
+      const target = (a.effect as KeyframeEffect | null)?.target
+      return !target || target.checkVisibility({ contentVisibilityAuto: true })
+    }
     await Promise.allSettled(
       document
         .getAnimations()
-        .filter((a) => a.timeline === document.timeline && a.effect?.getTiming().iterations !== Infinity)
+        .filter((a) => a.timeline === document.timeline && a.effect?.getTiming().iterations !== Infinity && drawn(a))
         .map((a) => a.finished),
     )
   })
 }
 
-/** Porta la pagina in fondo senza scorrimento morbido. */
+/**
+ * Porta la pagina in fondo senza scorrimento morbido. Le sezioni prendono la loro altezza
+ * vera solo quando si disegnano, avvicinandosi (content-visibility: auto), qualche
+ * fotogramma dopo lo scroll: si torna in fondo finché l'altezza della pagina resta uguale
+ * per due controlli di fila, a 150 ms l'uno dall'altro.
+ */
 async function scrollToBottom(page: Page) {
-  await page.evaluate(() => {
-    const max = document.documentElement.scrollHeight - window.innerHeight
-    window.scrollTo({ top: max, behavior: 'instant' })
+  await page.evaluate(async () => {
+    for (let i = 0, same = 0, last = -1; i < 20 && same < 2; i++) {
+      const height = document.documentElement.scrollHeight
+      same = height === last ? same + 1 : 0
+      last = height
+      window.scrollTo({ top: height - window.innerHeight, behavior: 'instant' })
+      await new Promise((done) => setTimeout(done, 150))
+    }
   })
 }
 

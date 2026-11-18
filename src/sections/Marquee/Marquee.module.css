@@ -10,6 +10,19 @@
   background: var(--color-night);
   color: var(--color-light);
   padding: 46px 0 40px;
+  /* Sotto la prima schermata: il browser salta il layout finché non ci si avvicina.
+     La stima è l'altezza del contenuto senza padding, per eccesso come in
+     Projects.module.css (misurate il 18 novembre 2026: da 68 a 74 px sotto i 900, fino a
+     81 da 900, la media sotto); "auto" ricorda quella vera dopo il primo disegno.
+     In X-ray la regola si spegne (styles/xray.css). Test: tests/performance.spec.ts */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 80px;
+}
+
+@media (min-width: 900px) {
+  .band {
+    contain-intrinsic-size: auto 90px;
+  }
 }
 
 .caption {

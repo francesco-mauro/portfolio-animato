@@ -60,9 +60,10 @@ portfolio-animato/
 ├── vite.config.ts             Vite config: React plugin, the two pages, the 404 in development, and Vitest config
 ├── pages.test.ts              checks that the build makes both pages and that they pick theme and language the same way
 ├── .github/workflows/deploy.yml  tests and deployment to GitHub Pages on every push to main
-├── .github/workflows.test.ts     checks that the workflow actions run on Node 24
+├── .github/workflows.test.ts     checks that the workflow actions run on Node 24 and that Lighthouse runs before publishing
 ├── public/                    files served as they are (the favicon, the link preview image)
 ├── docs/                      documents: the style guide, the screenshot above, and what is in public/
+├── scripts/                   the Lighthouse check: mobile performance score of the build, red below 95
 ├── tests/                     end-to-end tests: the animations checked in the browser
 └── src/
     ├── main.tsx               entry point: global styles and <App />
@@ -79,7 +80,7 @@ portfolio-animato/
     └── pages/                 the pages that are not the site: the 404
 ```
 
-`src/` and its folders, `tests/` and `docs/` each have a `README.md` that lists their files, and every file starts with a comment that says what it does.
+`src/` and its folders, `tests/`, `scripts/` and `docs/` each have a `README.md` that lists their files, and every file starts with a comment that says what it does.
 
 ## Project rules
 
@@ -92,7 +93,19 @@ portfolio-animato/
 
 ## Deployment: GitHub Pages
 
-The site is online at https://francesco-mauro.github.io/portfolio-animato/ and updates by itself: on every push to `main`, the workflow `.github/workflows/deploy.yml` installs the dependencies, runs the linter, runs the data and workflow tests, builds the site, runs the tests in `tests/` and publishes `dist/` to GitHub Pages. In the build, Vite uses the base path `/portfolio-animato/` (in `vite.config.ts`). In development it stays `/`.
+The site is online at https://francesco-mauro.github.io/portfolio-animato/ and updates by itself: on every push to `main`, the workflow `.github/workflows/deploy.yml` installs the dependencies, runs the linter, runs the data and workflow tests, builds the site, runs the tests in `tests/`, measures the build with Lighthouse (`npm run test:lighthouse`, see Performance below) and publishes `dist/` to GitHub Pages. In the build, Vite uses the base path `/portfolio-animato/` (in `vite.config.ts`). In development it stays `/`.
+
+## Performance
+
+Lighthouse, mobile (its default: small screen, slow 4G and a CPU four times slower, simulated), Performance score, median of five runs:
+
+| What | When | Median | Runs |
+|---|---|---|---|
+| The live demo, before the fix | 18 November 2026 | 91 | 75, 86, 91, 93, 93 |
+
+Accessibility, best practices and SEO were already at 100 (13 November 2026). The only weak metric was Total Blocking Time: a median of 392 ms on 18 November. A trace showed why: the browser's first layout of the whole page, 446 layout objects, was a single long task, including sections the phone does not even show at first. The sections below the first screen now have `content-visibility: auto`, so the browser skips their layout until the visitor scrolls near them. In the same trace the longest layout went from about 870 to about 250 ms. Each section has a height estimate (`contain-intrinsic-size`), per grid breakpoint, kept a little above the real height so the End key still reaches the bottom; `tests/performance.spec.ts` checks the estimates at nine widths.
+
+`npm run test:lighthouse` (`scripts/lighthouse.mjs`) measures the build the same way and fails below 95. GitHub Actions runs it before publishing, with Google Chrome. One run swings a lot, so it takes the median of five.
 
 ## The commit history
 

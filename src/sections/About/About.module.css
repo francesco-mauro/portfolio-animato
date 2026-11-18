@@ -11,6 +11,19 @@
   position: relative;
   background: var(--color-night);
   color: var(--color-light);
+  /* Sotto la prima schermata: layout saltato finché non ci si avvicina. La stima è per
+     eccesso, come in Projects.module.css (il perché è lì): la più alta misurata il
+     18 novembre 2026 più il 6%. Più alte misurate: 3220 px con i blocchi su una colonna,
+     2581 su due (da 700 px, la media sotto). In X-ray si spegne (styles/xray.css).
+     Test: tests/performance.spec.ts */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 3420px;
+}
+
+@media (min-width: 700px) {
+  .section {
+    contain-intrinsic-size: auto 2740px;
+  }
 }
 
 .content {

@@ -227,7 +227,18 @@ for (const [width, font] of [
   test(`a ${width} px con il carattere ${font}, in fondo alla pagina, il copyright non è sotto il menu`, async ({ page }) => {
     await open(page, width)
     if (font === 'largo') await page.addStyleTag({ content: WIDE_FONT })
-    await page.evaluate(() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'instant' }))
+    // Le sezioni prendono l'altezza vera solo disegnandosi (content-visibility: auto,
+    // tests/performance.spec.ts), qualche fotogramma dopo lo scroll: si torna in fondo finché
+    // l'altezza della pagina resta uguale per due controlli di fila, a 150 ms l'uno dall'altro
+    await page.evaluate(async () => {
+      for (let i = 0, same = 0, last = -1; i < 20 && same < 2; i++) {
+        const height = document.body.scrollHeight
+        same = height === last ? same + 1 : 0
+        last = height
+        window.scrollTo({ top: height, behavior: 'instant' })
+        await new Promise((done) => setTimeout(done, 150))
+      }
+    })
     const copyright = page.getByText(/^© \d{4} /)
     await expect(copyright).toBeInViewport({ ratio: 1 })
 

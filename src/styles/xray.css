@@ -10,6 +10,16 @@ html[data-motion='xray'] [data-xray] {
   outline-offset: 4px;
 }
 
+/*
+ * Le sezioni sotto la prima schermata hanno content-visibility: auto (primo layout più
+ * leggero, tests/performance.spec.ts), che porta con sé il contenimento del disegno: taglierebbe
+ * le etichette che escono dalla sezione, come quella della fascia #stack, 30 px sopra.
+ * In X-ray le sezioni si disegnano tutte, come prima.
+ */
+html[data-motion='xray'] main > section {
+  content-visibility: visible;
+}
+
 html[data-motion='xray'] [data-xray]::after {
   content: attr(data-xray);
   position: absolute;

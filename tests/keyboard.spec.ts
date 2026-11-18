@@ -23,15 +23,27 @@
 import { expect, test, type Page } from '@playwright/test'
 import { openPreferences, setMotion } from './preferences.ts'
 
-/** Il nome di ogni link e bottone della pagina, nell'ordine del DOM, dentro un'area. */
+/**
+ * Il nome di ogni link e bottone della pagina, nell'ordine del DOM, dentro un'area.
+ * Le sezioni sotto la prima schermata non sono ancora disegnate (content-visibility: auto,
+ * tests/performance.spec.ts) e lì innerText è vuoto: per loro il nome viene da textContent.
+ * Il Tab le disegna, quindi focusedName, che legge l'elemento col focus, usa innerText.
+ */
 const namesIn = (page: Page, selector: string) =>
   page.evaluate(
     (sel) =>
       [...document.querySelectorAll<HTMLElement>(`${sel} a[href], ${sel} button`)]
         .filter((el) => el.checkVisibility())
-        .map(
-        (el) => el.getAttribute('aria-label') ?? el.innerText.trim().split('\n')[0],
-      ),
+        .map((el) => {
+          const label = el.getAttribute('aria-label')
+          if (label !== null) return label
+          if (el.checkVisibility({ contentVisibilityAuto: true })) return el.innerText.trim().split('\n')[0]
+          // La prima riga non vuota del testo, spazi ridotti a uno. Coincide con innerText per
+          // i link su una riga, come tutti quelli di oggi; un link a capo con <br> o blocchi
+          // interni darebbe righe diverse, e qui andrebbe rivisto
+          const lines = (el.textContent ?? '').split('\n').map((line) => line.replace(/\s+/g, ' ').trim())
+          return lines.find(Boolean) ?? ''
+        }),
     selector,
   )
 

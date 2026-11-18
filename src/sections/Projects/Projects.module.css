@@ -14,6 +14,36 @@
   max-width: 1180px;
   margin: 0 auto;
   padding: 120px 24px 140px;
+  /* Sotto la prima schermata: layout saltato finché non ci si avvicina. La stima è
+     l'altezza del contenuto senza padding e cambia dove cambiano le griglie (medie sotto).
+     È per eccesso: la più alta misurata nella fascia (18 novembre 2026, ogni 20 px) più
+     il 6% per i caratteri di altri sistemi. Una stima bassa farebbe crescere la pagina
+     dopo il disegno, e il tasto Fine non arriverebbe in fondo; una alta la accorcia, e
+     il browser riporta lo scroll in fondo da solo (quasi sempre: se la sezione si
+     disegna mentre lo scroll morbido sta arrivando può fermarsi un po' prima, una volta
+     su 24 nelle prove, e un secondo Fine arriva). Più alte misurate: 4139 px tutte in
+     colonna, 3089 da 600 px, 2167 da 900, 1539 da 1100.
+     In X-ray si spegne (styles/xray.css). Test: tests/performance.spec.ts */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 4400px;
+}
+
+@media (min-width: 600px) {
+  .section {
+    contain-intrinsic-size: auto 3280px;
+  }
+}
+
+@media (min-width: 900px) {
+  .section {
+    contain-intrinsic-size: auto 2300px;
+  }
+}
+
+@media (min-width: 1100px) {
+  .section {
+    contain-intrinsic-size: auto 1630px;
+  }
 }
 
 .heading {

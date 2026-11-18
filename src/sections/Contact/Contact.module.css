@@ -14,6 +14,12 @@
   padding: 0 32px 110px;
   color: #fff;
   background: radial-gradient(ellipse at 50% 18%, #ffd9c9 0%, var(--color-coral-light) 30%, var(--color-coral) 62%);
+  /* L'ultima sezione: layout saltato finché non ci si avvicina. La stima vale per il
+     contenuto, senza padding: lo schermo intero meno i 110 px in basso (734 px su uno
+     schermo alto 844, misurato il 18 novembre 2026), più 20 px per stare sopra, come in
+     Projects.module.css. In X-ray si spegne (styles/xray.css). Test: tests/performance.spec.ts */
+  content-visibility: auto;
+  contain-intrinsic-size: auto calc(100svh - 90px);
 }
 
 /* .disc è il contenitore piatto (posto ed etichetta X-ray), .discBody il disco che gira */
