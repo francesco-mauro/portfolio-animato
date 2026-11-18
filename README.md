@@ -97,13 +97,19 @@ The site is online at https://francesco-mauro.github.io/portfolio-animato/ and u
 
 ## Performance
 
-Lighthouse, mobile (its default: small screen, slow 4G and a CPU four times slower, simulated), Performance score, median of five runs:
+**PageSpeed Insights, mobile: 98** (the live demo, 18 November 2026, five runs: 98, 98, 98, 98, 100). That is Google's own Lighthouse 13.6.0, on an emulated Moto G Power with slow 4G. Total Blocking Time 0 ms, First and Largest Contentful Paint 1.2 s, Cumulative Layout Shift 0. Accessibility, best practices and SEO: 100.
 
-| What | When | Median | Runs |
-|---|---|---|---|
-| The live demo, before the fix | 18 November 2026 | 91 | 75, 86, 91, 93, 93 |
+The same day, Lighthouse 13.6.0 run from a Windows laptop gave lower and much noisier numbers for the live demo. Every row is the median of five runs:
 
-Accessibility, best practices and SEO were already at 100 (13 November 2026). The only weak metric was Total Blocking Time: a median of 392 ms on 18 November. A trace showed why: the browser's first layout of the whole page, 446 layout objects, was a single long task, including sections the phone does not even show at first. The sections below the first screen now have `content-visibility: auto`, so the browser skips their layout until the visitor scrolls near them. In the same trace the longest layout went from about 870 to about 250 ms. Each section has a height estimate (`contain-intrinsic-size`), per grid breakpoint, kept a little above the real height so the End key still reaches the bottom; `tests/performance.spec.ts` checks the estimates at nine widths.
+| Lighthouse from the laptop | Median | Runs |
+|---|---|---|
+| Before the fix, simulated slowdown (the default) | 91 | 75, 86, 91, 93, 93 |
+| After the fix, simulated slowdown | 86 | 78, 85, 86, 92, 96 |
+| After the fix, slowdown applied to the browser for real | 96 | 96, 95, 96, 96, 96 |
+
+With the slowdown applied for real, the trace has no long task after the first paint. The low simulated numbers seem to come from how the simulation runs on that laptop against a remote site, not from the page: that is an inference, not something proven inside Lighthouse. PageSpeed Insights before the fix was not measured, so how much the fix moved that score is not known.
+
+Before the fix, the only weak metric was Total Blocking Time (median 392 ms from the laptop). A trace showed why: the browser's first layout of the whole page, 446 layout objects, was a single long task, including sections the phone does not even show at first. The sections below the first screen now have `content-visibility: auto`, so the browser skips their layout until the visitor scrolls near them. In the same trace the longest layout went from about 870 to about 250 ms. Each section has a height estimate (`contain-intrinsic-size`), per grid breakpoint, kept a little above the real height so the End key still reaches the bottom; `tests/performance.spec.ts` checks the estimates at nine widths.
 
 `npm run test:lighthouse` (`scripts/lighthouse.mjs`) measures the build the same way and fails below 95. GitHub Actions runs it before publishing, with Google Chrome. One run swings a lot, so it takes the median of five.
 
