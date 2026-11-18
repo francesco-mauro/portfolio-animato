@@ -97,9 +97,9 @@ The site is online at https://francesco-mauro.github.io/portfolio-animato/ and u
 
 ## Performance
 
-**PageSpeed Insights, mobile: 98** (the live demo, 18 November 2026, five runs: 98, 98, 98, 98, 100). That is Google's own Lighthouse 13.6.0, on an emulated Moto G Power with slow 4G. Total Blocking Time 0 ms, First and Largest Contentful Paint 1.2 s, Cumulative Layout Shift 0. Accessibility, best practices and SEO: 100.
+**PageSpeed Insights, mobile: 98** (the live demo, 18 November 2026, five runs: 98, 98, 98, 98, 100). That is Google's own Lighthouse 13.6.0, on an emulated Moto G Power with slow 4G. Accessibility, best practices and SEO: 100 in all five. In the first report: Total Blocking Time 0 ms, First and Largest Contentful Paint 1.2 s, Cumulative Layout Shift 0.
 
-The same day, Lighthouse 13.6.0 run from a Windows laptop gave lower and much noisier numbers for the live demo. Every row is the median of five runs:
+The same day, Lighthouse 13.6.0 run from a Windows laptop gave lower and much noisier numbers with its default simulated slowdown, and close to PageSpeed Insights with the slowdown applied for real. Every row is the median of five runs:
 
 | Lighthouse from the laptop | Median | Runs |
 |---|---|---|
@@ -107,9 +107,9 @@ The same day, Lighthouse 13.6.0 run from a Windows laptop gave lower and much no
 | After the fix, simulated slowdown | 86 | 78, 85, 86, 92, 96 |
 | After the fix, slowdown applied to the browser for real | 96 | 96, 95, 96, 96, 96 |
 
-With the slowdown applied for real, the trace has no long task after the first paint. The low simulated numbers seem to come from how the simulation runs on that laptop against a remote site, not from the page: that is an inference, not something proven inside Lighthouse. PageSpeed Insights before the fix was not measured, so how much the fix moved that score is not known.
+With the slowdown applied for real, Lighthouse measured a Total Blocking Time of about 84 ms, and a separate trace of the page (Chrome with the same slowdown) had a single task over 50 ms, before the first paint. The low simulated numbers seem to come from how the simulation runs on that laptop against a remote site, not from the page: that is an inference, not something proven inside Lighthouse. PageSpeed Insights before the fix was not measured, so how much the fix moved that score is not known.
 
-Before the fix, the only weak metric was Total Blocking Time (median 392 ms from the laptop). A trace showed why: the browser's first layout of the whole page, 446 layout objects, was a single long task, including sections the phone does not even show at first. The sections below the first screen now have `content-visibility: auto`, so the browser skips their layout until the visitor scrolls near them. In the same trace the longest layout went from about 870 to about 250 ms. Each section has a height estimate (`contain-intrinsic-size`), per grid breakpoint, kept a little above the real height so the End key still reaches the bottom; `tests/performance.spec.ts` checks the estimates at nine widths.
+On 13 November 2026 accessibility, best practices and SEO were already at 100 and the only weak metric was Total Blocking Time; on 18 November, before the fix, its median from the laptop was 392 ms. A trace showed why: the browser's first layout of the whole page, 446 layout objects, was a single long task, including sections the phone does not even show at first. The sections below the first screen now have `content-visibility: auto`, so the browser skips their layout until the visitor scrolls near them. In the same trace the longest layout went from about 870 to about 250 ms. Each section has a height estimate (`contain-intrinsic-size`), per grid breakpoint, kept a little above the real height so the End key still reaches the bottom; `tests/performance.spec.ts` checks the estimates at nine widths.
 
 `npm run test:lighthouse` (`scripts/lighthouse.mjs`) measures the build the same way and fails below 95. GitHub Actions runs it before publishing, with Google Chrome. One run swings a lot, so it takes the median of five.
 
