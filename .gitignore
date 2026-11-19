@@ -27,3 +27,6 @@ dist-ssr
 # Risultati dei test Playwright
 test-results
 playwright-report
+
+# I messaggi ricevuti dal server dei contatti in locale (server/): sono di chi scrive, non del codice
+server/messages.jsonl

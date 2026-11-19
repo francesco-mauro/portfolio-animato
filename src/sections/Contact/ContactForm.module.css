@@ -1,0 +1,100 @@
+/*
+ * ContactForm.module.css
+ * Il modulo sul corallo dei Contatti: campi in vetro chiaro con il bordo bianco come i
+ * link, il bottone pieno bianco col testo corallo scuro. Gli errori sono bianchi in
+ * grassetto con un segno davanti: il rosso sul corallo non si leggerebbe.
+ * La trappola per i bot (.trap) sta fuori dallo schermo.
+ */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.input {
+  padding: 10px 12px;
+  border: 1px solid rgb(255 255 255 / 0.6);
+  border-radius: 12px;
+  color: #fff;
+  background: rgb(255 255 255 / 0.12);
+  font: inherit;
+  font-size: 15px;
+  resize: vertical;
+}
+
+.input:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.input[aria-invalid='true'] {
+  border-color: #fff;
+  border-width: 2px;
+}
+
+.error,
+.failed {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.error::before,
+.failed::before {
+  content: '! ';
+}
+
+.sent {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.button {
+  align-self: flex-start;
+  padding: 10px 22px;
+  border: 0;
+  border-radius: 12px;
+  color: var(--color-coral-deep);
+  background: #fff;
+  font: inherit;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.button:disabled {
+  opacity: 0.7;
+  cursor: progress;
+}
+
+.button:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+.trap {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}

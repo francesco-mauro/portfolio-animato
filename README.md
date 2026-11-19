@@ -19,6 +19,7 @@ npm install        # once, downloads the dependencies
 npm run dev        # development server on http://localhost:5173
 npm run build      # type check (tsc -b) and production build in dist/
 npm run preview    # serves the build in dist/ on http://localhost:4173
+npm run server     # the contact form server on http://localhost:5198 (server/)
 npm run lint       # checks the code with oxlint
 npm run test:unit  # data, workflow and page tests with Vitest, no browser
 npm run test:e2e   # end-to-end tests with Playwright in a real browser (tests/)
@@ -32,7 +33,7 @@ npm run test:e2e   # end-to-end tests with Playwright in a real browser (tests/)
 | 2 | **Marquee** | the band with the technologies scrolls forever, even with the mouse over it |
 | 3 | **About me** | a sentence stays still in the middle and lights up word by word as you scroll. Below it, a short paragraph and four blocks: education, experience, languages and the role I'm looking for |
 | 4 | **Projects** | six cards, each with a real preview of the project that zooms in with the mouse over it. The two featured ones at the top are larger and tell the project in three parts: the starting point, what I did, what came out of it. The other four sit below them, in a row on a wide screen. They come in one after another as you scroll, in CSS only (`animation-timeline: view()`), and tilt towards the mouse |
-| 5 | **Contact** | coral background, a disc turns in perspective |
+| 5 | **Contact** | coral background, a disc turns in perspective. With the contact server running, a contact form too (see below) |
 
 In the four project cards with an online demo, a short video of the demo starts with the mouse over it. The road accidents card has no demo and shows a video of its Power BI dashboard.
 
@@ -41,6 +42,12 @@ Always there: the **cursor** (a dot plus a ring that follows it), and the **pill
 A wrong address gets the site's own **404 page** instead of the grey GitHub one: the coral shapes float, the "404" comes in digit by digit with the torus as its zero, and a button takes you back to the site. It follows the same theme and language as the site.
 
 The site is in **Italian and English**: the preferences panel has an **IT · EN** switch. It starts in the browser's language (Italian if the browser is in Italian, English for everyone else), remembers the choice and changes the texts on the page, including the ones for screen readers and the X-ray labels. Only the page description and the link preview (Open Graph) stay in Italian: LinkedIn, WhatsApp and Telegram build previews without running JavaScript.
+
+## The contact form
+
+A small **Node server** in `server/` receives the messages of the contact form: plain `node:http`, no libraries, TypeScript run directly by Node 24. The form and the server check the fields with the same rules (`src/data/contactRules.ts`): the form to show errors at once, the server because a browser can be bypassed. Good messages are saved one per line in a local file; a hidden honeypot field catches bots.
+
+GitHub Pages only serves static files, so the server runs **locally for now**: the form only appears when the build knows the server address (`VITE_CONTACT_URL`), and the live demo stays as it is. How to run both is in `server/README.md`.
 
 ## The three motion modes
 
@@ -64,6 +71,7 @@ portfolio-animato/
 ├── public/                    files served as they are (the favicon, the link preview image)
 ├── docs/                      documents: the style guide, the screenshot above, and what is in public/
 ├── scripts/                   the Lighthouse check: mobile performance score of the build, red below 95
+├── server/                    the contact form server: plain Node (node:http), runs locally for now
 ├── tests/                     end-to-end tests: the animations checked in the browser
 └── src/
     ├── main.tsx               entry point: global styles and <App />

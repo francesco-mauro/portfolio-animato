@@ -56,6 +56,12 @@
   max-width: 300px;
 }
 
+/* Con il modulo contatti la colonna di destra si allarga un poco, per campi comodi */
+.withForm {
+  width: 100%;
+  max-width: 360px;
+}
+
 .note {
   margin: 0 0 16px;
   font-size: 15px;

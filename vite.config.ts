@@ -67,9 +67,9 @@ export default defineConfig(({ command }) => ({
     },
   },
   test: {
-    // I test accanto al codice in src/, quello del workflow in .github/ e quello delle pagine
-    // (pages.test.ts). Quelli in tests/ sono di Playwright (npm run test:e2e): hanno bisogno
+    // I test accanto al codice in src/ e in server/ (il server dei contatti), quello del
+    // workflow in .github/ e quello delle pagine (pages.test.ts). Quelli in tests/ sono di Playwright (npm run test:e2e): hanno bisogno
     // di un browser e Vitest non deve prenderli.
-    include: ['src/**/*.test.ts', '.github/**/*.test.ts', 'pages.test.ts'],
+    include: ['src/**/*.test.ts', 'server/**/*.test.ts', '.github/**/*.test.ts', 'pages.test.ts'],
   },
 }))
